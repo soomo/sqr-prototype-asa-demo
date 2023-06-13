@@ -1,0 +1,103 @@
+@font-face {
+	font-family: 'NeueHaasGroteskText W01';
+	font-weight: 400;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotText-55Roman-App.ttf');
+}
+
+@font-face {
+	font-family: 'NHaasGroteskTXW01-56It';
+	font-weight: 400;
+	font-style: italic;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotText-56Italic-App.ttf');
+}
+
+@font-face {
+	font-family: 'NHaasGroteskTXW01-65Md';
+	font-weight: 500;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotText-65Medium-App.ttf');
+}
+
+@font-face {
+	font-family: 'NHaasGroteskTXW01-66MdI';
+	font-weight: 500;
+	font-style: italic;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotText-66MediumItalic-App.ttf');
+}
+
+@font-face {
+	font-family: 'NHaasGroteskTXW01-75Bd';
+	font-weight: 700;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotText-75Bold-App.ttf');
+}
+
+@font-face {
+	font-family: 'NHaasGroteskTXW01-76BdI';
+	font-weight: 700;
+	font-style: italic;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotText-76BoldItalic-App.ttf');
+}
+
+@font-face {
+	font-family: 'Neue Haas Grotesk Disp W0595Bl';
+	font-weight: 900;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotDisp-95Black-App.ttf');
+}
+
+@font-face {
+	font-family: 'Neue Haas GroteskDispW0196BlkI';
+	font-weight: 900;
+	font-style: italic;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotDisp-96BlackItalic-App.ttf');
+}
+
+@font-face {
+	font-family: 'Neue Haas Grotesk';
+	font-weight: 400;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotText-55Roman-App.ttf');
+}
+
+@font-face {
+	font-family: 'Neue Haas Grotesk';
+	font-weight: 400;
+	font-style: italic;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotText-56Italic-App.ttf');
+}
+
+@font-face {
+	font-family: 'Neue Haas Grotesk';
+	font-weight: 500;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotText-65Medium-App.ttf');
+}
+
+@font-face {
+	font-family: 'Neue Haas Grotesk';
+	font-weight: 500;
+	font-style: italic;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotText-66MediumItalic-App.ttf');
+}
+
+@font-face {
+	font-family: 'Neue Haas Grotesk';
+	font-weight: 700;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotText-75Bold-App.ttf');
+}
+
+@font-face {
+	font-family: 'Neue Haas Grotesk';
+	font-weight: 700;
+	font-style: italic;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotText-76BoldItalic-App.ttf');
+}
+
+@font-face {
+	font-family: 'Neue Haas Grotesk';
+	font-weight: 900;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotDisp-95Black-App.ttf');
+}
+
+@font-face {
+	font-family: 'Neue Haas Grotesk';
+	font-weight: 900;
+	font-style: italic;
+	src: url('https://s3.amazonaws.com/assets.soomopublishing.com/fonts/NeueHaasGrotesk/NeueHaasGrotDisp-96BlackItalic-App.ttf');
+}

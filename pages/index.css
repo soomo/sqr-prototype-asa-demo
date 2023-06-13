@@ -1,0 +1,10 @@
+*,
+*::before,
+*::after {
+	margin: 0;
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+	font-family: 'Neue Haas Grotesk', sans-serif;
+}

@@ -215,7 +215,7 @@ const styles = css`
 				background: #fff;
 
 				&:not(:empty) {
-					margin-top: 1rem;
+					margin-top: 1.5rem;
 					padding: 1rem 2rem 1.5rem calc(3.5rem + var(--question-choices-column-gap));
 				}
 

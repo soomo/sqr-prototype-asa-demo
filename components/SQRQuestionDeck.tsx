@@ -1,6 +1,6 @@
 import { css } from '@emotion/core';
 import { MCQuestionElement } from '@soomo/lib/types';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import SQRQuestionDeckMCQuestion from './SQRQuestionDeckMCQuestion';
 import { FamilyId } from '@soomo/lib/types/WebtextManifest';
 import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
@@ -16,6 +16,12 @@ const SQRQuestionDeck: React.VFC<Props> = ({ questions }) => {
 		[familyId: FamilyId]: boolean;
 	}>({});
 
+	const handleToggleExpanded = useCallback((familyId: string) => {
+		setExpandedQuestionsMap((oldExpandedQuestions) => {
+			return { ...oldExpandedQuestions, [familyId]: !oldExpandedQuestions[familyId] };
+		});
+	}, []);
+
 	return (
 		<WebtextQuestion css={styles}>
 			<UniversalVelvetLeftBorder>
@@ -29,6 +35,7 @@ const SQRQuestionDeck: React.VFC<Props> = ({ questions }) => {
 							key={question.family_id}
 							expanded={expandedQuestionsMap[question.family_id]}
 							question={question}
+							onToggleExpanded={handleToggleExpanded}
 						/>
 					))}
 				</div>

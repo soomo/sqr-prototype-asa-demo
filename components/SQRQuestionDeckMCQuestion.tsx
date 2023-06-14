@@ -9,7 +9,8 @@ const pivotarIconProps = {
 	size: 21,
 	css: css`
 		color: #5f01df;
-	`
+	`,
+	'aria-hidden': 'true'
 };
 
 interface Props {
@@ -34,16 +35,14 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({ question, expanded, onTog
 
 	return (
 		<div css={styles}>
-			<div className="prompt-and-pivotar">
+			<button
+				className="prompt-and-pivotar"
+				aria-expanded={expanded}
+				aria-controls={contentDivId}
+				onClick={handleClick}>
 				<QuestionPrompt body={body} />
-				<button aria-expanded={expanded} aria-controls={contentDivId} onClick={handleClick}>
-					{expanded ? (
-						<FaChevronUp {...pivotarIconProps} />
-					) : (
-						<FaChevronDown {...pivotarIconProps} />
-					)}
-				</button>
-			</div>
+				{expanded ? <FaChevronUp {...pivotarIconProps} /> : <FaChevronDown {...pivotarIconProps} />}
+			</button>
 			<div id={contentDivId} className="content" hidden={!expanded}>
 				<QuestionChoices
 					questionFamilyId={family_id}
@@ -71,16 +70,11 @@ const styles = css`
 		grid-template-columns: 1fr auto;
 		align-items: flex-start;
 		column-gap: 1.5rem;
-
-		button {
-			margin-top: -0.5rem;
-			padding: 0.5rem;
-			font: inherit;
-			line-height: 0;
-			border: none;
-			background: none;
-			cursor: pointer;
-		}
+		font: inherit;
+		border: none;
+		background: none;
+		cursor: pointer;
+		text-align: initial;
 
 		// QuestionPrompt inner div
 		.question-body {

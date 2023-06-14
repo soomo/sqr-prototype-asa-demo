@@ -154,7 +154,7 @@ const styles = css`
 
 		.correctness {
 			display: inline-flex;
-			margin-right: 1.5rem;
+			margin-right: 0.75rem;
 			align-items: baseline;
 			font-size: 18px;
 			line-height: 30px;
@@ -257,7 +257,7 @@ const styles = css`
 		}
 
 		.rejoinder-and-try-again {
-			padding-right: 2rem;
+			padding: 0 2rem 1rem 0;
 
 			.rejoinder {
 				font-size: 18px;
@@ -265,7 +265,6 @@ const styles = css`
 				font-style: italic;
 				color: #5f5f5f;
 				background: #fff;
-				border-bottom-left-radius: 0.5rem;
 
 				&:not(:empty) {
 					margin-top: 1.5rem;
@@ -280,10 +279,7 @@ const styles = css`
 					color: #007e0c;
 				}
 
-				&[data-correct='false'] {
-					border-bottom-left-radius: 0;
-
-					.correctness {
+				&[data-correct='false'] .correctness {
 						color: #e70000;
 					}
 				}
@@ -291,7 +287,7 @@ const styles = css`
 
 			.try-again {
 				display: grid;
-				padding: 1rem 0 1.5rem 2rem;
+				padding: 1rem 0 0.5rem 2rem;
 				grid-template-columns: 1fr auto;
 				align-items: center;
 				column-gap: 5rem;

@@ -84,15 +84,13 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({ question, expanded, onTog
 						</>
 					)}
 				</div>
-				{response != null ? (
-					<></>
-				) : (
-					<>
+				{response == null && (
+					<div className="divider-and-save">
 						<hr />
 						<button disabled={selectedChoiceFamilyId == null} onClick={handleSubmit}>
 							Save
 						</button>
-					</>
+					</div>
 				)}
 			</div>
 		</div>
@@ -102,11 +100,13 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({ question, expanded, onTog
 export default SQRQuestionDeckMCQuestion;
 
 const styles = css`
-	padding: 1rem 1rem 1.5rem;
+	--question-choices-column-gap: 1.5rem;
+
 	border: 1px solid #c9c9c9;
 	border-radius: 0.5rem;
 
 	.prompt-and-pivotar {
+		padding: 1rem 1.5rem;
 		display: grid;
 		grid-template-columns: 1fr auto;
 		align-items: flex-start;
@@ -128,8 +128,6 @@ const styles = css`
 	}
 
 	.content {
-		padding: 1rem 0.5rem 0;
-
 		fieldset {
 			margin: 0;
 			padding: 0;
@@ -137,10 +135,11 @@ const styles = css`
 		}
 
 		.question-choices {
+			padding: 0 2rem;
 			display: grid;
 			grid-template-columns: auto 1fr;
 			align-items: flex-start;
-			column-gap: 1.5rem;
+			column-gap: var(--question-choices-column-gap);
 			row-gap: 1rem;
 			font-size: 18px;
 			line-height: 22px;
@@ -156,8 +155,12 @@ const styles = css`
 			}
 		}
 
+		.divider-and-save {
+			padding: 1.5rem 2rem;
+		}
+
 		hr {
-			margin: 1.5rem 0 1.25rem;
+			margin: 0 0 1.25rem;
 			border-top: 1px solid #ccc;
 			border-bottom: none;
 		}
@@ -189,6 +192,32 @@ const styles = css`
 				outline-width: 2px;
 				outline-style: solid;
 				outline-offset: 2px;
+			}
+		}
+
+		.rejoinder {
+			font-size: 18px;
+			line-height: 30px;
+			font-style: italic;
+			color: #5f5f5f;
+			background: #fff;
+			border-radius: 0 0 0.5rem 0.5rem;
+
+			&:not(:empty) {
+				margin-top: 1rem;
+				padding: 1rem 2rem 1.5rem calc(3.5rem + var(--question-choices-column-gap));
+			}
+
+			.correctness {
+				font-weight: 500;
+
+				&[data-correct='true'] {
+					color: #007e0c;
+				}
+
+				&[data-correct='false'] {
+					color: #e70000;
+				}
 			}
 		}
 	}

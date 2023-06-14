@@ -265,7 +265,7 @@ const styles = css`
 				font-style: italic;
 				color: #5f5f5f;
 				background: #fff;
-				border-radius: 0 0 0.5rem 0.5rem;
+				border-bottom-left-radius: 0.5rem;
 
 				&:not(:empty) {
 					margin-top: 1.5rem;
@@ -281,7 +281,7 @@ const styles = css`
 				}
 
 				&[data-correct='false'] {
-					border-radius: 0;
+					border-bottom-left-radius: 0;
 
 					.correctness {
 						color: #e70000;

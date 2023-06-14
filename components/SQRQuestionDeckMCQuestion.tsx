@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import { FaChevronUp, FaChevronDown, FaCheck, FaTimes } from 'react-icons/fa';
 import { css } from '@emotion/core';
 
 import { QuestionChoices, QuestionPrompt } from '@soomo/lib/components/shared/Question';
@@ -57,35 +57,57 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({ question, expanded, onTog
 	}, [family_id, selectedChoiceFamilyId]);
 
 	return (
-		<div css={styles} data-answered={response != null}>
+		<div css={styles}>
 			<button
 				className="prompt-and-pivotar"
 				aria-expanded={expanded}
 				aria-controls={contentDivId}
+				data-answered={response != null}
 				onClick={handleClick}>
-				<QuestionPrompt body={body} />
+				<div className="correctness-and-prompt">
+					{response != null && (
+						<div className="correctness" data-correct={response.correct}>
+							{response.correct ? (
+								<>
+									<FaCheck />
+									<span>Correct</span>
+								</>
+							) : (
+								<>
+									<FaTimes />
+									<span>Incorrect</span>
+								</>
+							)}
+						</div>
+					)}
+					<QuestionPrompt body={body} />
+				</div>
 				{expanded ? <FaChevronUp {...pivotarIconProps} /> : <FaChevronDown {...pivotarIconProps} />}
 			</button>
 			<div id={contentDivId} className="content" hidden={!expanded}>
 				<QuestionChoices
 					questionFamilyId={family_id}
 					choices={shuffledChoices}
-					disabled={false}
+					disabled={response != null}
 					onChangeSelectedChoice={handleChangeSelectedChoice}
 					selectedChoiceFamilyId={selectedChoiceFamilyId}
 				/>
 				<div className="rejoinder-and-try-again">
-					<div className="rejoinder">
+					<div
+						className="rejoinder"
+						{...(response != null
+							? {
+									'data-correct': response.correct
+							  }
+							: {})}>
 						{response != null && (
 							<>
-								<span className="correctness" data-correct={response.correct}>
-									{response.correct ? 'Correct.' : 'Incorrect.'}
-								</span>{' '}
+								<span className="correctness">{response.correct ? 'Correct.' : 'Incorrect.'}</span>{' '}
 								<span dangerouslySetInnerHTML={{ __html: response.rejoinder }} />
 							</>
 						)}
 					</div>
-					{response != null && (
+					{response != null && !response.correct && (
 						<div className="try-again">
 							<span className="help-text">
 								The Try Again button will test your knowledge with a similar multiple-choice
@@ -111,8 +133,6 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({ question, expanded, onTog
 export default SQRQuestionDeckMCQuestion;
 
 const styles = css`
-	--question-choices-column-gap: 1.5rem;
-
 	border: 1px solid #c9c9c9;
 	border-radius: 0.5rem;
 
@@ -128,13 +148,43 @@ const styles = css`
 		cursor: pointer;
 		text-align: initial;
 
-		// QuestionPrompt inner div
-		.question-body {
-			margin: 0;
+		&[aria-expanded='false'][data-answered='true'] .question-body {
+			color: rgba(0, 0, 0, 0.5);
 		}
 
-		[data-answered='true'] & {
-			color: rgba(0, 0, 0, 0.5);
+		.correctness {
+			display: inline-flex;
+			margin-right: 1.5rem;
+			align-items: baseline;
+			font-size: 18px;
+			line-height: 30px;
+			font-weight: 500;
+			font-style: italic;
+			column-gap: 0.5rem;
+
+			svg {
+				position: relative;
+				bottom: -2px;
+			}
+
+			&[data-correct='true'] {
+				color: #007e0c;
+			}
+
+			&[data-correct='false'] {
+				color: #e70000;
+			}
+		}
+
+		// QuestionPrompt outer div
+		div:last-of-type {
+			display: inline;
+		}
+
+		// QuestionPrompt inner div
+		.question-body {
+			display: inline;
+			margin: 0;
 		}
 	}
 
@@ -150,7 +200,7 @@ const styles = css`
 			display: grid;
 			grid-template-columns: auto 1fr;
 			align-items: flex-start;
-			column-gap: var(--question-choices-column-gap);
+			column-gap: 1.5rem;
 			row-gap: 1rem;
 			font-size: 18px;
 			line-height: 22px;
@@ -207,26 +257,33 @@ const styles = css`
 		}
 
 		.rejoinder-and-try-again {
+			padding-right: 2rem;
+
 			.rejoinder {
 				font-size: 18px;
 				line-height: 30px;
 				font-style: italic;
 				color: #5f5f5f;
 				background: #fff;
+				border-radius: 0 0 0.5rem 0.5rem;
 
 				&:not(:empty) {
 					margin-top: 1.5rem;
-					padding: 1rem 2rem 1.5rem calc(3.5rem + var(--question-choices-column-gap));
+					padding: 1rem 2rem 1.5rem;
 				}
 
 				.correctness {
 					font-weight: 500;
+				}
 
-					&[data-correct='true'] {
-						color: #007e0c;
-					}
+				&[data-correct='true'] .correctness {
+					color: #007e0c;
+				}
 
-					&[data-correct='false'] {
+				&[data-correct='false'] {
+					border-radius: 0;
+
+					.correctness {
 						color: #e70000;
 					}
 				}
@@ -234,7 +291,7 @@ const styles = css`
 
 			.try-again {
 				display: grid;
-				padding: 1rem 2rem 1.5rem;
+				padding: 1rem 0 1.5rem 2rem;
 				grid-template-columns: 1fr auto;
 				align-items: center;
 				column-gap: 5rem;

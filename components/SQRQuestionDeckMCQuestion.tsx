@@ -74,14 +74,25 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({ question, expanded, onTog
 					onChangeSelectedChoice={handleChangeSelectedChoice}
 					selectedChoiceFamilyId={selectedChoiceFamilyId}
 				/>
-				<div className="rejoinder">
+				<div className="rejoinder-and-try-again">
+					<div className="rejoinder">
+						{response != null && (
+							<>
+								<span className="correctness" data-correct={response.correct}>
+									{response.correct ? 'Correct.' : 'Incorrect.'}
+								</span>{' '}
+								<span dangerouslySetInnerHTML={{ __html: response.rejoinder }} />
+							</>
+						)}
+					</div>
 					{response != null && (
-						<>
-							<span className="correctness" data-correct={response.correct}>
-								{response.correct ? 'Correct.' : 'Incorrect.'}
-							</span>{' '}
-							<span dangerouslySetInnerHTML={{ __html: response.rejoinder }} />
-						</>
+						<div className="try-again">
+							<span className="help-text">
+								The Try Again button will test your knowledge with a similar multiple-choice
+								question.
+							</span>
+							<button>Try Again</button>
+						</div>
 					)}
 				</div>
 				{response == null && (
@@ -195,28 +206,43 @@ const styles = css`
 			}
 		}
 
-		.rejoinder {
-			font-size: 18px;
-			line-height: 30px;
-			font-style: italic;
-			color: #5f5f5f;
-			background: #fff;
-			border-radius: 0 0 0.5rem 0.5rem;
+		.rejoinder-and-try-again {
+			.rejoinder {
+				font-size: 18px;
+				line-height: 30px;
+				font-style: italic;
+				color: #5f5f5f;
+				background: #fff;
 
-			&:not(:empty) {
-				margin-top: 1rem;
-				padding: 1rem 2rem 1.5rem calc(3.5rem + var(--question-choices-column-gap));
-			}
-
-			.correctness {
-				font-weight: 500;
-
-				&[data-correct='true'] {
-					color: #007e0c;
+				&:not(:empty) {
+					margin-top: 1rem;
+					padding: 1rem 2rem 1.5rem calc(3.5rem + var(--question-choices-column-gap));
 				}
 
-				&[data-correct='false'] {
-					color: #e70000;
+				.correctness {
+					font-weight: 500;
+
+					&[data-correct='true'] {
+						color: #007e0c;
+					}
+
+					&[data-correct='false'] {
+						color: #e70000;
+					}
+				}
+			}
+
+			.try-again {
+				display: grid;
+				padding: 1rem 2rem 1.5rem;
+				grid-template-columns: 1fr auto;
+				align-items: center;
+				column-gap: 5rem;
+
+				.help-text {
+					font-size: 14px;
+					line-height: 18px;
+					color: #545454;
 				}
 			}
 		}

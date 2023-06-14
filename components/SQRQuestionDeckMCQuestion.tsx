@@ -10,7 +10,7 @@ const pivotarIconProps = {
 	css: css`
 		color: #5f01df;
 	`,
-	'aria-hidden': 'true'
+	'aria-hidden': 'true' as const
 };
 
 interface Props {

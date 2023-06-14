@@ -1,7 +1,11 @@
 import { css } from '@emotion/core';
 import dynamic from 'next/dynamic';
-import TopBar from '../components/TopBar';
+
 import themes, { ThemeProvider } from '@soomo/lib/styles/themes';
+
+import TopBar from '../components/TopBar';
+import qdQuestions from '../fixtures/qdQuestions';
+
 const Text = dynamic(() => import('@soomo/lib/components/pageElements').then((m) => m.Text), {
 	ssr: false
 });
@@ -9,86 +13,6 @@ const SQRQuestionDeck = dynamic(
 	() => import('../components/SQRQuestionDeck').then((m) => m.default),
 	{ ssr: false }
 );
-
-const qdQuestions = [
-	{
-		body: 'Which of the following statements about the amendment process is accurate?',
-		choices: [
-			{
-				body: 'The failure of the Equal Rights Amendment shows the difficulty of modifying the Constitution.',
-				correct: true
-			},
-			{
-				body: 'It is much easier for an amendment to move past the proposal stage than it is for it to move past the ratification stage.'
-			},
-			{
-				body: 'The amendment process is especially responsive to minority groups.'
-			},
-			{
-				body: 'Amendment language is designed to be concise and unambiguous.'
-			}
-		]
-	},
-	{
-		body: 'The Constitution includes intentionally vague language. Why might this be considered an advantage during the amendment process?',
-		choices: [
-			{
-				body: 'Because it provides flexibility, endurance, and diversity in interpretation and application.',
-				correct: true
-			},
-			{
-				body: 'Because it provides an ultimate relief valve for resolving political conflict in our democratic society.'
-			},
-			{
-				body: 'Because it provides fundamental principles that inform and unify national and state government.'
-			},
-			{
-				body: 'Because it preserves the integrity and brevity of the document.'
-			}
-		]
-	},
-	{
-		body: 'The constitutional amendment process requires near-unanimous agreement. Why might this be considered a disadvantage?',
-		choices: [
-			{
-				body: 'Because it makes national government slow to respond to problems concerning political process and public policy.',
-				correct: true
-			},
-			{
-				body: 'Because it provides an ultimate relief valve for resolving political conflict in our democratic society.'
-			},
-			{
-				body: 'Because it provides fundamental principles that inform and unify national and state government.'
-			},
-			{
-				body: 'Because it preserves the integrity and brevity of the document.'
-			}
-		]
-	}
-].map((baseQuestion, i) => {
-	const choices = baseQuestion.choices.map((baseChoice, j) => {
-		return {
-			body: baseChoice.body,
-			is_correct: baseChoice.correct ?? false,
-			family_id: `question-${i}-choice-${j}`,
-			id: i * 100 + j,
-			metadata: {},
-			type: 'NG::Soomo::MC::Choice' as const,
-			rejoinder: ''
-		};
-	});
-	return {
-		body: baseQuestion.body,
-		choices,
-		disabled: false,
-		id: i,
-		metadata: {},
-		family_id: `question-${i}`,
-		version: `${i}`,
-		title: '',
-		type: 'NG::Soomo::MC::Question' as const
-	};
-});
 
 export default () => (
 	<ThemeProvider theme={themes['universal_velvet']}>

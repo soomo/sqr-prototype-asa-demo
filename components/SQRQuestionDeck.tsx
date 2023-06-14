@@ -1,11 +1,14 @@
-import { css } from '@emotion/core';
-import { MCQuestionElement } from '@soomo/lib/types';
 import { useCallback, useState } from 'react';
-import SQRQuestionDeckMCQuestion from './SQRQuestionDeckMCQuestion';
+import { css } from '@emotion/core';
+import { RiCheckboxMultipleFill as QuestionDeckIcon } from 'react-icons/ri';
+
 import { FamilyId } from '@soomo/lib/types/WebtextManifest';
 import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
-import { RiCheckboxMultipleFill as QuestionDeckIcon } from 'react-icons/ri';
 import { QuestionType, WebtextQuestion } from '@soomo/lib/components/shared/Question';
+
+import SQRQuestionDeckMCQuestion from './SQRQuestionDeckMCQuestion';
+
+import type { MCQuestionElement } from '@soomo/lib/types';
 
 interface Props {
 	questions: MCQuestionElement[];

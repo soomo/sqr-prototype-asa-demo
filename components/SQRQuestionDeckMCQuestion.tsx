@@ -1,9 +1,13 @@
-import { css } from '@emotion/core';
-import { QuestionChoices, QuestionPrompt } from '@soomo/lib/components/shared/Question';
-import { MCQuestionElement } from '@soomo/lib/types';
-import { FamilyId } from '@soomo/lib/types/WebtextManifest';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import { css } from '@emotion/core';
+
+import { QuestionChoices, QuestionPrompt } from '@soomo/lib/components/shared/Question';
+import { FamilyId } from '@soomo/lib/types/WebtextManifest';
+import shuffle from '@soomo/lib/utils/shuffle';
+
+import type { MCQuestionElement } from '@soomo/lib/types';
+import type { SaveMCQuestionResponse } from '../pages/api/save_sqr_mc_question';
 
 const pivotarIconProps = {
 	size: 21,
@@ -24,6 +28,13 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({ question, expanded, onTog
 	const contentDivId = `${family_id}-content`;
 
 	const [selectedChoiceFamilyId, setSelectedChoiceFamilyId] = useState<FamilyId | null>(null);
+	const [seed, setSeed] = useState(0);
+	const [response, setResponse] = useState<SaveMCQuestionResponse | null>(null);
+
+	const shuffledChoices = useMemo(
+		() => shuffle({ list: choices, key: family_id, seed }),
+		[choices, family_id, seed]
+	);
 
 	const handleClick = useCallback(() => {
 		onToggleExpanded(family_id);
@@ -33,8 +44,20 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({ question, expanded, onTog
 		setSelectedChoiceFamilyId(selectedChoiceFamilyId);
 	}, []);
 
+	const handleSubmit = useCallback(async () => {
+		const res = await fetch(`/api/save_sqr_mc_question`, {
+			method: 'POST',
+			body: JSON.stringify({
+				question_family_id: family_id,
+				choice_family_id: selectedChoiceFamilyId
+			})
+		});
+		const json = await res.json();
+		setResponse(json);
+	}, [family_id, selectedChoiceFamilyId]);
+
 	return (
-		<div css={styles}>
+		<div css={styles} data-answered={response != null}>
 			<button
 				className="prompt-and-pivotar"
 				aria-expanded={expanded}
@@ -46,13 +69,31 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({ question, expanded, onTog
 			<div id={contentDivId} className="content" hidden={!expanded}>
 				<QuestionChoices
 					questionFamilyId={family_id}
-					choices={choices}
+					choices={shuffledChoices}
 					disabled={false}
 					onChangeSelectedChoice={handleChangeSelectedChoice}
 					selectedChoiceFamilyId={selectedChoiceFamilyId}
 				/>
-				<hr />
-				<button disabled={selectedChoiceFamilyId == null}>Save</button>
+				<div className="rejoinder">
+					{response != null && (
+						<>
+							<span className="correctness" data-correct={response.correct}>
+								{response.correct ? 'Correct.' : 'Incorrect.'}
+							</span>{' '}
+							<span dangerouslySetInnerHTML={{ __html: response.rejoinder }} />
+						</>
+					)}
+				</div>
+				{response != null ? (
+					<></>
+				) : (
+					<>
+						<hr />
+						<button disabled={selectedChoiceFamilyId == null} onClick={handleSubmit}>
+							Save
+						</button>
+					</>
+				)}
 			</div>
 		</div>
 	);
@@ -79,6 +120,10 @@ const styles = css`
 		// QuestionPrompt inner div
 		.question-body {
 			margin: 0;
+		}
+
+		[data-answered='true'] & {
+			color: rgba(0, 0, 0, 0.5);
 		}
 	}
 

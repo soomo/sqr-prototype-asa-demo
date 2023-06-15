@@ -1,4 +1,4 @@
-import qdQuestions from '../../fixtures/qdQuestions';
+import sqrQuestionPools from '../../fixtures/sqrQuestionPools';
 
 import type { NextApiHandler } from 'next';
 
@@ -12,7 +12,9 @@ const handler: NextApiHandler<SaveMCQuestionResponse> = (req, res) => {
 		const { question_family_id: questionFamilyId, choice_family_id: choiceFamilyId } = JSON.parse(
 			req.body
 		);
-		const question = qdQuestions.find((question) => question.family_id === questionFamilyId);
+		const question = sqrQuestionPools
+			.flatMap(({ pool }) => pool)
+			.find((question) => question.family_id === questionFamilyId);
 		const choice = question.choices.find((choice) => choice.family_id === choiceFamilyId);
 		res.status(200).json({
 			rejoinder: choice.rejoinder,

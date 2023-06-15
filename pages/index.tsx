@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import themes, { ThemeProvider } from '@soomo/lib/styles/themes';
 
 import TopBar from '../components/TopBar';
-import qdQuestions from '../fixtures/qdQuestions';
+import sqrQuestionPools from '../fixtures/sqrQuestionPools';
 
 const Text = dynamic(() => import('@soomo/lib/components/pageElements').then((m) => m.Text), {
 	ssr: false
@@ -29,7 +29,7 @@ export default () => (
 					`
 				}}
 			/>
-			<SQRQuestionDeck questions={qdQuestions} />
+			<SQRQuestionDeck questions={sqrQuestionPools.map(({ pool }) => pool[0])} />
 			<Text
 				online
 				element={{

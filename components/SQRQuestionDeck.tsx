@@ -12,9 +12,10 @@ import type { MCQuestionElement } from '@soomo/lib/types';
 
 interface Props {
 	questions: MCQuestionElement[];
+	isInstructorView?: boolean;
 }
 
-const SQRQuestionDeck: React.VFC<Props> = ({ questions }) => {
+const SQRQuestionDeck: React.VFC<Props> = ({ questions, isInstructorView }) => {
 	const [expandedQuestionsMap, setExpandedQuestionsMap] = useState<{
 		[familyId: FamilyId]: boolean;
 	}>({});
@@ -39,6 +40,10 @@ const SQRQuestionDeck: React.VFC<Props> = ({ questions }) => {
 							expanded={expandedQuestionsMap[question.family_id]}
 							question={question}
 							onToggleExpanded={handleToggleExpanded}
+							isInstructorView={isInstructorView}
+							correctChoice={
+								isInstructorView ? question.choices.find((choice) => choice.is_correct) : undefined
+							}
 						/>
 					))}
 				</div>

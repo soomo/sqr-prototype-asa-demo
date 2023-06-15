@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FaChevronUp, FaChevronDown, FaCheck, FaTimes } from 'react-icons/fa';
 import { css } from '@emotion/core';
 
@@ -6,7 +6,7 @@ import { QuestionChoices, QuestionPrompt } from '@soomo/lib/components/shared/Qu
 import { FamilyId } from '@soomo/lib/types/WebtextManifest';
 import shuffle from '@soomo/lib/utils/shuffle';
 
-import type { MCQuestionElement } from '@soomo/lib/types';
+import type { MCQuestionChoice, MCQuestionElement } from '@soomo/lib/types';
 import type { SaveMCQuestionResponse } from '../pages/api/save_sqr_mc_question';
 
 const pivotarIconProps = {
@@ -21,9 +21,17 @@ interface Props {
 	question: MCQuestionElement;
 	expanded?: boolean;
 	onToggleExpanded: (familyId: string) => void;
+	isInstructorView?: boolean;
+	correctChoice?: MCQuestionChoice;
 }
 
-const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({ question, expanded, onToggleExpanded }) => {
+const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
+	question,
+	expanded,
+	onToggleExpanded,
+	isInstructorView,
+	correctChoice
+}) => {
 	const { family_id, body, choices } = question;
 	const contentDivId = `${family_id}-content`;
 
@@ -35,6 +43,19 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({ question, expanded, onTog
 		() => shuffle({ list: choices, key: family_id, seed }),
 		[choices, family_id, seed]
 	);
+
+	useEffect(() => {
+		if (isInstructorView && correctChoice) {
+			setResponse({
+				correct: true,
+				rejoinder: correctChoice.rejoinder
+			});
+			setSelectedChoiceFamilyId(correctChoice.family_id);
+		} else {
+			setResponse(null);
+			setSelectedChoiceFamilyId(null);
+		}
+	}, [correctChoice, isInstructorView]);
 
 	const handleClick = useCallback(() => {
 		onToggleExpanded(family_id);
@@ -87,8 +108,8 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({ question, expanded, onTog
 			<div id={contentDivId} className="content" hidden={!expanded}>
 				<QuestionChoices
 					questionFamilyId={family_id}
-					choices={shuffledChoices}
-					disabled={response != null}
+					choices={isInstructorView ? choices : shuffledChoices}
+					disabled={isInstructorView || response != null}
 					onChangeSelectedChoice={handleChangeSelectedChoice}
 					selectedChoiceFamilyId={selectedChoiceFamilyId}
 				/>
@@ -117,7 +138,7 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({ question, expanded, onTog
 						</div>
 					)}
 				</div>
-				{response == null && (
+				{!isInstructorView && response == null && (
 					<div className="divider-and-save">
 						<hr />
 						<button disabled={selectedChoiceFamilyId == null} onClick={handleSubmit}>

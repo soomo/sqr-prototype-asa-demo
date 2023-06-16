@@ -15,7 +15,6 @@ import { QuestionChoices, QuestionPrompt } from '@soomo/lib/components/shared/Qu
 import shuffle from '@soomo/lib/utils/shuffle';
 
 import type { FamilyId } from '@soomo/lib/types/WebtextManifest';
-import type { MCQuestionChoice } from '@soomo/lib/types';
 import type { SaveMCQuestionResponse } from '../pages/api/save_sqr_mc_question';
 import type { SQRQuestionPool } from '../fixtures/sqrQuestionPools';
 
@@ -175,6 +174,8 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 						<Tippy
 							arrow
 							interactive
+							offset={[0, 12]}
+							placement="bottom"
 							content={
 								<div css={tooltipStyles}>
 									This is a randomized formative assessment and each question in the pool assesses
@@ -385,6 +386,43 @@ const styles = css`
 			align-items: center;
 			font-weight: 500;
 
+			.tippy-box .tippy-arrow {
+				top: 0;
+				left: -8px !important;
+
+				&::before,
+				&::after {
+					content: '';
+					position: absolute;
+					top: -8px;
+					left: -4px;
+					background: #979797;
+					width: 24px;
+					height: 8px;
+					clip-path: polygon(0 100%, 50% 0, 100% 100%);
+				}
+
+				&::after {
+					margin-top: 1px;
+					background: white;
+				}
+			}
+
+			.tippy-box[data-placement='top'] .tippy-arrow {
+				top: unset;
+				bottom: 0;
+
+				&::before,
+				&::after {
+					top: 0;
+					clip-path: polygon(0 0, 50% 100%, 100% 0);
+				}
+
+				&::after {
+					margin-top: -1px;
+				}
+			}
+
 			.help-tooltip-trigger {
 				line-height: 1;
 				margin-right: 0.75rem;
@@ -420,7 +458,7 @@ const styles = css`
 `;
 
 const tooltipStyles = css`
-	padding: 0.25rem 0.5rem;
+	padding: 0.5rem 0.75rem;
 	background: #fff;
 	border: 1px solid #979797;
 	font-weight: 400;

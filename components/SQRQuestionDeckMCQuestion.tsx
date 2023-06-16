@@ -117,15 +117,9 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 					{response != null && (
 						<div className="correctness" data-correct={response.correct}>
 							{response.correct ? (
-								<>
-									<FaCheck />
-									<span>Correct</span>
-								</>
+								<FaCheck aria-label="Correct" />
 							) : (
-								<>
-									<FaTimes />
-									<span>Incorrect</span>
-								</>
+								<FaTimes aria-label="Incorrect" />
 							)}
 						</div>
 					)}

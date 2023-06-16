@@ -1,6 +1,6 @@
 import { MCQuestionElement, PageElement } from '@soomo/lib/types';
 
-interface SQRQuestionPool extends PageElement {
+export interface SQRQuestionPool extends PageElement {
 	pool: MCQuestionElement[];
 }
 

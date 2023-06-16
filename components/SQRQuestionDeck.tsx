@@ -8,17 +8,20 @@ import { QuestionType, WebtextQuestion } from '@soomo/lib/components/shared/Ques
 
 import SQRQuestionDeckMCQuestion from './SQRQuestionDeckMCQuestion';
 
-import type { MCQuestionElement } from '@soomo/lib/types';
+import type { SQRQuestionPool } from '../fixtures/sqrQuestionPools';
 
 interface Props {
-	questions: MCQuestionElement[];
+	poolElements: SQRQuestionPool[];
 	isInstructorView?: boolean;
 }
 
-const SQRQuestionDeck: React.VFC<Props> = ({ questions, isInstructorView }) => {
+const SQRQuestionDeck: React.VFC<Props> = ({ poolElements, isInstructorView }) => {
 	const [expandedQuestionsMap, setExpandedQuestionsMap] = useState<{
 		[familyId: FamilyId]: boolean;
 	}>({});
+	const [activePoolQuestionIndexesMap, setActivePoolQuestionIndexesMap] = useState(
+		Object.fromEntries(poolElements.map((poolElement) => [poolElement.family_id, 0]))
+	);
 
 	const handleToggleExpanded = useCallback((familyId: string) => {
 		setExpandedQuestionsMap((oldExpandedQuestions) => {
@@ -26,24 +29,35 @@ const SQRQuestionDeck: React.VFC<Props> = ({ questions, isInstructorView }) => {
 		});
 	}, []);
 
+	const handleNewQuestionRequested = useCallback(
+		(poolElementFamilyId: FamilyId) => {
+			setActivePoolQuestionIndexesMap((oldActivePoolQuestionIndexesMap) => {
+				return {
+					...oldActivePoolQuestionIndexesMap,
+					[poolElementFamilyId]: (activePoolQuestionIndexesMap[poolElementFamilyId] + 1) % 3
+				};
+			});
+		},
+		[activePoolQuestionIndexesMap]
+	);
+
 	return (
 		<WebtextQuestion css={styles}>
 			<UniversalVelvetLeftBorder>
 				<QuestionType>
 					<QuestionDeckIcon className="question-deck-icon" aria-hidden="true" />
-					<span>{questions.length} Multiple-Choice Questions</span>
+					<span>{poolElements.length} Multiple-Choice Questions</span>
 				</QuestionType>
 				<div className="questions">
-					{questions.map((question) => (
+					{poolElements.map((poolElement) => (
 						<SQRQuestionDeckMCQuestion
-							key={question.family_id}
-							expanded={expandedQuestionsMap[question.family_id]}
-							question={question}
+							key={poolElement.family_id}
+							poolElement={poolElement}
+							expanded={expandedQuestionsMap[poolElement.family_id]}
+							activePoolQuestionIndex={activePoolQuestionIndexesMap[poolElement.family_id]}
 							onToggleExpanded={handleToggleExpanded}
+							onNewQuestionRequested={handleNewQuestionRequested}
 							isInstructorView={isInstructorView}
-							correctChoice={
-								isInstructorView ? question.choices.find((choice) => choice.is_correct) : undefined
-							}
 						/>
 					))}
 				</div>

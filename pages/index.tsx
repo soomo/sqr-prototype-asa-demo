@@ -40,10 +40,7 @@ const Index: NextPage = () => {
 					`
 					}}
 				/>
-				<SQRQuestionDeck
-					questions={sqrQuestionPools.map(({ pool }) => pool[0])}
-					isInstructorView={isInstructorView}
-				/>
+				<SQRQuestionDeck poolElements={sqrQuestionPools} isInstructorView={isInstructorView} />
 				<Text
 					online
 					element={{

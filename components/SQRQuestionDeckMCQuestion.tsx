@@ -1,13 +1,23 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FaChevronUp, FaChevronDown, FaCheck, FaTimes } from 'react-icons/fa';
+import {
+	FaChevronUp,
+	FaChevronDown,
+	FaChevronLeft,
+	FaChevronRight,
+	FaCheck,
+	FaTimes
+} from 'react-icons/fa';
+import { BsQuestionCircleFill } from 'react-icons/bs';
 import { css } from '@emotion/core';
+import Tippy from '@tippyjs/react';
 
 import { QuestionChoices, QuestionPrompt } from '@soomo/lib/components/shared/Question';
-import { FamilyId } from '@soomo/lib/types/WebtextManifest';
 import shuffle from '@soomo/lib/utils/shuffle';
 
-import type { MCQuestionChoice, MCQuestionElement } from '@soomo/lib/types';
+import type { FamilyId } from '@soomo/lib/types/WebtextManifest';
+import type { MCQuestionChoice } from '@soomo/lib/types';
 import type { SaveMCQuestionResponse } from '../pages/api/save_sqr_mc_question';
+import type { SQRQuestionPool } from '../fixtures/sqrQuestionPools';
 
 const pivotarIconProps = {
 	size: 21,
@@ -18,20 +28,28 @@ const pivotarIconProps = {
 };
 
 interface Props {
-	question: MCQuestionElement;
+	poolElement: SQRQuestionPool;
+	activePoolQuestionIndex: number;
 	expanded?: boolean;
 	onToggleExpanded: (familyId: string) => void;
+	onNewQuestionRequested: (poolElementFamilyId: FamilyId) => void;
 	isInstructorView?: boolean;
-	correctChoice?: MCQuestionChoice;
 }
 
 const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
-	question,
+	poolElement,
+	activePoolQuestionIndex,
 	expanded,
 	onToggleExpanded,
-	isInstructorView,
-	correctChoice
+	onNewQuestionRequested,
+	isInstructorView
 }) => {
+	const [instructorViewActivePoolQuestionIndex, setInstructorViewActivePoolQuestionIndex] =
+		useState(0);
+	const question =
+		poolElement.pool[
+			isInstructorView ? instructorViewActivePoolQuestionIndex : activePoolQuestionIndex
+		];
 	const { family_id, body, choices } = question;
 	const contentDivId = `${family_id}-content`;
 
@@ -45,7 +63,8 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 	);
 
 	useEffect(() => {
-		if (isInstructorView && correctChoice) {
+		if (isInstructorView) {
+			const correctChoice = question.choices.find((choice) => choice.is_correct);
 			setResponse({
 				correct: true,
 				rejoinder: correctChoice.rejoinder
@@ -55,11 +74,11 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 			setResponse(null);
 			setSelectedChoiceFamilyId(null);
 		}
-	}, [correctChoice, isInstructorView]);
+	}, [isInstructorView, question.choices]);
 
 	const handleClick = useCallback(() => {
-		onToggleExpanded(family_id);
-	}, [family_id, onToggleExpanded]);
+		onToggleExpanded(poolElement.family_id);
+	}, [onToggleExpanded, poolElement.family_id]);
 
 	const handleChangeSelectedChoice = useCallback((selectedChoiceFamilyId: FamilyId) => {
 		setSelectedChoiceFamilyId(selectedChoiceFamilyId);
@@ -76,6 +95,11 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 		const json = await res.json();
 		setResponse(json);
 	}, [family_id, selectedChoiceFamilyId]);
+
+	const handleTryAgain = useCallback(() => {
+		setResponse(null);
+		onNewQuestionRequested(poolElement.family_id);
+	}, [onNewQuestionRequested, poolElement.family_id]);
 
 	return (
 		<div css={styles}>
@@ -134,7 +158,7 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 								The Try Again button will test your knowledge with a similar multiple-choice
 								question.
 							</span>
-							<button>Try Again</button>
+							<button onClick={handleTryAgain}>Try Again</button>
 						</div>
 					)}
 				</div>
@@ -143,6 +167,40 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 						<hr />
 						<button disabled={selectedChoiceFamilyId == null} onClick={handleSubmit}>
 							Save
+						</button>
+					</div>
+				)}
+				{isInstructorView && (
+					<div className="instructor-view-pool-navigation">
+						<Tippy
+							arrow
+							interactive
+							content={
+								<div css={tooltipStyles}>
+									This is a randomized formative assessment and each question in the pool assesses
+									the same learning objective. Learn more in the{' '}
+									<a href="#" target="_blank">
+										support article
+									</a>
+									.
+								</div>
+							}>
+							<span tabIndex={0} className="help-tooltip-trigger">
+								<BsQuestionCircleFill />
+							</span>
+						</Tippy>
+						<span>Browse pool items for this question ({poolElement.pool.length} total)</span>
+						<button
+							aria-label="Previous pool question"
+							disabled={instructorViewActivePoolQuestionIndex === 0}
+							onClick={() => setInstructorViewActivePoolQuestionIndex((old) => old - 1)}>
+							<FaChevronLeft size={17} />
+						</button>
+						<button
+							aria-label="Next pool question"
+							disabled={instructorViewActivePoolQuestionIndex === poolElement.pool.length - 1}
+							onClick={() => setInstructorViewActivePoolQuestionIndex((old) => old + 1)}>
+							<FaChevronRight size={17} />
 						</button>
 					</div>
 				)}
@@ -301,8 +359,7 @@ const styles = css`
 				}
 
 				&[data-correct='false'] .correctness {
-						color: #e70000;
-					}
+					color: #e70000;
 				}
 			}
 
@@ -320,5 +377,55 @@ const styles = css`
 				}
 			}
 		}
+
+		.instructor-view-pool-navigation {
+			display: flex;
+			padding: 1.25rem 2rem 2rem 0;
+			justify-content: flex-end;
+			align-items: center;
+			font-weight: 500;
+
+			.help-tooltip-trigger {
+				line-height: 1;
+				margin-right: 0.75rem;
+				color: #5f01df;
+			}
+
+			button {
+				margin: 0;
+				padding: 0.25rem;
+				line-height: 0;
+				color: #5f01df;
+				background: none;
+				border: 1px solid #5f01df;
+				cursor: pointer;
+
+				&:first-of-type {
+					margin-left: 0.75rem;
+					border-radius: 3px 0 0 3px;
+				}
+
+				&:last-of-type {
+					margin-left: -1px;
+					border-radius: 0 3px 3px 0;
+				}
+
+				&:disabled {
+					opacity: 0.25;
+					cursor: not-allowed;
+				}
+			}
+		}
+	}
+`;
+
+const tooltipStyles = css`
+	padding: 0.25rem 0.5rem;
+	background: #fff;
+	border: 1px solid #979797;
+	font-weight: 400;
+
+	a {
+		color: #5f01df;
 	}
 `;

@@ -18,7 +18,6 @@ const styles = css`
 	align-items: center;
 	padding-left: 143px;
 	border-bottom: 1px solid #bebebe;
-	column-gap: 4rem;
 
 	h1 {
 		font-size: 20px;

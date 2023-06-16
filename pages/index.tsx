@@ -18,6 +18,7 @@ const SQRQuestionDeck = dynamic(
 
 const Index: NextPage = () => {
 	const [isInstructorView, setInstructorView] = useState(false);
+	const [interventionType, setInterventionType] = useState<null | 'auto-open' | 'spotlight'>(null);
 
 	const handleToggleView = useCallback(() => {
 		setInstructorView((old) => !old);
@@ -26,11 +27,25 @@ const Index: NextPage = () => {
 	return (
 		<ThemeProvider theme={themes['universal_velvet']}>
 			<TopBar>
-				<button onClick={handleToggleView}>
-					Switch to {isInstructorView ? 'Student' : 'Instructor'} View
-				</button>
+				<div css={knobsStyles}>
+					<button onClick={handleToggleView}>
+						Switch to {isInstructorView ? 'Student' : 'Instructor'} View
+					</button>
+					<label>
+						Intervention Type
+						<select
+							value={interventionType ?? ''}
+							onChange={(e) =>
+								setInterventionType(e.target.value as 'auto-open' | 'spotlight' | null)
+							}>
+							<option value="">none</option>
+							<option value="auto-open">automatically open next question if correct</option>
+							<option value="spotlight">spotlight when scrolling away</option>
+						</select>
+					</label>
+				</div>
 			</TopBar>
-			<main css={styles}>
+			<main css={mainStyles}>
 				<Text
 					online
 					element={{
@@ -40,7 +55,11 @@ const Index: NextPage = () => {
 					`
 					}}
 				/>
-				<SQRQuestionDeck poolElements={sqrQuestionPools} isInstructorView={isInstructorView} />
+				<SQRQuestionDeck
+					poolElements={sqrQuestionPools}
+					isInstructorView={isInstructorView}
+					interventionType={interventionType}
+				/>
 				<Text
 					online
 					element={{
@@ -55,8 +74,23 @@ const Index: NextPage = () => {
 };
 export default Index;
 
-const styles = css`
+const mainStyles = css`
 	padding-top: 20px;
 	max-width: 800px;
 	margin: 0 auto;
+`;
+
+const knobsStyles = css`
+	display: flex;
+	margin-left: 4rem;
+	align-items: center;
+	column-gap: 2rem;
+
+	label {
+		font-weight: 500;
+	}
+
+	select {
+		margin-left: 1rem;
+	}
 `;

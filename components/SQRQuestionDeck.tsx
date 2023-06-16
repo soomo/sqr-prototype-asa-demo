@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { useCallback, useEffect, useState } from 'react';
 import { css } from '@emotion/core';
 import { RiCheckboxMultipleFill as QuestionDeckIcon } from 'react-icons/ri';
 
@@ -9,25 +10,79 @@ import { QuestionType, WebtextQuestion } from '@soomo/lib/components/shared/Ques
 import SQRQuestionDeckMCQuestion from './SQRQuestionDeckMCQuestion';
 
 import type { SQRQuestionPool } from '../fixtures/sqrQuestionPools';
+import type { SaveMCQuestionResponse } from '../pages/api/save_sqr_mc_question';
 
 interface Props {
 	poolElements: SQRQuestionPool[];
 	isInstructorView?: boolean;
+	interventionType: null | 'auto-open' | 'spotlight';
 }
 
-const SQRQuestionDeck: React.VFC<Props> = ({ poolElements, isInstructorView }) => {
+const SQRQuestionDeck: React.VFC<Props> = ({
+	poolElements,
+	isInstructorView,
+	interventionType
+}) => {
 	const [expandedQuestionsMap, setExpandedQuestionsMap] = useState<{
 		[familyId: FamilyId]: boolean;
 	}>({});
 	const [activePoolQuestionIndexesMap, setActivePoolQuestionIndexesMap] = useState(
 		Object.fromEntries(poolElements.map((poolElement) => [poolElement.family_id, 0]))
 	);
+	const [responsesMap, setResponsesMap] = useState<{
+		[poolElementFamilyId: FamilyId]: SaveMCQuestionResponse;
+	}>({});
+
+	useEffect(() => {
+		setActivePoolQuestionIndexesMap(
+			Object.fromEntries(poolElements.map((poolElement) => [poolElement.family_id, 0]))
+		);
+		setResponsesMap({});
+		setExpandedQuestionsMap({});
+	}, [interventionType, poolElements]);
 
 	const handleToggleExpanded = useCallback((familyId: string) => {
 		setExpandedQuestionsMap((oldExpandedQuestions) => {
 			return { ...oldExpandedQuestions, [familyId]: !oldExpandedQuestions[familyId] };
 		});
 	}, []);
+
+	const handleSubmit = useCallback(
+		async ({
+			poolElementFamilyId,
+			questionFamilyId,
+			choiceFamilyId
+		}: {
+			poolElementFamilyId: FamilyId;
+			questionFamilyId: FamilyId;
+			choiceFamilyId: FamilyId;
+		}) => {
+			const res = await fetch(`/api/save_sqr_mc_question`, {
+				method: 'POST',
+				body: JSON.stringify({
+					question_family_id: questionFamilyId,
+					choice_family_id: choiceFamilyId
+				})
+			});
+			const json = (await res.json()) as SaveMCQuestionResponse;
+			setResponsesMap((oldResponsesMap) => {
+				return { ...oldResponsesMap, [poolElementFamilyId]: json };
+			});
+
+			if (interventionType === 'auto-open' && json.correct) {
+				const i = poolElements.findIndex(
+					(poolElement) => poolElement.family_id === poolElementFamilyId
+				)!;
+				if (i + 1 < poolElements.length) {
+					const nextPoolElementFamilyId = poolElements[i + 1].family_id;
+					setExpandedQuestionsMap((oldExpandedQuestions) => {
+						return { ...oldExpandedQuestions, [nextPoolElementFamilyId]: true };
+					});
+				}
+			}
+		},
+		[interventionType]
+	);
 
 	const handleNewQuestionRequested = useCallback(
 		(poolElementFamilyId: FamilyId) => {
@@ -36,6 +91,9 @@ const SQRQuestionDeck: React.VFC<Props> = ({ poolElements, isInstructorView }) =
 					...oldActivePoolQuestionIndexesMap,
 					[poolElementFamilyId]: (activePoolQuestionIndexesMap[poolElementFamilyId] + 1) % 3
 				};
+			});
+			setResponsesMap((oldResponsesMap) => {
+				return { ...oldResponsesMap, [poolElementFamilyId]: null };
 			});
 		},
 		[activePoolQuestionIndexesMap]
@@ -57,7 +115,9 @@ const SQRQuestionDeck: React.VFC<Props> = ({ poolElements, isInstructorView }) =
 							activePoolQuestionIndex={activePoolQuestionIndexesMap[poolElement.family_id]}
 							onToggleExpanded={handleToggleExpanded}
 							onNewQuestionRequested={handleNewQuestionRequested}
+							onSubmit={handleSubmit}
 							isInstructorView={isInstructorView}
+							studentResponse={responsesMap[poolElement.family_id]}
 						/>
 					))}
 				</div>

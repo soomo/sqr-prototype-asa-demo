@@ -32,7 +32,13 @@ interface Props {
 	expanded?: boolean;
 	onToggleExpanded: (familyId: string) => void;
 	onNewQuestionRequested: (poolElementFamilyId: FamilyId) => void;
+	onSubmit: (args: {
+		poolElementFamilyId: FamilyId;
+		questionFamilyId: FamilyId;
+		choiceFamilyId: FamilyId;
+	}) => void;
 	isInstructorView?: boolean;
+	studentResponse?: SaveMCQuestionResponse;
 }
 
 const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
@@ -41,7 +47,9 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 	expanded,
 	onToggleExpanded,
 	onNewQuestionRequested,
-	isInstructorView
+	onSubmit,
+	isInstructorView,
+	studentResponse
 }) => {
 	const [instructorViewActivePoolQuestionIndex, setInstructorViewActivePoolQuestionIndex] =
 		useState(0);
@@ -54,7 +62,9 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 
 	const [selectedChoiceFamilyId, setSelectedChoiceFamilyId] = useState<FamilyId | null>(null);
 	const [seed, setSeed] = useState(0);
-	const [response, setResponse] = useState<SaveMCQuestionResponse | null>(null);
+	const [fakeInstructorResponse, setFakeInstructorResponse] =
+		useState<SaveMCQuestionResponse | null>(null);
+	const response = isInstructorView ? fakeInstructorResponse : studentResponse;
 
 	const shuffledChoices = useMemo(
 		() => shuffle({ list: choices, key: family_id, seed }),
@@ -64,13 +74,13 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 	useEffect(() => {
 		if (isInstructorView) {
 			const correctChoice = question.choices.find((choice) => choice.is_correct);
-			setResponse({
+			setFakeInstructorResponse({
 				correct: true,
 				rejoinder: correctChoice.rejoinder
 			});
 			setSelectedChoiceFamilyId(correctChoice.family_id);
 		} else {
-			setResponse(null);
+			setFakeInstructorResponse(null);
 			setSelectedChoiceFamilyId(null);
 		}
 	}, [isInstructorView, question.choices]);
@@ -83,20 +93,15 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 		setSelectedChoiceFamilyId(selectedChoiceFamilyId);
 	}, []);
 
-	const handleSubmit = useCallback(async () => {
-		const res = await fetch(`/api/save_sqr_mc_question`, {
-			method: 'POST',
-			body: JSON.stringify({
-				question_family_id: family_id,
-				choice_family_id: selectedChoiceFamilyId
-			})
+	const handleSubmit = useCallback(() => {
+		onSubmit({
+			poolElementFamilyId: poolElement.family_id,
+			questionFamilyId: question.family_id,
+			choiceFamilyId: selectedChoiceFamilyId
 		});
-		const json = await res.json();
-		setResponse(json);
-	}, [family_id, selectedChoiceFamilyId]);
+	}, [onSubmit, poolElement.family_id, question.family_id, selectedChoiceFamilyId]);
 
 	const handleTryAgain = useCallback(() => {
-		setResponse(null);
 		onNewQuestionRequested(poolElement.family_id);
 	}, [onNewQuestionRequested, poolElement.family_id]);
 

@@ -36,7 +36,7 @@ interface Props {
 		poolElementFamilyId: FamilyId;
 		questionFamilyId: FamilyId;
 		choiceFamilyId: FamilyId;
-	}) => void;
+	}) => void | Promise<void>;
 	isInstructorView?: boolean;
 	studentResponse?: SaveMCQuestionResponse;
 }
@@ -51,6 +51,7 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 	isInstructorView,
 	studentResponse
 }) => {
+	const [isSaveInProgress, setSaveInProgress] = useState(false);
 	const [instructorViewActivePoolQuestionIndex, setInstructorViewActivePoolQuestionIndex] =
 		useState(0);
 	const question =
@@ -93,13 +94,24 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 		setSelectedChoiceFamilyId(selectedChoiceFamilyId);
 	}, []);
 
-	const handleSubmit = useCallback(() => {
-		onSubmit({
-			poolElementFamilyId: poolElement.family_id,
-			questionFamilyId: question.family_id,
-			choiceFamilyId: selectedChoiceFamilyId
-		});
-	}, [onSubmit, poolElement.family_id, question.family_id, selectedChoiceFamilyId]);
+	const handleSubmit = async () => {
+		if (isSaveInProgress) {
+			return;
+		}
+
+		try {
+			setSaveInProgress(true);
+			await onSubmit({
+				poolElementFamilyId: poolElement.family_id,
+				questionFamilyId: question.family_id,
+				choiceFamilyId: selectedChoiceFamilyId
+			});
+		} catch (e) {
+			console.error('Failed to save MCQ', e);
+		} finally {
+			setSaveInProgress(false);
+		}
+	};
 
 	const handleTryAgain = useCallback(() => {
 		onNewQuestionRequested(poolElement.family_id);
@@ -163,8 +175,10 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 				{!isInstructorView && response == null && (
 					<div className="divider-and-save">
 						<hr />
-						<button disabled={selectedChoiceFamilyId == null} onClick={handleSubmit}>
-							Save
+						<button
+							disabled={selectedChoiceFamilyId == null || isSaveInProgress}
+							onClick={handleSubmit}>
+							{isSaveInProgress ? 'Saving...' : 'Save'}
 						</button>
 					</div>
 				)}

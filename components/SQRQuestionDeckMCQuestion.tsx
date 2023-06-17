@@ -39,6 +39,7 @@ interface Props {
 	}) => void | Promise<void>;
 	isInstructorView?: boolean;
 	studentResponse?: SaveMCQuestionResponse;
+	shouldShowReminder?: boolean;
 }
 
 const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
@@ -49,7 +50,8 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 	onNewQuestionRequested,
 	onSubmit,
 	isInstructorView,
-	studentResponse
+	studentResponse,
+	shouldShowReminder
 }) => {
 	const [isSaveInProgress, setSaveInProgress] = useState(false);
 	const [instructorViewActivePoolQuestionIndex, setInstructorViewActivePoolQuestionIndex] =
@@ -118,27 +120,42 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 	}, [onNewQuestionRequested, poolElement.family_id]);
 
 	return (
-		<div css={styles}>
-			<button
-				className="prompt-and-pivotar"
-				aria-expanded={expanded}
-				aria-controls={contentDivId}
-				data-answered={response != null}
-				onClick={handleClick}>
-				<div className="correctness-and-prompt">
-					{response != null && (
-						<div className="correctness" data-correct={response.correct}>
-							{response.correct ? (
-								<FaCheck aria-label="Correct" />
-							) : (
-								<FaTimes aria-label="Incorrect" />
-							)}
-						</div>
+		<div css={styles(shouldShowReminder)}>
+			<Tippy
+				css={nextQuestionReminderTooltipStyles}
+				visible={shouldShowReminder}
+				disabled={!shouldShowReminder}
+				content="You’re not done yet! Click the purple arrow in the top right corner below to open additional questions."
+				placement="top-end"
+				arrow
+				animation={false}
+				offset={[0, 24]}
+				maxWidth={250}>
+				<button
+					className="prompt-and-pivotar"
+					aria-expanded={expanded}
+					aria-controls={contentDivId}
+					data-answered={response != null}
+					onClick={handleClick}>
+					<div className="correctness-and-prompt">
+						{response != null && (
+							<div className="correctness" data-correct={response.correct}>
+								{response.correct ? (
+									<FaCheck aria-label="Correct" />
+								) : (
+									<FaTimes aria-label="Incorrect" />
+								)}
+							</div>
+						)}
+						<QuestionPrompt body={body} />
+					</div>
+					{expanded ? (
+						<FaChevronUp {...pivotarIconProps} />
+					) : (
+						<FaChevronDown {...pivotarIconProps} />
 					)}
-					<QuestionPrompt body={body} />
-				</div>
-				{expanded ? <FaChevronUp {...pivotarIconProps} /> : <FaChevronDown {...pivotarIconProps} />}
-			</button>
+				</button>
+			</Tippy>
 			<div id={contentDivId} className="content" hidden={!expanded}>
 				<QuestionChoices
 					questionFamilyId={family_id}
@@ -190,7 +207,7 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 							offset={[0, 12]}
 							placement="bottom"
 							content={
-								<div css={tooltipStyles}>
+								<div css={instructorHelpTooltipStyles}>
 									This is a randomized formative assessment and each question in the pool assesses
 									the same learning objective. Learn more in the{' '}
 									<a href="#" target="_blank">
@@ -225,9 +242,14 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 
 export default SQRQuestionDeckMCQuestion;
 
-const styles = css`
+const styles = (shouldShowReminder: boolean) => css`
 	border: 1px solid #c9c9c9;
 	border-radius: 0.5rem;
+	${shouldShowReminder &&
+	css`
+		z-index: 100;
+		background: #f5f5f5;
+	`}
 
 	.prompt-and-pivotar {
 		padding: 1rem 1.5rem;
@@ -470,7 +492,7 @@ const styles = css`
 	}
 `;
 
-const tooltipStyles = css`
+const instructorHelpTooltipStyles = css`
 	padding: 0.5rem 0.75rem;
 	background: #fff;
 	border: 1px solid #979797;
@@ -478,5 +500,38 @@ const tooltipStyles = css`
 
 	a {
 		color: #5f01df;
+	}
+`;
+
+const nextQuestionReminderTooltipStyles = css`
+	padding: 0.75rem 1rem;
+	border-radius: 0.5rem;
+	background: #fff;
+	border: 1px solid #979797;
+
+	.tippy-arrow {
+		content: '';
+		bottom: 0;
+		left: unset !important;
+		transform: unset !important;
+		right: 6rem;
+
+		&::before,
+		&::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -4px;
+			background: #979797;
+			width: 24px;
+			height: 12px;
+			clip-path: polygon(0 100%, 50% 0, 100% 100%);
+			clip-path: polygon(0 0, 50% 100%, 100% 0);
+		}
+
+		&::after {
+			margin-top: -1px;
+			background: #fff;
+		}
 	}
 `;

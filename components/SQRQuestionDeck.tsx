@@ -32,6 +32,7 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 	const [responsesMap, setResponsesMap] = useState<{
 		[poolElementFamilyId: FamilyId]: SaveMCQuestionResponse;
 	}>({});
+	const [shouldShowReminder, setShouldShowReminder] = useState(false);
 
 	useEffect(() => {
 		setActivePoolQuestionIndexesMap(
@@ -81,7 +82,7 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 				}
 			}
 		},
-		[interventionType]
+		[interventionType, poolElements]
 	);
 
 	const handleNewQuestionRequested = useCallback(
@@ -100,35 +101,41 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 	);
 
 	return (
-		<WebtextQuestion css={styles}>
-			<UniversalVelvetLeftBorder>
-				<QuestionType>
-					<QuestionDeckIcon className="question-deck-icon" aria-hidden="true" />
-					<span>{poolElements.length} Multiple-Choice Questions</span>
-				</QuestionType>
-				<div className="questions">
-					{poolElements.map((poolElement) => (
-						<SQRQuestionDeckMCQuestion
-							key={poolElement.family_id}
-							poolElement={poolElement}
-							expanded={expandedQuestionsMap[poolElement.family_id]}
-							activePoolQuestionIndex={activePoolQuestionIndexesMap[poolElement.family_id]}
-							onToggleExpanded={handleToggleExpanded}
-							onNewQuestionRequested={handleNewQuestionRequested}
-							onSubmit={handleSubmit}
-							isInstructorView={isInstructorView}
-							studentResponse={responsesMap[poolElement.family_id]}
-						/>
-					))}
-				</div>
-			</UniversalVelvetLeftBorder>
-		</WebtextQuestion>
+		<div css={styles}>
+			<WebtextQuestion>
+				<UniversalVelvetLeftBorder>
+					<QuestionType>
+						<QuestionDeckIcon className="question-deck-icon" aria-hidden="true" />
+						<span>{poolElements.length} Multiple-Choice Questions</span>
+					</QuestionType>
+					<div className="questions">
+						{poolElements.map((poolElement) => (
+							<SQRQuestionDeckMCQuestion
+								key={poolElement.family_id}
+								poolElement={poolElement}
+								expanded={expandedQuestionsMap[poolElement.family_id]}
+								activePoolQuestionIndex={activePoolQuestionIndexesMap[poolElement.family_id]}
+								onToggleExpanded={handleToggleExpanded}
+								onNewQuestionRequested={handleNewQuestionRequested}
+								onSubmit={handleSubmit}
+								isInstructorView={isInstructorView}
+								studentResponse={responsesMap[poolElement.family_id]}
+								shouldShowReminder={shouldShowReminder}
+							/>
+						))}
+					</div>
+				</UniversalVelvetLeftBorder>
+			</WebtextQuestion>
+			<div className="backdrop" hidden={!shouldShowReminder} />
+		</div>
 	);
 };
 
 export default SQRQuestionDeck;
 
 const styles = css`
+	position: relative;
+
 	[role='heading'] {
 		white-space: nowrap;
 		display: flex;
@@ -146,5 +153,25 @@ const styles = css`
 		display: flex;
 		flex-direction: column;
 		row-gap: 1rem;
+	}
+
+	.backdrop {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, 0.5);
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: -100vw;
+			right: 0;
+			border-left: 100vw solid rgba(0, 0, 0, 0.5);
+			box-shadow: 100vw 0 0 rgba(0, 0, 0, 0.5);
+		}
 	}
 `;

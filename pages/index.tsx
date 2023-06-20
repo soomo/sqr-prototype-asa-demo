@@ -16,9 +16,11 @@ const SQRQuestionDeck = dynamic(
 	{ ssr: false }
 );
 
+export type InterventionType = null | 'auto-open' | 'spotlight';
+
 const Index: NextPage = () => {
 	const [isInstructorView, setInstructorView] = useState(false);
-	const [interventionType, setInterventionType] = useState<null | 'auto-open' | 'spotlight'>(null);
+	const [interventionType, setInterventionType] = useState<InterventionType>('spotlight');
 
 	const handleToggleView = useCallback(() => {
 		setInstructorView((old) => !old);

@@ -11,11 +11,12 @@ import SQRQuestionDeckMCQuestion from './SQRQuestionDeckMCQuestion';
 
 import type { SQRQuestionPool } from '../fixtures/sqrQuestionPools';
 import type { SaveMCQuestionResponse } from '../pages/api/save_sqr_mc_question';
+import type { InterventionType } from '../pages';
 
 interface Props {
 	poolElements: SQRQuestionPool[];
 	isInstructorView?: boolean;
-	interventionType: null | 'auto-open' | 'spotlight';
+	interventionType: InterventionType;
 }
 
 const SQRQuestionDeck: React.VFC<Props> = ({
@@ -33,6 +34,10 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 		[poolElementFamilyId: FamilyId]: SaveMCQuestionResponse;
 	}>({});
 	const [shouldShowReminder, setShouldShowReminder] = useState(false);
+
+	const { startWatching, resetNextQuestionReminder } = useNextQuestionReminder({
+		interventionType
+	});
 
 	useEffect(() => {
 		setActivePoolQuestionIndexesMap(
@@ -70,19 +75,23 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 				return { ...oldResponsesMap, [poolElementFamilyId]: json };
 			});
 
-			if (interventionType === 'auto-open' && json.correct) {
+			if (json.correct && interventionType) {
 				const i = poolElements.findIndex(
 					(poolElement) => poolElement.family_id === poolElementFamilyId
 				)!;
 				if (i + 1 < poolElements.length) {
-					const nextPoolElementFamilyId = poolElements[i + 1].family_id;
-					setExpandedQuestionsMap((oldExpandedQuestions) => {
-						return { ...oldExpandedQuestions, [nextPoolElementFamilyId]: true };
-					});
+					if (interventionType === 'auto-open') {
+						const nextPoolElementFamilyId = poolElements[i + 1].family_id;
+						setExpandedQuestionsMap((oldExpandedQuestions) => {
+							return { ...oldExpandedQuestions, [nextPoolElementFamilyId]: true };
+						});
+					} else if (interventionType === 'spotlight') {
+						startWatching();
+					}
 				}
 			}
 		},
-		[interventionType, poolElements]
+		[interventionType, poolElements, startWatching]
 	);
 
 	const handleNewQuestionRequested = useCallback(
@@ -175,3 +184,32 @@ const styles = css`
 		}
 	}
 `;
+
+interface UseNextQuestionReminderArgs {
+	interventionType: InterventionType;
+}
+
+function useNextQuestionReminder({ interventionType }: UseNextQuestionReminderArgs) {
+	const resetNextQuestionReminder = useCallback(() => {
+		// TODO
+		console.log('resetNextQuestionReminder called');
+		if (interventionType !== 'spotlight') {
+			return;
+		}
+	}, [interventionType]);
+
+	/* Whenever `interventionType` changes, call `resetNextQuestionReminder`. */
+	useEffect(() => {
+		resetNextQuestionReminder();
+	}, [interventionType, resetNextQuestionReminder]);
+
+	const startWatching = useCallback(() => {
+		// TODO
+		console.log('start watching');
+	}, []);
+
+	return {
+		startWatching,
+		resetNextQuestionReminder
+	};
+}

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { css } from '@emotion/core';
 import { RiCheckboxMultipleFill as QuestionDeckIcon } from 'react-icons/ri';
 
@@ -7,7 +7,7 @@ import { FamilyId } from '@soomo/lib/types/WebtextManifest';
 import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
 import { QuestionType, WebtextQuestion } from '@soomo/lib/components/shared/Question';
 
-import SQRQuestionDeckMCQuestion from './SQRQuestionDeckMCQuestion';
+import SQRQuestionDeckMCQuestion, { MCQRef } from './SQRQuestionDeckMCQuestion';
 
 import type { SQRQuestionPool } from '../fixtures/sqrQuestionPools';
 import type { SaveMCQuestionResponse } from '../pages/api/save_sqr_mc_question';
@@ -33,11 +33,15 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 	const [responsesMap, setResponsesMap] = useState<{
 		[poolElementFamilyId: FamilyId]: SaveMCQuestionResponse;
 	}>({});
-	const [shouldShowReminder, setShouldShowReminder] = useState(false);
+	const mcqRefs = useRef<MCQRef[]>(Array(poolElements.length));
 
-	const { startWatching, resetNextQuestionReminder } = useNextQuestionReminder({
+	const { startWatching, resetNextQuestionReminder, shouldShowReminder } = useNextQuestionReminder({
 		interventionType
 	});
+
+	const firstUnansweredQuestionFamilyId = poolElements.find(
+		(poolEl) => responsesMap[poolEl.family_id] == null
+	)!.family_id;
 
 	useEffect(() => {
 		setActivePoolQuestionIndexesMap(
@@ -47,11 +51,17 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 		setExpandedQuestionsMap({});
 	}, [interventionType, poolElements]);
 
-	const handleToggleExpanded = useCallback((familyId: string) => {
-		setExpandedQuestionsMap((oldExpandedQuestions) => {
-			return { ...oldExpandedQuestions, [familyId]: !oldExpandedQuestions[familyId] };
-		});
-	}, []);
+	const handleToggleExpanded = useCallback(
+		(familyId: string) => {
+			setExpandedQuestionsMap((oldExpandedQuestions) => {
+				return { ...oldExpandedQuestions, [familyId]: !oldExpandedQuestions[familyId] };
+			});
+			if (familyId === firstUnansweredQuestionFamilyId) {
+				resetNextQuestionReminder();
+			}
+		},
+		[firstUnansweredQuestionFamilyId, resetNextQuestionReminder]
+	);
 
 	const handleSubmit = useCallback(
 		async ({
@@ -86,7 +96,7 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 							return { ...oldExpandedQuestions, [nextPoolElementFamilyId]: true };
 						});
 					} else if (interventionType === 'spotlight') {
-						startWatching();
+						startWatching(mcqRefs.current[i].rejoinderElement);
 					}
 				}
 			}
@@ -118,7 +128,7 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 						<span>{poolElements.length} Multiple-Choice Questions</span>
 					</QuestionType>
 					<div className="questions">
-						{poolElements.map((poolElement) => (
+						{poolElements.map((poolElement, i) => (
 							<SQRQuestionDeckMCQuestion
 								key={poolElement.family_id}
 								poolElement={poolElement}
@@ -129,7 +139,12 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 								onSubmit={handleSubmit}
 								isInstructorView={isInstructorView}
 								studentResponse={responsesMap[poolElement.family_id]}
-								shouldShowReminder={shouldShowReminder}
+								shouldShowReminder={
+									shouldShowReminder && poolElement.family_id === firstUnansweredQuestionFamilyId
+								}
+								ref={(mcqRef) => {
+									mcqRefs.current[i] = mcqRef;
+								}}
 							/>
 						))}
 					</div>
@@ -189,27 +204,76 @@ interface UseNextQuestionReminderArgs {
 	interventionType: InterventionType;
 }
 
+const REQUIRED_REJOINDER_INTERSECTION_RATIO = 1.0;
+/**
+ * Grows/shrinks the intersection area. Top/right/bottom/left order, like `margin`.
+ * We grow the intersection area by 200px at the bottom (so that the rejoinder must be fully visible *and* there's an
+ * additional 200px below it). We *shrink* the intersection area by -50px on the left, because there's a
+ * `margin-left: -50px` rule on `.rejoinder`. If we don't account for that, then `.rejoinder` will never intersect
+ * on mobile because it's slightly off screen relative to the scrolling element. (See T-60154.)
+ */
+const REQUIRED_INTERSECTION_ROOT_MARGIN = '0px 0px -200px 50px';
+
+const MIN_SCROLL_AWAY_DISTANCE_IN_PIXELS = 50;
+
 function useNextQuestionReminder({ interventionType }: UseNextQuestionReminderArgs) {
+	const [hasScrolledAway, setHasScrolledAway] = useState(false);
+	const [wasRejoinderFullyVisible, setWasRejoinderFullyVisible] = useState(false);
+	const intersectionObserver = useRef<IntersectionObserver | null>(null);
+
+	/** Initialize IntersectionObserver exactly once. */
+	useEffect(() => {
+		intersectionObserver.current = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						setWasRejoinderFullyVisible(true);
+						intersectionObserver.current.disconnect();
+					}
+				}
+			},
+			{
+				root: document.documentElement,
+				threshold: REQUIRED_REJOINDER_INTERSECTION_RATIO,
+				rootMargin: REQUIRED_INTERSECTION_ROOT_MARGIN
+			}
+		);
+		return () => {
+			intersectionObserver.current.disconnect();
+		};
+	}, []);
+
 	const resetNextQuestionReminder = useCallback(() => {
-		// TODO
-		console.log('resetNextQuestionReminder called');
-		if (interventionType !== 'spotlight') {
-			return;
-		}
-	}, [interventionType]);
+		setHasScrolledAway(false);
+		setWasRejoinderFullyVisible(false);
+	}, []);
 
 	/* Whenever `interventionType` changes, call `resetNextQuestionReminder`. */
 	useEffect(() => {
 		resetNextQuestionReminder();
 	}, [interventionType, resetNextQuestionReminder]);
 
-	const startWatching = useCallback(() => {
-		// TODO
-		console.log('start watching');
+	const startWatching = useCallback((rejoinderContainer: HTMLElement) => {
+		// FIXME need to be able to specify the scrolling element
+		const initialScrollPosition = document.documentElement.scrollTop;
+		intersectionObserver.current.observe(rejoinderContainer);
+		const scrollCallback = () => {
+			if (
+				document.documentElement.scrollTop >=
+				initialScrollPosition + MIN_SCROLL_AWAY_DISTANCE_IN_PIXELS
+			) {
+				setHasScrolledAway(true);
+				document.removeEventListener('scroll', scrollCallback);
+			}
+		};
+		document.addEventListener('scroll', scrollCallback);
 	}, []);
+
+	const shouldShowReminder = hasScrolledAway && wasRejoinderFullyVisible;
 
 	return {
 		startWatching,
-		resetNextQuestionReminder
+		resetNextQuestionReminder,
+		shouldShowReminder
 	};
 }

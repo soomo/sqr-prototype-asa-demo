@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+	forwardRef,
+	useCallback,
+	useEffect,
+	useImperativeHandle,
+	useMemo,
+	useRef,
+	useState
+} from 'react';
 import {
 	FaChevronUp,
 	FaChevronDown,
@@ -42,203 +50,225 @@ interface Props {
 	shouldShowReminder?: boolean;
 }
 
-const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
-	poolElement,
-	activePoolQuestionIndex,
-	expanded,
-	onToggleExpanded,
-	onNewQuestionRequested,
-	onSubmit,
-	isInstructorView,
-	studentResponse,
-	shouldShowReminder
-}) => {
-	const [isSaveInProgress, setSaveInProgress] = useState(false);
-	const [instructorViewActivePoolQuestionIndex, setInstructorViewActivePoolQuestionIndex] =
-		useState(0);
-	const question =
-		poolElement.pool[
-			isInstructorView ? instructorViewActivePoolQuestionIndex : activePoolQuestionIndex
-		];
-	const { family_id, body, choices } = question;
-	const contentDivId = `${family_id}-content`;
+export interface MCQRef {
+	rejoinderElement: HTMLDivElement;
+}
 
-	const [selectedChoiceFamilyId, setSelectedChoiceFamilyId] = useState<FamilyId | null>(null);
-	const [seed, setSeed] = useState(0);
-	const [fakeInstructorResponse, setFakeInstructorResponse] =
-		useState<SaveMCQuestionResponse | null>(null);
-	const response = isInstructorView ? fakeInstructorResponse : studentResponse;
+const SQRQuestionDeckMCQuestion = forwardRef<MCQRef, Props>(
+	(
+		{
+			poolElement,
+			activePoolQuestionIndex,
+			expanded,
+			onToggleExpanded,
+			onNewQuestionRequested,
+			onSubmit,
+			isInstructorView,
+			studentResponse,
+			shouldShowReminder
+		},
+		ref
+	) => {
+		const [isSaveInProgress, setSaveInProgress] = useState(false);
+		const [instructorViewActivePoolQuestionIndex, setInstructorViewActivePoolQuestionIndex] =
+			useState(0);
+		const question =
+			poolElement.pool[
+				isInstructorView ? instructorViewActivePoolQuestionIndex : activePoolQuestionIndex
+			];
+		const { family_id, body, choices } = question;
+		const contentDivId = `${family_id}-content`;
 
-	const shuffledChoices = useMemo(
-		() => shuffle({ list: choices, key: family_id, seed }),
-		[choices, family_id, seed]
-	);
+		const [selectedChoiceFamilyId, setSelectedChoiceFamilyId] = useState<FamilyId | null>(null);
+		const [seed, setSeed] = useState(0);
+		const [fakeInstructorResponse, setFakeInstructorResponse] =
+			useState<SaveMCQuestionResponse | null>(null);
+		const response = isInstructorView ? fakeInstructorResponse : studentResponse;
+		const rejoinderRef = useRef<HTMLDivElement>(null);
 
-	useEffect(() => {
-		if (isInstructorView) {
-			const correctChoice = question.choices.find((choice) => choice.is_correct);
-			setFakeInstructorResponse({
-				correct: true,
-				rejoinder: correctChoice.rejoinder
-			});
-			setSelectedChoiceFamilyId(correctChoice.family_id);
-		} else {
-			setFakeInstructorResponse(null);
-			setSelectedChoiceFamilyId(null);
-		}
-	}, [isInstructorView, question.choices]);
+		useImperativeHandle(
+			ref,
+			() => ({
+				rejoinderElement: rejoinderRef.current
+			}),
+			[]
+		);
 
-	const handleClick = useCallback(() => {
-		onToggleExpanded(poolElement.family_id);
-	}, [onToggleExpanded, poolElement.family_id]);
+		const shuffledChoices = useMemo(
+			() => shuffle({ list: choices, key: family_id, seed }),
+			[choices, family_id, seed]
+		);
 
-	const handleChangeSelectedChoice = useCallback((selectedChoiceFamilyId: FamilyId) => {
-		setSelectedChoiceFamilyId(selectedChoiceFamilyId);
-	}, []);
+		useEffect(() => {
+			if (isInstructorView) {
+				const correctChoice = question.choices.find((choice) => choice.is_correct);
+				setFakeInstructorResponse({
+					correct: true,
+					rejoinder: correctChoice.rejoinder
+				});
+				setSelectedChoiceFamilyId(correctChoice.family_id);
+			} else {
+				setFakeInstructorResponse(null);
+				setSelectedChoiceFamilyId(null);
+			}
+		}, [isInstructorView, question.choices]);
 
-	const handleSubmit = async () => {
-		if (isSaveInProgress) {
-			return;
-		}
+		const handleClick = useCallback(() => {
+			onToggleExpanded(poolElement.family_id);
+		}, [onToggleExpanded, poolElement.family_id]);
 
-		try {
-			setSaveInProgress(true);
-			await onSubmit({
-				poolElementFamilyId: poolElement.family_id,
-				questionFamilyId: question.family_id,
-				choiceFamilyId: selectedChoiceFamilyId
-			});
-		} catch (e) {
-			console.error('Failed to save MCQ', e);
-		} finally {
-			setSaveInProgress(false);
-		}
-	};
+		const handleChangeSelectedChoice = useCallback((selectedChoiceFamilyId: FamilyId) => {
+			setSelectedChoiceFamilyId(selectedChoiceFamilyId);
+		}, []);
 
-	const handleTryAgain = useCallback(() => {
-		onNewQuestionRequested(poolElement.family_id);
-	}, [onNewQuestionRequested, poolElement.family_id]);
+		const handleSubmit = async () => {
+			if (isSaveInProgress) {
+				return;
+			}
 
-	return (
-		<div css={styles(shouldShowReminder)}>
-			<Tippy
-				css={nextQuestionReminderTooltipStyles}
-				visible={shouldShowReminder}
-				disabled={!shouldShowReminder}
-				content="You’re not done yet! Click the purple arrow in the top right corner below to open additional questions."
-				placement="top-end"
-				arrow
-				animation={false}
-				offset={[0, 24]}
-				maxWidth={250}>
-				<button
-					className="prompt-and-pivotar"
-					aria-expanded={expanded}
-					aria-controls={contentDivId}
-					data-answered={response != null}
-					onClick={handleClick}>
-					<div className="correctness-and-prompt">
-						{response != null && (
-							<div className="correctness" data-correct={response.correct}>
-								{response.correct ? (
-									<FaCheck aria-label="Correct" />
-								) : (
-									<FaTimes aria-label="Incorrect" />
-								)}
+			try {
+				setSaveInProgress(true);
+				await onSubmit({
+					poolElementFamilyId: poolElement.family_id,
+					questionFamilyId: question.family_id,
+					choiceFamilyId: selectedChoiceFamilyId
+				});
+			} catch (e) {
+				console.error('Failed to save MCQ', e);
+			} finally {
+				setSaveInProgress(false);
+			}
+		};
+
+		const handleTryAgain = useCallback(() => {
+			onNewQuestionRequested(poolElement.family_id);
+		}, [onNewQuestionRequested, poolElement.family_id]);
+
+		return (
+			<div css={styles(shouldShowReminder)}>
+				<Tippy
+					css={nextQuestionReminderTooltipStyles}
+					visible={shouldShowReminder}
+					disabled={!shouldShowReminder}
+					content="You’re not done yet! Click the purple arrow in the top right corner below to open additional questions."
+					placement="top-end"
+					arrow
+					animation={false}
+					offset={[0, 24]}
+					maxWidth={250}>
+					<button
+						className="prompt-and-pivotar"
+						aria-expanded={expanded}
+						aria-controls={contentDivId}
+						data-answered={response != null}
+						onClick={handleClick}>
+						<div className="correctness-and-prompt">
+							{response != null && (
+								<div className="correctness" data-correct={response.correct}>
+									{response.correct ? (
+										<FaCheck aria-label="Correct" />
+									) : (
+										<FaTimes aria-label="Incorrect" />
+									)}
+								</div>
+							)}
+							<QuestionPrompt body={body} />
+						</div>
+						{expanded ? (
+							<FaChevronUp {...pivotarIconProps} />
+						) : (
+							<FaChevronDown {...pivotarIconProps} />
+						)}
+					</button>
+				</Tippy>
+				<div id={contentDivId} className="content" hidden={!expanded}>
+					<QuestionChoices
+						questionFamilyId={family_id}
+						choices={isInstructorView ? choices : shuffledChoices}
+						disabled={isInstructorView || response != null}
+						onChangeSelectedChoice={handleChangeSelectedChoice}
+						selectedChoiceFamilyId={selectedChoiceFamilyId}
+					/>
+					<div className="rejoinder-and-try-again">
+						<div
+							className="rejoinder"
+							ref={rejoinderRef}
+							{...(response != null
+								? {
+										'data-correct': response.correct
+								  }
+								: {})}>
+							{response != null && (
+								<>
+									<span className="correctness">
+										{response.correct ? 'Correct.' : 'Incorrect.'}
+									</span>{' '}
+									<span dangerouslySetInnerHTML={{ __html: response.rejoinder }} />
+								</>
+							)}
+						</div>
+						{response != null && !response.correct && (
+							<div className="try-again">
+								<span className="help-text">
+									The Try Again button will test your knowledge with a similar multiple-choice
+									question.
+								</span>
+								<button onClick={handleTryAgain}>Try Again</button>
 							</div>
 						)}
-						<QuestionPrompt body={body} />
 					</div>
-					{expanded ? (
-						<FaChevronUp {...pivotarIconProps} />
-					) : (
-						<FaChevronDown {...pivotarIconProps} />
+					{!isInstructorView && response == null && (
+						<div className="divider-and-save">
+							<hr />
+							<button
+								disabled={selectedChoiceFamilyId == null || isSaveInProgress}
+								onClick={handleSubmit}>
+								{isSaveInProgress ? 'Saving...' : 'Save'}
+							</button>
+						</div>
 					)}
-				</button>
-			</Tippy>
-			<div id={contentDivId} className="content" hidden={!expanded}>
-				<QuestionChoices
-					questionFamilyId={family_id}
-					choices={isInstructorView ? choices : shuffledChoices}
-					disabled={isInstructorView || response != null}
-					onChangeSelectedChoice={handleChangeSelectedChoice}
-					selectedChoiceFamilyId={selectedChoiceFamilyId}
-				/>
-				<div className="rejoinder-and-try-again">
-					<div
-						className="rejoinder"
-						{...(response != null
-							? {
-									'data-correct': response.correct
-							  }
-							: {})}>
-						{response != null && (
-							<>
-								<span className="correctness">{response.correct ? 'Correct.' : 'Incorrect.'}</span>{' '}
-								<span dangerouslySetInnerHTML={{ __html: response.rejoinder }} />
-							</>
-						)}
-					</div>
-					{response != null && !response.correct && (
-						<div className="try-again">
-							<span className="help-text">
-								The Try Again button will test your knowledge with a similar multiple-choice
-								question.
-							</span>
-							<button onClick={handleTryAgain}>Try Again</button>
+					{isInstructorView && (
+						<div className="instructor-view-pool-navigation">
+							<Tippy
+								arrow
+								interactive
+								offset={[0, 12]}
+								placement="bottom"
+								content={
+									<div css={instructorHelpTooltipStyles}>
+										This is a randomized formative assessment and each question in the pool assesses
+										the same learning objective. Learn more in the{' '}
+										<a href="#" target="_blank">
+											support article
+										</a>
+										.
+									</div>
+								}>
+								<span tabIndex={0} className="help-tooltip-trigger">
+									<BsQuestionCircleFill />
+								</span>
+							</Tippy>
+							<span>Browse pool items for this question ({poolElement.pool.length} total)</span>
+							<button
+								aria-label="Previous pool question"
+								disabled={instructorViewActivePoolQuestionIndex === 0}
+								onClick={() => setInstructorViewActivePoolQuestionIndex((old) => old - 1)}>
+								<FaChevronLeft size={17} />
+							</button>
+							<button
+								aria-label="Next pool question"
+								disabled={instructorViewActivePoolQuestionIndex === poolElement.pool.length - 1}
+								onClick={() => setInstructorViewActivePoolQuestionIndex((old) => old + 1)}>
+								<FaChevronRight size={17} />
+							</button>
 						</div>
 					)}
 				</div>
-				{!isInstructorView && response == null && (
-					<div className="divider-and-save">
-						<hr />
-						<button
-							disabled={selectedChoiceFamilyId == null || isSaveInProgress}
-							onClick={handleSubmit}>
-							{isSaveInProgress ? 'Saving...' : 'Save'}
-						</button>
-					</div>
-				)}
-				{isInstructorView && (
-					<div className="instructor-view-pool-navigation">
-						<Tippy
-							arrow
-							interactive
-							offset={[0, 12]}
-							placement="bottom"
-							content={
-								<div css={instructorHelpTooltipStyles}>
-									This is a randomized formative assessment and each question in the pool assesses
-									the same learning objective. Learn more in the{' '}
-									<a href="#" target="_blank">
-										support article
-									</a>
-									.
-								</div>
-							}>
-							<span tabIndex={0} className="help-tooltip-trigger">
-								<BsQuestionCircleFill />
-							</span>
-						</Tippy>
-						<span>Browse pool items for this question ({poolElement.pool.length} total)</span>
-						<button
-							aria-label="Previous pool question"
-							disabled={instructorViewActivePoolQuestionIndex === 0}
-							onClick={() => setInstructorViewActivePoolQuestionIndex((old) => old - 1)}>
-							<FaChevronLeft size={17} />
-						</button>
-						<button
-							aria-label="Next pool question"
-							disabled={instructorViewActivePoolQuestionIndex === poolElement.pool.length - 1}
-							onClick={() => setInstructorViewActivePoolQuestionIndex((old) => old + 1)}>
-							<FaChevronRight size={17} />
-						</button>
-					</div>
-				)}
 			</div>
-		</div>
-	);
-};
+		);
+	}
+);
+SQRQuestionDeckMCQuestion.displayName = 'SQRQuestionDeckMCQuestion';
 
 export default SQRQuestionDeckMCQuestion;
 

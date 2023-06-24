@@ -233,7 +233,6 @@ function useNextQuestionReminder({ interventionType }: UseNextQuestionReminderAr
 				}
 			},
 			{
-				root: document.documentElement,
 				threshold: REQUIRED_REJOINDER_INTERSECTION_RATIO,
 				rootMargin: REQUIRED_INTERSECTION_ROOT_MARGIN
 			}

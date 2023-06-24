@@ -205,16 +205,8 @@ interface UseNextQuestionReminderArgs {
 }
 
 const REQUIRED_REJOINDER_INTERSECTION_RATIO = 1.0;
-/**
- * Grows/shrinks the intersection area. Top/right/bottom/left order, like `margin`.
- * We grow the intersection area by 200px at the bottom (so that the rejoinder must be fully visible *and* there's an
- * additional 200px below it). We *shrink* the intersection area by -50px on the left, because there's a
- * `margin-left: -50px` rule on `.rejoinder`. If we don't account for that, then `.rejoinder` will never intersect
- * on mobile because it's slightly off screen relative to the scrolling element. (See T-60154.)
- */
-const REQUIRED_INTERSECTION_ROOT_MARGIN = '0px 0px -200px 50px';
-
-const MIN_SCROLL_AWAY_DISTANCE_IN_PIXELS = 50;
+const REQUIRED_INTERSECTION_ROOT_MARGIN = '0px 0px -300px 50px';
+const MIN_SCROLL_AWAY_DISTANCE_IN_PIXELS = 300;
 
 function useNextQuestionReminder({ interventionType }: UseNextQuestionReminderArgs) {
 	const [hasScrolledAway, setHasScrolledAway] = useState(false);

@@ -255,6 +255,16 @@ function useNextQuestionReminder({ interventionType }: UseNextQuestionReminderAr
 			) {
 				setHasScrolledAway(true);
 				document.removeEventListener('scroll', scrollCallback);
+			} else if (
+				document.documentElement.scrollTop ===
+				document.documentElement.scrollHeight - document.documentElement.clientHeight // max possible scrollTop value
+			) {
+				// the user is scrolled all the way to the bottom;
+				// assume that the user has scrolled enough *and* that the rejoinder is fully visible
+				// (regardless of rootMargin value).
+				setWasRejoinderFullyVisible(true);
+				setHasScrolledAway(true);
+				intersectionObserver.current?.disconnect();
 			}
 		};
 		document.addEventListener('scroll', scrollCallback);

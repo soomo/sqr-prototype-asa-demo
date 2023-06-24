@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/core';
 import { RiCheckboxMultipleFill as QuestionDeckIcon } from 'react-icons/ri';
 

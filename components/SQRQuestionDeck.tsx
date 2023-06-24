@@ -41,7 +41,7 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 
 	const firstUnansweredQuestionFamilyId = poolElements.find(
 		(poolEl) => responsesMap[poolEl.family_id] == null
-	)!.family_id;
+	)?.family_id;
 
 	useEffect(() => {
 		setActivePoolQuestionIndexesMap(

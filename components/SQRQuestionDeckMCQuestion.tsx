@@ -569,12 +569,12 @@ const nextQuestionReminderTooltipStyles = css`
 
 		&::before,
 		&::after {
-			top: -11px;
+			top: -12px;
 			clip-path: polygon(0% 100%, 50% 0, 100% 100%);
 		}
 
 		&::after {
-			margin-top: unset;
+			margin-top: 1px;
 		}
 	}
 `;

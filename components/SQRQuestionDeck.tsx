@@ -26,7 +26,9 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 }) => {
 	const [expandedQuestionsMap, setExpandedQuestionsMap] = useState<{
 		[familyId: FamilyId]: boolean;
-	}>({});
+	}>({
+		[poolElements[0].family_id]: true
+	});
 	const [activePoolQuestionIndexesMap, setActivePoolQuestionIndexesMap] = useState(
 		Object.fromEntries(poolElements.map((poolElement) => [poolElement.family_id, 0]))
 	);
@@ -48,7 +50,9 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 			Object.fromEntries(poolElements.map((poolElement) => [poolElement.family_id, 0]))
 		);
 		setResponsesMap({});
-		setExpandedQuestionsMap({});
+		setExpandedQuestionsMap({
+			[poolElements[0].family_id]: true
+		});
 	}, [interventionType, poolElements]);
 
 	const handleToggleExpanded = useCallback(

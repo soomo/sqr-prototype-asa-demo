@@ -473,7 +473,7 @@ const styles = (shouldShowReminder: boolean) => css`
 				}
 			}
 
-			.tippy-box[data-placement='top'] .tippy-arrow {
+			.tippy-box[data-placement^='top'] .tippy-arrow {
 				top: unset;
 				bottom: 0;
 
@@ -555,13 +555,26 @@ const nextQuestionReminderTooltipStyles = css`
 			background: #979797;
 			width: 24px;
 			height: 12px;
-			clip-path: polygon(0 100%, 50% 0, 100% 100%);
 			clip-path: polygon(0 0, 50% 100%, 100% 0);
 		}
 
 		&::after {
 			margin-top: -1px;
 			background: #fff;
+		}
+	}
+
+	&[data-placement^='bottom'] .tippy-arrow {
+		top: 0;
+
+		&::before,
+		&::after {
+			top: -11px;
+			clip-path: polygon(0% 100%, 50% 0, 100% 100%);
+		}
+
+		&::after {
+			margin-top: unset;
 		}
 	}
 `;

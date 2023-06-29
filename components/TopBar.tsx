@@ -11,7 +11,7 @@ export default TopBar;
 const styles = css`
 	position: sticky;
 	top: 0;
-	z-index: 1;
+	z-index: 10000;
 	background: #ece9e9;
 	height: 52px;
 	display: flex;

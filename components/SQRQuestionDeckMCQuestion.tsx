@@ -229,34 +229,18 @@ const SQRQuestionDeckMCQuestion = forwardRef<MCQRef, Props>(
 					)}
 					{isInstructorView && (
 						<div className="instructor-view-pool-navigation">
-							<Tippy
-								arrow
-								interactive
-								offset={[0, 12]}
-								placement="bottom"
-								content={
-									<div css={instructorHelpTooltipStyles}>
-										This is a randomized formative assessment and each question in the pool assesses
-										the same learning objective. Learn more in the{' '}
-										<a href="#" target="_blank">
-											support article
-										</a>
-										.
-									</div>
-								}>
-								<span tabIndex={0} className="help-tooltip-trigger">
-									<BsQuestionCircleFill />
-								</span>
-							</Tippy>
-							<span>Browse pool items for this question ({poolElement.pool.length} total)</span>
+							<div className="explanatory-text">
+								This is a randomized formative assessment. Use the arrow buttons above to get an
+								instructor-only preview of all pooled questions.
+							</div>
 							<button
-								aria-label="Previous pool question"
+								aria-label="previous pool question"
 								disabled={instructorViewActivePoolQuestionIndex === 0}
 								onClick={() => setInstructorViewActivePoolQuestionIndex((old) => old - 1)}>
 								<FaChevronLeft size={17} />
 							</button>
 							<button
-								aria-label="Next pool question"
+								aria-label="next pool question"
 								disabled={instructorViewActivePoolQuestionIndex === poolElement.pool.length - 1}
 								onClick={() => setInstructorViewActivePoolQuestionIndex((old) => old + 1)}>
 								<FaChevronRight size={17} />
@@ -402,7 +386,7 @@ const styles = (shouldShowReminder: boolean) => css`
 		}
 
 		.rejoinder-and-try-again {
-			padding: 0 2rem 1rem 0;
+			padding: 0 2rem 0 0;
 
 			.rejoinder {
 				font-size: 18px;
@@ -445,53 +429,22 @@ const styles = (shouldShowReminder: boolean) => css`
 		}
 
 		.instructor-view-pool-navigation {
-			display: flex;
-			padding: 1.25rem 2rem 2rem 0;
-			justify-content: flex-end;
+			max-width: 460px;
+			display: grid;
+			margin: 0 0 0 auto;
+			padding: 1.25rem 2rem 1.5rem 0;
+			grid-template-columns: 1fr auto auto;
+			justify-items: flex-end;
 			align-items: center;
-			font-weight: 500;
 
-			.tippy-box .tippy-arrow {
-				top: 0;
-				left: -8px !important;
-
-				&::before,
-				&::after {
-					content: '';
-					position: absolute;
-					top: -8px;
-					left: -4px;
-					background: #979797;
-					width: 24px;
-					height: 8px;
-					clip-path: polygon(0 100%, 50% 0, 100% 100%);
-				}
-
-				&::after {
-					margin-top: 1px;
-					background: white;
-				}
-			}
-
-			.tippy-box[data-placement^='top'] .tippy-arrow {
-				top: unset;
-				bottom: 0;
-
-				&::before,
-				&::after {
-					top: 0;
-					clip-path: polygon(0 0, 50% 100%, 100% 0);
-				}
-
-				&::after {
-					margin-top: -1px;
-				}
-			}
-
-			.help-tooltip-trigger {
-				line-height: 1;
-				margin-right: 0.75rem;
-				color: #5f01df;
+			.explanatory-text {
+				padding: 0.5rem 0 0;
+				grid-row: 2;
+				grid-column: span 3;
+				font-size: 14px;
+				color: #464646;
+				line-height: 18px;
+				text-align: end;
 			}
 
 			button {
@@ -503,12 +456,14 @@ const styles = (shouldShowReminder: boolean) => css`
 				border: 1px solid #5f01df;
 				cursor: pointer;
 
-				&:first-of-type {
+				&[aria-label^='previous'] {
+					grid-column: 2;
 					margin-left: 0.75rem;
 					border-radius: 3px 0 0 3px;
 				}
 
-				&:last-of-type {
+				&[aria-label^='next'] {
+					grid-column: 3;
 					margin-left: -1px;
 					border-radius: 0 3px 3px 0;
 				}

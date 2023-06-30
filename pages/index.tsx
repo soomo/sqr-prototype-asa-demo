@@ -20,7 +20,7 @@ export type InterventionType = null | 'auto-open' | 'spotlight';
 
 const Index: NextPage = () => {
 	const [isInstructorView, setInstructorView] = useState(false);
-	const [interventionType, setInterventionType] = useState<InterventionType>('spotlight');
+	const [interventionType, setInterventionType] = useState<InterventionType>(null);
 
 	const handleToggleView = useCallback(() => {
 		setInstructorView((old) => !old);

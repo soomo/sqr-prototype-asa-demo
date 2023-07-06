@@ -301,6 +301,11 @@ const styles = (shouldShowReminder: boolean) => css`
 			}
 		}
 
+		// QuestionPrompt outer div
+		div:last-of-type {
+			display: inline;
+		}
+
 		// QuestionPrompt inner div
 		.question-body {
 			margin: 0;

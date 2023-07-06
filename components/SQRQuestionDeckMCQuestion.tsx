@@ -273,14 +273,12 @@ const styles = (shouldShowReminder: boolean) => css`
 		cursor: pointer;
 		text-align: initial;
 
-		&[aria-expanded='false'][data-answered='true'] .correctness-and-prompt {
-			text-overflow: ellipsis;
+		&[aria-expanded='false'][data-answered='true'] .correctness-and-prompt .question-body {
+			display: -webkit-box;
 			overflow: hidden;
-			white-space: nowrap;
-
-			.question-body {
-				color: rgba(0, 0, 0, 0.5);
-			}
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 1;
+			color: rgba(0, 0, 0, 0.5);
 		}
 
 		.correctness {

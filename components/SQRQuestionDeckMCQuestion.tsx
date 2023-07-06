@@ -7,19 +7,15 @@ import {
 	useRef,
 	useState
 } from 'react';
-import {
-	FaChevronUp,
-	FaChevronDown,
-	FaChevronLeft,
-	FaChevronRight,
-	FaCheck,
-	FaTimes
-} from 'react-icons/fa';
+import { FaChevronUp, FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { css } from '@emotion/core';
 import Tippy from '@tippyjs/react';
 
 import { QuestionChoices, QuestionPrompt } from '@soomo/lib/components/shared/Question';
 import shuffle from '@soomo/lib/utils/shuffle';
+
+import CorrectIcon from './CorrectIcon';
+import IncorrectIcon from './IncorrectIcon';
 
 import type { FamilyId } from '@soomo/lib/types/WebtextManifest';
 import type { SaveMCQuestionResponse } from '../pages/api/save_sqr_mc_question';
@@ -163,11 +159,11 @@ const SQRQuestionDeckMCQuestion = forwardRef<MCQRef, Props>(
 						onClick={handleClick}>
 						<div className="correctness-and-prompt">
 							{response != null && (
-								<div className="correctness" data-correct={response.correct}>
+								<div className="correctness">
 									{response.correct ? (
-										<FaCheck aria-label="Correct" />
+										<CorrectIcon aria-label="Correct." />
 									) : (
-										<FaTimes aria-label="Incorrect" />
+										<IncorrectIcon aria-label="Incorrect." />
 									)}
 								</div>
 							)}
@@ -265,8 +261,9 @@ const styles = (shouldShowReminder: boolean) => css`
 	`}
 
 	.prompt-and-pivotar {
-		padding: 1rem 1.5rem;
+		position: relative;
 		display: grid;
+		padding: 1rem 1.5rem;
 		grid-template-columns: 1fr auto;
 		align-items: flex-start;
 		column-gap: 1.5rem;
@@ -287,6 +284,8 @@ const styles = (shouldShowReminder: boolean) => css`
 		}
 
 		.correctness {
+			position: absolute;
+			left: -13px;
 			display: inline-flex;
 			margin-right: 0.75rem;
 			align-items: baseline;
@@ -297,27 +296,13 @@ const styles = (shouldShowReminder: boolean) => css`
 			column-gap: 0.5rem;
 
 			svg {
-				position: relative;
-				bottom: -2px;
+				width: 27px;
+				height: 27px;
 			}
-
-			&[data-correct='true'] {
-				color: #007e0c;
-			}
-
-			&[data-correct='false'] {
-				color: #e70000;
-			}
-		}
-
-		// QuestionPrompt outer div
-		div:last-of-type {
-			display: inline;
 		}
 
 		// QuestionPrompt inner div
 		.question-body {
-			display: inline;
 			margin: 0;
 		}
 	}
@@ -407,14 +392,6 @@ const styles = (shouldShowReminder: boolean) => css`
 
 				.correctness {
 					font-weight: 500;
-				}
-
-				&[data-correct='true'] .correctness {
-					color: #007e0c;
-				}
-
-				&[data-correct='false'] .correctness {
-					color: #e70000;
 				}
 			}
 

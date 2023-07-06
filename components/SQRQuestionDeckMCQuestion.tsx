@@ -15,7 +15,6 @@ import {
 	FaCheck,
 	FaTimes
 } from 'react-icons/fa';
-import { BsQuestionCircleFill } from 'react-icons/bs';
 import { css } from '@emotion/core';
 import Tippy from '@tippyjs/react';
 
@@ -158,7 +157,7 @@ const SQRQuestionDeckMCQuestion = forwardRef<MCQRef, Props>(
 					maxWidth={250}>
 					<button
 						className="prompt-and-pivotar"
-						aria-expanded={expanded}
+						aria-expanded={expanded ?? false}
 						aria-controls={contentDivId}
 						data-answered={response != null}
 						onClick={handleClick}>

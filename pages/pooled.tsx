@@ -1,12 +1,14 @@
+import { useCallback, useState } from 'react';
 import { css } from '@emotion/core';
 import dynamic from 'next/dynamic';
 
 import themes, { ThemeProvider } from '@soomo/lib/styles/themes';
 
 import TopBar from '../components/TopBar';
+import BottomPageProgressInfo from '../components/BottomPageProgressInfo';
 import sqrQuestionPools from '../fixtures/sqrQuestionPools';
-import { NextPage } from 'next';
-import { useCallback, useState } from 'react';
+
+import type { NextPage } from 'next';
 
 const Text = dynamic(() => import('@soomo/lib/components/pageElements').then((m) => m.Text), {
 	ssr: false
@@ -53,6 +55,13 @@ const Index: NextPage = () => {
 						<p>Nulla scelerisque massa arcu, a dignissim massa hendrerit finibus. Vivamus quis laoreet nunc, quis semper justo. Phasellus sem velit, semper in risus at, placerat placerat mauris. Ut faucibus pulvinar nisl in tincidunt. Aenean egestas massa vel leo sagittis euismod. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent iaculis pretium lorem, ac rutrum libero dapibus vitae. Maecenas aliquet metus vitae mi accumsan convallis. Nullam et commodo diam. Nam sed laoreet augue, sit amet pretium mi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent vitae lectus ornare, dictum purus at, viverra metus. Ut lacinia lorem semper tristique rutrum. Proin in libero mi. Sed eu odio id ex tempor consequat.</p>
 					`
 					}}
+				/>
+				<BottomPageProgressInfo
+					numAttempted={2}
+					numCorrect={1}
+					total={2}
+					onBackLinkClick={() => {}}
+					onNextLinkClick={() => {}}
 				/>
 			</main>
 		</ThemeProvider>

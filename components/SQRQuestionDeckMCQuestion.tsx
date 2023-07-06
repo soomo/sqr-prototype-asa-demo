@@ -276,8 +276,14 @@ const styles = (shouldShowReminder: boolean) => css`
 		cursor: pointer;
 		text-align: initial;
 
-		&[aria-expanded='false'][data-answered='true'] .question-body {
-			color: rgba(0, 0, 0, 0.5);
+		&[aria-expanded='false'][data-answered='true'] .correctness-and-prompt {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+
+			.question-body {
+				color: rgba(0, 0, 0, 0.5);
+			}
 		}
 
 		.correctness {

@@ -476,17 +476,6 @@ const styles = (shouldShowReminder: boolean) => css`
 	}
 `;
 
-const instructorHelpTooltipStyles = css`
-	padding: 0.5rem 0.75rem;
-	background: #fff;
-	border: 1px solid #979797;
-	font-weight: 400;
-
-	a {
-		color: #5f01df;
-	}
-`;
-
 const nextQuestionReminderTooltipStyles = css`
 	padding: 0.75rem 1rem;
 	border-radius: 0.5rem;

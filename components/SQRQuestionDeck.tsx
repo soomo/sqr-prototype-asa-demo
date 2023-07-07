@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { css } from '@emotion/core';
 import { RiCheckboxMultipleFill as QuestionDeckIcon } from 'react-icons/ri';
 
@@ -7,7 +7,7 @@ import { FamilyId } from '@soomo/lib/types/WebtextManifest';
 import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
 import { QuestionType, WebtextQuestion } from '@soomo/lib/components/shared/Question';
 
-import SQRQuestionDeckMCQuestion, { MCQRef } from './SQRQuestionDeckMCQuestion';
+import SQRQuestionDeckMCQuestion from './SQRQuestionDeckMCQuestion';
 
 import type { SQRQuestionPool } from '../fixtures/sqrQuestionPools';
 import type { SaveMCQuestionResponse } from '../pages/api/save_sqr_mc_question';
@@ -29,7 +29,6 @@ const SQRQuestionDeck: React.VFC<Props> = ({ poolElements, isInstructorView }) =
 	const [responsesMap, setResponsesMap] = useState<{
 		[poolElementFamilyId: FamilyId]: SaveMCQuestionResponse;
 	}>({});
-	const mcqRefs = useRef<MCQRef[]>(Array(poolElements.length));
 
 	useEffect(() => {
 		setActivePoolQuestionIndexesMap(
@@ -107,9 +106,6 @@ const SQRQuestionDeck: React.VFC<Props> = ({ poolElements, isInstructorView }) =
 								onSubmit={handleSubmit}
 								isInstructorView={isInstructorView}
 								studentResponse={responsesMap[poolElement.family_id]}
-								ref={(mcqRef) => {
-									mcqRefs.current[i] = mcqRef;
-								}}
 							/>
 						))}
 					</div>

@@ -11,19 +11,13 @@ import SQRQuestionDeckMCQuestion, { MCQRef } from './SQRQuestionDeckMCQuestion';
 
 import type { SQRQuestionPool } from '../fixtures/sqrQuestionPools';
 import type { SaveMCQuestionResponse } from '../pages/api/save_sqr_mc_question';
-import type { InterventionType } from '../pages';
 
 interface Props {
 	poolElements: SQRQuestionPool[];
 	isInstructorView?: boolean;
-	interventionType: InterventionType;
 }
 
-const SQRQuestionDeck: React.VFC<Props> = ({
-	poolElements,
-	isInstructorView,
-	interventionType
-}) => {
+const SQRQuestionDeck: React.VFC<Props> = ({ poolElements, isInstructorView }) => {
 	const [expandedQuestionsMap, setExpandedQuestionsMap] = useState<{
 		[familyId: FamilyId]: boolean;
 	}>({
@@ -37,14 +31,6 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 	}>({});
 	const mcqRefs = useRef<MCQRef[]>(Array(poolElements.length));
 
-	const { startWatching, resetNextQuestionReminder, shouldShowReminder } = useNextQuestionReminder({
-		interventionType
-	});
-
-	const firstUnansweredQuestionFamilyId = poolElements.find(
-		(poolEl) => responsesMap[poolEl.family_id] == null
-	)?.family_id;
-
 	useEffect(() => {
 		setActivePoolQuestionIndexesMap(
 			Object.fromEntries(poolElements.map((poolElement) => [poolElement.family_id, 0]))
@@ -53,19 +39,13 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 		setExpandedQuestionsMap({
 			[poolElements[0].family_id]: true
 		});
-	}, [interventionType, poolElements]);
+	}, [poolElements]);
 
-	const handleToggleExpanded = useCallback(
-		(familyId: string) => {
-			setExpandedQuestionsMap((oldExpandedQuestions) => {
-				return { ...oldExpandedQuestions, [familyId]: !oldExpandedQuestions[familyId] };
-			});
-			if (familyId === firstUnansweredQuestionFamilyId) {
-				resetNextQuestionReminder();
-			}
-		},
-		[firstUnansweredQuestionFamilyId, resetNextQuestionReminder]
-	);
+	const handleToggleExpanded = useCallback((familyId: string) => {
+		setExpandedQuestionsMap((oldExpandedQuestions) => {
+			return { ...oldExpandedQuestions, [familyId]: !oldExpandedQuestions[familyId] };
+		});
+	}, []);
 
 	const handleSubmit = useCallback(
 		async ({
@@ -88,24 +68,8 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 			setResponsesMap((oldResponsesMap) => {
 				return { ...oldResponsesMap, [poolElementFamilyId]: json };
 			});
-
-			if (json.correct && interventionType) {
-				const i = poolElements.findIndex(
-					(poolElement) => poolElement.family_id === poolElementFamilyId
-				)!;
-				if (i + 1 < poolElements.length) {
-					if (interventionType === 'auto-open') {
-						const nextPoolElementFamilyId = poolElements[i + 1].family_id;
-						setExpandedQuestionsMap((oldExpandedQuestions) => {
-							return { ...oldExpandedQuestions, [nextPoolElementFamilyId]: true };
-						});
-					} else if (interventionType === 'spotlight') {
-						startWatching(mcqRefs.current[i].rejoinderElement);
-					}
-				}
-			}
 		},
-		[interventionType, poolElements, startWatching]
+		[]
 	);
 
 	const handleNewQuestionRequested = useCallback(
@@ -143,9 +107,6 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 								onSubmit={handleSubmit}
 								isInstructorView={isInstructorView}
 								studentResponse={responsesMap[poolElement.family_id]}
-								shouldShowReminder={
-									shouldShowReminder && poolElement.family_id === firstUnansweredQuestionFamilyId
-								}
 								ref={(mcqRef) => {
 									mcqRefs.current[i] = mcqRef;
 								}}
@@ -154,7 +115,6 @@ const SQRQuestionDeck: React.VFC<Props> = ({
 					</div>
 				</UniversalVelvetLeftBorder>
 			</WebtextQuestion>
-			<div className="backdrop" hidden={!shouldShowReminder} />
 		</div>
 	);
 };
@@ -203,82 +163,3 @@ const styles = css`
 		}
 	}
 `;
-
-interface UseNextQuestionReminderArgs {
-	interventionType: InterventionType;
-}
-
-const REQUIRED_REJOINDER_INTERSECTION_RATIO = 1.0;
-const REQUIRED_INTERSECTION_ROOT_MARGIN = '0px 0px -300px 50px';
-const MIN_SCROLL_AWAY_DISTANCE_IN_PIXELS = 300;
-
-function useNextQuestionReminder({ interventionType }: UseNextQuestionReminderArgs) {
-	const [hasScrolledAway, setHasScrolledAway] = useState(false);
-	const [wasRejoinderFullyVisible, setWasRejoinderFullyVisible] = useState(false);
-	const intersectionObserver = useRef<IntersectionObserver | null>(null);
-
-	/** Initialize IntersectionObserver exactly once. */
-	useEffect(() => {
-		intersectionObserver.current = new IntersectionObserver(
-			(entries) => {
-				for (const entry of entries) {
-					if (entry.isIntersecting) {
-						setWasRejoinderFullyVisible(true);
-						intersectionObserver.current.disconnect();
-					}
-				}
-			},
-			{
-				threshold: REQUIRED_REJOINDER_INTERSECTION_RATIO,
-				rootMargin: REQUIRED_INTERSECTION_ROOT_MARGIN
-			}
-		);
-		return () => {
-			intersectionObserver.current.disconnect();
-		};
-	}, []);
-
-	const resetNextQuestionReminder = useCallback(() => {
-		setHasScrolledAway(false);
-		setWasRejoinderFullyVisible(false);
-	}, []);
-
-	/* Whenever `interventionType` changes, call `resetNextQuestionReminder`. */
-	useEffect(() => {
-		resetNextQuestionReminder();
-	}, [interventionType, resetNextQuestionReminder]);
-
-	const startWatching = useCallback((rejoinderContainer: HTMLElement) => {
-		// FIXME need to be able to specify the scrolling element
-		const initialScrollPosition = document.documentElement.scrollTop;
-		intersectionObserver.current.observe(rejoinderContainer);
-		const scrollCallback = () => {
-			if (
-				document.documentElement.scrollTop >=
-				initialScrollPosition + MIN_SCROLL_AWAY_DISTANCE_IN_PIXELS
-			) {
-				setHasScrolledAway(true);
-				document.removeEventListener('scroll', scrollCallback);
-			} else if (
-				document.documentElement.scrollTop ===
-				document.documentElement.scrollHeight - document.documentElement.clientHeight // max possible scrollTop value
-			) {
-				// the user is scrolled all the way to the bottom;
-				// assume that the user has scrolled enough *and* that the rejoinder is fully visible
-				// (regardless of rootMargin value).
-				setWasRejoinderFullyVisible(true);
-				setHasScrolledAway(true);
-				intersectionObserver.current?.disconnect();
-			}
-		};
-		document.addEventListener('scroll', scrollCallback);
-	}, []);
-
-	const shouldShowReminder = hasScrolledAway && wasRejoinderFullyVisible;
-
-	return {
-		startWatching,
-		resetNextQuestionReminder,
-		shouldShowReminder
-	};
-}

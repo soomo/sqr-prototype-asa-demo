@@ -9,7 +9,6 @@ import {
 } from 'react';
 import { FaChevronUp, FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { css } from '@emotion/core';
-import Tippy from '@tippyjs/react';
 
 import { QuestionChoices, QuestionPrompt } from '@soomo/lib/components/shared/Question';
 import shuffle from '@soomo/lib/utils/shuffle';
@@ -42,7 +41,6 @@ interface Props {
 	}) => void | Promise<void>;
 	isInstructorView?: boolean;
 	studentResponse?: SaveMCQuestionResponse;
-	shouldShowReminder?: boolean;
 }
 
 export interface MCQRef {
@@ -59,8 +57,7 @@ const SQRQuestionDeckMCQuestion = forwardRef<MCQRef, Props>(
 			onNewQuestionRequested,
 			onSubmit,
 			isInstructorView,
-			studentResponse,
-			shouldShowReminder
+			studentResponse
 		},
 		ref
 	) => {
@@ -140,42 +137,31 @@ const SQRQuestionDeckMCQuestion = forwardRef<MCQRef, Props>(
 		}, [onNewQuestionRequested, poolElement.family_id]);
 
 		return (
-			<div css={styles(shouldShowReminder)}>
-				<Tippy
-					css={nextQuestionReminderTooltipStyles}
-					visible={shouldShowReminder}
-					disabled={!shouldShowReminder}
-					content="You’re not done yet! Click the purple arrow in the top right corner below to open additional questions."
-					placement="top-end"
-					arrow
-					animation={false}
-					offset={[0, 24]}
-					maxWidth={250}>
-					<button
-						className="prompt-and-pivotar"
-						aria-expanded={expanded ?? false}
-						aria-controls={contentDivId}
-						data-answered={response != null}
-						onClick={handleClick}>
-						<div className="correctness-and-prompt">
-							{response != null && (
-								<div className="correctness">
-									{response.correct ? (
-										<CorrectIcon aria-label="Correct." />
-									) : (
-										<IncorrectIcon aria-label="Incorrect." />
-									)}
-								</div>
-							)}
-							<QuestionPrompt body={body} />
-						</div>
-						{expanded ? (
-							<FaChevronUp {...pivotarIconProps} />
-						) : (
-							<FaChevronDown {...pivotarIconProps} />
+			<div css={styles}>
+				<button
+					className="prompt-and-pivotar"
+					aria-expanded={expanded ?? false}
+					aria-controls={contentDivId}
+					data-answered={response != null}
+					onClick={handleClick}>
+					<div className="correctness-and-prompt">
+						{response != null && (
+							<div className="correctness">
+								{response.correct ? (
+									<CorrectIcon aria-label="Correct." />
+								) : (
+									<IncorrectIcon aria-label="Incorrect." />
+								)}
+							</div>
 						)}
-					</button>
-				</Tippy>
+						<QuestionPrompt body={body} />
+					</div>
+					{expanded ? (
+						<FaChevronUp {...pivotarIconProps} />
+					) : (
+						<FaChevronDown {...pivotarIconProps} />
+					)}
+				</button>
 				<div id={contentDivId} className="content" hidden={!expanded}>
 					<QuestionChoices
 						questionFamilyId={family_id}
@@ -458,52 +444,6 @@ const styles = (shouldShowReminder: boolean) => css`
 					cursor: not-allowed;
 				}
 			}
-		}
-	}
-`;
-
-const nextQuestionReminderTooltipStyles = css`
-	padding: 0.75rem 1rem;
-	border-radius: 0.5rem;
-	background: #fff;
-	border: 1px solid #979797;
-
-	.tippy-arrow {
-		content: '';
-		bottom: 0;
-		left: unset !important;
-		transform: unset !important;
-		right: 6rem;
-
-		&::before,
-		&::after {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: -4px;
-			background: #979797;
-			width: 24px;
-			height: 12px;
-			clip-path: polygon(0 0, 50% 100%, 100% 0);
-		}
-
-		&::after {
-			margin-top: -1px;
-			background: #fff;
-		}
-	}
-
-	&[data-placement^='bottom'] .tippy-arrow {
-		top: 0;
-
-		&::before,
-		&::after {
-			top: -12px;
-			clip-path: polygon(0% 100%, 50% 0, 100% 100%);
-		}
-
-		&::after {
-			margin-top: 1px;
 		}
 	}
 `;

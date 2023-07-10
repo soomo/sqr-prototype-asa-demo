@@ -351,8 +351,14 @@ const styles = (shouldShowReminder: boolean) => css`
 					font-weight: 500;
 				}
 
-				&[data-correct='true'] .correctness {
-					color: #007e0c;
+				&[data-correct='true'] {
+					// prevents rejoinder bottom left corner clipping with question border
+					// TODO this can go away when we implement Try Again for correct responses
+					border-bottom-left-radius: 0.5rem;
+
+					.correctness {
+						color: #007e0c;
+					}
 				}
 
 				&[data-correct='false'] .correctness {

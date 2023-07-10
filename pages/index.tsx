@@ -16,11 +16,8 @@ const SQRQuestionDeck = dynamic(
 	{ ssr: false }
 );
 
-export type InterventionType = null | 'auto-open' | 'spotlight';
-
 const Index: NextPage = () => {
 	const [isInstructorView, setInstructorView] = useState(false);
-	const [interventionType, setInterventionType] = useState<InterventionType>(null);
 
 	const handleToggleView = useCallback(() => {
 		setInstructorView((old) => !old);
@@ -33,18 +30,6 @@ const Index: NextPage = () => {
 					<button onClick={handleToggleView}>
 						Switch to {isInstructorView ? 'Student' : 'Instructor'} View
 					</button>
-					<label>
-						Intervention Type
-						<select
-							value={interventionType ?? ''}
-							onChange={(e) =>
-								setInterventionType(e.target.value as 'auto-open' | 'spotlight' | null)
-							}>
-							<option value="">none</option>
-							<option value="auto-open">automatically open next question if correct</option>
-							<option value="spotlight">spotlight when scrolling away</option>
-						</select>
-					</label>
 				</div>
 			</TopBar>
 			<main css={mainStyles}>
@@ -57,11 +42,7 @@ const Index: NextPage = () => {
 					`
 					}}
 				/>
-				<SQRQuestionDeck
-					poolElements={sqrQuestionPools}
-					isInstructorView={isInstructorView}
-					interventionType={interventionType}
-				/>
+				<SQRQuestionDeck poolElements={sqrQuestionPools} isInstructorView={isInstructorView} />
 				<Text
 					online
 					element={{

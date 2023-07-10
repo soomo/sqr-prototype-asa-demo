@@ -14,7 +14,7 @@ const Text = dynamic(() => import('@soomo/lib/components/pageElements').then((m)
 	ssr: false
 });
 
-const Index: NextPage = () => {
+const Unpooled: NextPage = () => {
 	const [isInstructorView, setInstructorView] = useState(false);
 	const router = useRouter();
 
@@ -65,7 +65,7 @@ const Index: NextPage = () => {
 		</ThemeProvider>
 	);
 };
-export default Index;
+export default Unpooled;
 
 const mainStyles = css`
 	padding-top: 20px;

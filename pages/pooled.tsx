@@ -19,7 +19,7 @@ const SQRQuestionDeck = dynamic(
 	{ ssr: false }
 );
 
-const Index: NextPage = () => {
+const Pooled: NextPage = () => {
 	const [isInstructorView, setInstructorView] = useState(false);
 	const router = useRouter();
 
@@ -71,7 +71,7 @@ const Index: NextPage = () => {
 		</ThemeProvider>
 	);
 };
-export default Index;
+export default Pooled;
 
 const mainStyles = css`
 	padding-top: 20px;

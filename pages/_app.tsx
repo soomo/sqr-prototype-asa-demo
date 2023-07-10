@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import './index.css';
+import './base.css';
 
 import type { AppProps } from 'next/app';
 

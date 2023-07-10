@@ -350,6 +350,14 @@ const styles = (shouldShowReminder: boolean) => css`
 				.correctness {
 					font-weight: 500;
 				}
+
+				&[data-correct='true'] .correctness {
+					color: #007e0c;
+				}
+
+				&[data-correct='false'] .correctness {
+					color: #e70000;
+				}
 			}
 
 			.try-again {

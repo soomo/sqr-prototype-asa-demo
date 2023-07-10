@@ -7,17 +7,12 @@ import themes, { ThemeProvider } from '@soomo/lib/styles/themes';
 
 import TopBar from '../components/TopBar';
 import BottomPageProgressInfo from '../components/BottomPageProgressInfoAndLinks';
-import sqrQuestionPools from '../fixtures/sqrQuestionPools';
 
 import type { NextPage } from 'next';
 
 const Text = dynamic(() => import('@soomo/lib/components/pageElements').then((m) => m.Text), {
 	ssr: false
 });
-const SQRQuestionDeck = dynamic(
-	() => import('../components/SQRQuestionDeck').then((m) => m.default),
-	{ ssr: false }
-);
 
 const Index: NextPage = () => {
 	const [isInstructorView, setInstructorView] = useState(false);
@@ -41,12 +36,11 @@ const Index: NextPage = () => {
 					online
 					element={{
 						body: `
-						<h1>POOLED Sample Page</h1>
+						<h1>UNPOOLED Sample Page</h1>
 						<p>Praesent arcu lectus, aliquam id faucibus nec, varius non est. Praesent et leo eu purus venenatis bibendum ut eget metus. Curabitur eget quam non quam mattis semper vel quis sapien. Aenean sodales velit nec fermentum blandit. Proin congue id nisi sit amet aliquam. Phasellus blandit risus vel iaculis congue. Aenean tempor arcu libero, euismod ultricies sapien mollis sit amet. Donec in consequat dolor. Ut id finibus sem. Aenean quis nisi ante. Duis interdum placerat erat, at dignissim dolor laoreet quis. Proin mollis nunc risus, id suscipit dolor auctor iaculis.</p>
 					`
 					}}
 				/>
-				<SQRQuestionDeck poolElements={sqrQuestionPools} isInstructorView={isInstructorView} />
 				<Text
 					online
 					element={{
@@ -62,10 +56,10 @@ const Index: NextPage = () => {
 					numAttempted={0} // TODO
 					numCorrect={0}
 					total={1}
-					onBackLinkClick={undefined}
-					onNextLinkClick={() => {
-						router.push('/unpooled');
+					onBackLinkClick={() => {
+						router.back();
 					}}
+					onNextLinkClick={undefined}
 				/>
 			</main>
 		</ThemeProvider>

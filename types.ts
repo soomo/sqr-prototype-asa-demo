@@ -37,6 +37,7 @@ export interface QuizResponse {
 	 * Its initial value is the user ID and it advances each time a question is reset.
 	 */
 	seed: number;
+	resetCount: number;
 }
 
 export interface SQRSavePayload {

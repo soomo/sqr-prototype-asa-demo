@@ -6,7 +6,8 @@ import { useRouter } from 'next/router';
 import themes, { ThemeProvider } from '@soomo/lib/styles/themes';
 
 import TopBar from '../components/TopBar';
-import BottomPageProgressInfo from '../components/BottomPageProgressInfoAndLinks';
+import TopPageInfo from '../components/TopPageInfo';
+import BottomPageInfoAndLinks from '../components/BottomPageInfoAndLinks';
 import sqrQuestionPools from '../fixtures/sqrQuestionPools';
 
 import type { NextPage } from 'next';
@@ -21,6 +22,8 @@ const SQRQuestionDeck = dynamic(
 
 const Pooled: NextPage = () => {
 	const [isInstructorView, setInstructorView] = useState(false);
+	const [numAttempted, setNumAttempted] = useState(0);
+	const [numCorrect, setNumCorrect] = useState(0);
 	const router = useRouter();
 
 	const handleToggleView = useCallback(() => {
@@ -37,6 +40,12 @@ const Pooled: NextPage = () => {
 				</div>
 			</TopBar>
 			<main css={mainStyles}>
+				<TopPageInfo
+					pageTitle="Pooled Sample Page"
+					numAttempted={numAttempted}
+					numCorrect={numCorrect}
+					total={1} // TODO
+				/>
 				<Text
 					online
 					element={{
@@ -58,10 +67,10 @@ const Pooled: NextPage = () => {
 					`
 					}}
 				/>
-				<BottomPageProgressInfo
-					numAttempted={0} // TODO
-					numCorrect={0}
-					total={1}
+				<BottomPageInfoAndLinks
+					numAttempted={numAttempted}
+					numCorrect={numCorrect}
+					total={1} // TODO
 					onBackLinkClick={undefined}
 					onNextLinkClick={() => {
 						router.push('/unpooled');
@@ -74,7 +83,7 @@ const Pooled: NextPage = () => {
 export default Pooled;
 
 const mainStyles = css`
-	padding-top: 20px;
+	padding-top: 1.5rem;
 	max-width: 800px;
 	margin: 0 auto;
 `;

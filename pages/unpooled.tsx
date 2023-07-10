@@ -6,7 +6,8 @@ import { useRouter } from 'next/router';
 import themes, { ThemeProvider } from '@soomo/lib/styles/themes';
 
 import TopBar from '../components/TopBar';
-import BottomPageProgressInfo from '../components/BottomPageProgressInfoAndLinks';
+import TopPageInfo from '../components/TopPageInfo';
+import BottomPageInfoAndLinks from '../components/BottomPageInfoAndLinks';
 
 import type { NextPage } from 'next';
 
@@ -16,6 +17,8 @@ const Text = dynamic(() => import('@soomo/lib/components/pageElements').then((m)
 
 const Unpooled: NextPage = () => {
 	const [isInstructorView, setInstructorView] = useState(false);
+	const [numAttempted, setNumAttempted] = useState(0);
+	const [numCorrect, setNumCorrect] = useState(0);
 	const router = useRouter();
 
 	const handleToggleView = useCallback(() => {
@@ -32,6 +35,12 @@ const Unpooled: NextPage = () => {
 				</div>
 			</TopBar>
 			<main css={mainStyles}>
+				<TopPageInfo
+					pageTitle="Unpooled Sample Page"
+					numAttempted={numAttempted}
+					numCorrect={numCorrect}
+					total={1} // TODO
+				/>
 				<Text
 					online
 					element={{
@@ -52,10 +61,10 @@ const Unpooled: NextPage = () => {
 					`
 					}}
 				/>
-				<BottomPageProgressInfo
-					numAttempted={0} // TODO
-					numCorrect={0}
-					total={1}
+				<BottomPageInfoAndLinks
+					numAttempted={numAttempted}
+					numCorrect={numCorrect}
+					total={1} // TODO
 					onBackLinkClick={() => {
 						router.back();
 					}}
@@ -68,7 +77,7 @@ const Unpooled: NextPage = () => {
 export default Unpooled;
 
 const mainStyles = css`
-	padding-top: 20px;
+	padding-top: 1.5rem;
 	max-width: 800px;
 	margin: 0 auto;
 `;

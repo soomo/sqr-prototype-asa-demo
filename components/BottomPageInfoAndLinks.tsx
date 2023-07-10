@@ -1,14 +1,13 @@
 import { css } from '@emotion/core';
 
-interface Props {
-	numAttempted: number;
-	numCorrect: number;
-	total: number;
+import PageProgress, { PageProgressProps } from './PageProgress';
+
+interface Props extends PageProgressProps {
 	onBackLinkClick?: () => void;
 	onNextLinkClick?: () => void;
 }
 
-const BottomPageProgressInfo: React.VFC<Props> = ({
+const BottomPageInfoAndLinks: React.VFC<Props> = ({
 	numAttempted,
 	numCorrect,
 	total,
@@ -17,11 +16,7 @@ const BottomPageProgressInfo: React.VFC<Props> = ({
 }) => {
 	return (
 		<div css={styles}>
-			<span>
-				On this page: {numAttempted} of {total} attempted (
-				{Math.round((numAttempted / total) * 100)}%) | {numCorrect} of {total} correct (
-				{Math.round((numCorrect / total) * 100)}%)
-			</span>
+			<PageProgress numAttempted={numAttempted} numCorrect={numCorrect} total={total} />
 
 			{onBackLinkClick && (
 				<a href="#" onClick={onBackLinkClick} className="page-back-link">
@@ -37,7 +32,7 @@ const BottomPageProgressInfo: React.VFC<Props> = ({
 	);
 };
 
-export default BottomPageProgressInfo;
+export default BottomPageInfoAndLinks;
 
 const styles = css`
 	display: grid;

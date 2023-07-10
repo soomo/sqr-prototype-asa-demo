@@ -31,13 +31,13 @@ export interface QuizResponse {
 	 *
 	 * For MCQs on legacy PPR pages, this is the page family ID.
 	 */
-	assignmentFamilyId: FamilyId;
+	assignment_family_id: FamilyId;
 	/**
 	 * For both pooled and unpooled SQR-enabled MCQs, this is used to shuffle the *choices* of a given pool item.
 	 * Its initial value is the user ID and it advances each time a question is reset.
 	 */
 	seed: number;
-	resetCount: number;
+	reset_count: number;
 }
 
 export interface SQRSavePayload {

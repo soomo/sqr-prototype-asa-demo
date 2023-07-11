@@ -334,7 +334,7 @@ const styles = (shouldShowReminder: boolean) => css`
 		}
 
 		.rejoinder-and-try-again {
-			padding: 0 2rem 0 0;
+			padding: 0 2rem 1rem 0;
 
 			.rejoinder {
 				font-size: 18px;
@@ -352,14 +352,8 @@ const styles = (shouldShowReminder: boolean) => css`
 					font-weight: 500;
 				}
 
-				&[data-correct='true'] {
-					// prevents rejoinder bottom left corner clipping with question border
-					// TODO this can go away when we implement Try Again for correct responses
-					border-bottom-left-radius: 0.5rem;
-
-					.correctness {
-						color: #007e0c;
-					}
+				&[data-correct='true'] .correctness {
+					color: #007e0c;
 				}
 
 				&[data-correct='false'] .correctness {
@@ -386,7 +380,7 @@ const styles = (shouldShowReminder: boolean) => css`
 			max-width: 600px;
 			display: grid;
 			margin: 0 0 0 auto;
-			padding: 1.25rem 2rem 1.5rem 0;
+			padding: 0 2rem 1.5rem 0;
 			grid-template-columns: 1fr auto auto;
 			justify-items: flex-end;
 			align-items: center;

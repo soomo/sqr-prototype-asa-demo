@@ -181,8 +181,9 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 				{isInstructorView && (
 					<div className="instructor-view-pool-navigation">
 						<div className="explanatory-text">
-							This is a randomized formative assessment. Use the arrow buttons above to get an
-							instructor-only preview of all pooled questions.
+							The item assigned to each student for their initial attempt is randomized, and
+							students will receive a different item from the pool if they reset. Visit our{' '}
+							<a href="#">Help Center</a> to learn more.
 						</div>
 						<button
 							aria-label="previous pool question"
@@ -382,7 +383,7 @@ const styles = (shouldShowReminder: boolean) => css`
 		}
 
 		.instructor-view-pool-navigation {
-			max-width: 460px;
+			max-width: 600px;
 			display: grid;
 			margin: 0 0 0 auto;
 			padding: 1.25rem 2rem 1.5rem 0;

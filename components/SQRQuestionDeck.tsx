@@ -38,7 +38,7 @@ const SQRQuestionDeck: React.VFC<Props> = ({ poolElements, isInstructorView }) =
 		setExpandedQuestionsMap({
 			[poolElements[0].family_id]: true
 		});
-	}, [poolElements]);
+	}, [poolElements, isInstructorView]);
 
 	const handleToggleExpanded = useCallback((familyId: string) => {
 		setExpandedQuestionsMap((oldExpandedQuestions) => {

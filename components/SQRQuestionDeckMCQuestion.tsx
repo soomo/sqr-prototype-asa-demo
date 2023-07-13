@@ -403,6 +403,11 @@ const styles = (shouldShowReminder: boolean) => css`
 				text-align: end;
 			}
 
+			a,
+			a:visited {
+				color: #5f01df;
+			}
+
 			button {
 				margin: 0;
 				padding: 0.25rem;

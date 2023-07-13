@@ -180,6 +180,9 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 				)}
 				{isInstructorView && (
 					<div className="instructor-view-pool-navigation">
+						<span className="label">
+							Browse items in this pool ({poolElement.pool.length} total)
+						</span>
 						<div className="explanatory-text">
 							The item assigned to each student for their initial attempt is randomized, and
 							students will receive a different item from the pool if they reset. Visit our{' '}
@@ -384,6 +387,11 @@ const styles = (shouldShowReminder: boolean) => css`
 			grid-template-columns: 1fr auto auto;
 			justify-items: flex-end;
 			align-items: center;
+
+			.label {
+				font-weight: 500;
+				line-height: 1;
+			}
 
 			.explanatory-text {
 				padding: 0.5rem 0 0;

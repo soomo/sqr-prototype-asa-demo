@@ -9,8 +9,8 @@ import CorrectIcon from './CorrectIcon';
 import IncorrectIcon from './IncorrectIcon';
 
 import type { FamilyId } from '@soomo/lib/types/WebtextManifest';
-import type { SaveMCQuestionResponse } from '../pages/api/save_sqr_mc_question';
-import type { SQRQuestionPool } from '../fixtures/sqrQuestionPools';
+import type { SaveMCQuestionResponse } from '../../pages/api/save_sqr_mc_question';
+import type { SQRQuestionPool } from '../../fixtures/sqrQuestionPools';
 
 const pivotarIconProps = {
 	size: 21,

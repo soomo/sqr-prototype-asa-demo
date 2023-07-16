@@ -16,7 +16,7 @@ const Text = dynamic(() => import('@soomo/lib/components/pageElements').then((m)
 	ssr: false
 });
 const SQRQuestionDeck = dynamic(
-	() => import('../components/SQRQuestionDeck').then((m) => m.default),
+	() => import('../components/sqr/QuestionDeck').then((m) => m.default),
 	{ ssr: false }
 );
 

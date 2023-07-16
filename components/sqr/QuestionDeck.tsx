@@ -7,10 +7,10 @@ import { FamilyId } from '@soomo/lib/types/WebtextManifest';
 import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
 import { QuestionType, WebtextQuestion } from '@soomo/lib/components/shared/Question';
 
-import SQRQuestionDeckMCQuestion from './SQRQuestionDeckMCQuestion';
+import SQRQuestionDeckMCQuestion from './QuestionDeckMCQuestion';
 
-import type { SQRQuestionPool } from '../fixtures/sqrQuestionPools';
-import type { SaveMCQuestionResponse } from '../pages/api/save_sqr_mc_question';
+import type { SQRQuestionPool } from '../../fixtures/sqrQuestionPools';
+import type { SaveMCQuestionResponse } from '../../pages/api/save_sqr_mc_question';
 
 interface Props {
 	poolElements: SQRQuestionPool[];

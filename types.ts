@@ -1,22 +1,49 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-interface */
 export type FamilyId = string; // a UUID
+type HTMLString = string;
 
 export interface NGFamily {
 	familyId: FamilyId;
 	metadata?: { [key: string]: any };
 }
 
+export type PageElement = MCQuestion | MCQuestionPool | Text | QuestionDeck;
+
+export interface QuestionDeck extends NGFamily {
+	type: 'NG::Soomo::QuestionDeck';
+	direction: 'in' | 'out';
+}
+
+export interface Text extends NGFamily {
+	type: 'NG::Soomo::Text';
+	body: HTMLString;
+}
+
+export interface Page extends NGFamily {
+	elements: PageElement[];
+}
+
 export interface MCQuestion extends NGFamily {
+	type: 'NG::Soomo::MC::Question';
 	body: string;
 	choices: MCChoice[];
 }
 
 export interface MCChoice extends NGFamily {
 	body: string;
+	correct?: boolean;
+	rejoinder: string;
 }
 
 export interface MCQuestionPool extends NGFamily {
+	type: 'NG::Soomo::MC::QuestionPool';
 	questions: MCQuestion[];
+}
+
+export interface Answer {
+	body: FamilyId;
+	question_family_id: FamilyId;
+	correct: boolean;
 }
 
 export interface QuizResponse {
@@ -38,6 +65,7 @@ export interface QuizResponse {
 	 */
 	seed: number;
 	reset_count: number;
+	answers: Answer[];
 }
 
 export interface SQRSavePayload {

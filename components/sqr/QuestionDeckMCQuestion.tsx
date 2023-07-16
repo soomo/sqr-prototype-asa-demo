@@ -2,11 +2,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FaChevronUp, FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { css } from '@emotion/core';
 
-import { QuestionChoices, QuestionPrompt } from '@soomo/lib/components/shared/Question';
+import { QuestionPrompt } from '@soomo/lib/components/shared/Question';
 import shuffle from '@soomo/lib/utils/shuffle';
 
 import CorrectIcon from './CorrectIcon';
 import IncorrectIcon from './IncorrectIcon';
+import Choices from './Choices';
 
 import type { FamilyId } from '@soomo/lib/types/WebtextManifest';
 import type { SaveMCQuestionResponse } from '../../pages/api/save_sqr_mc_question';
@@ -135,7 +136,7 @@ const SQRQuestionDeckMCQuestion: React.VFC<Props> = ({
 				{expanded ? <FaChevronUp {...pivotarIconProps} /> : <FaChevronDown {...pivotarIconProps} />}
 			</button>
 			<div id={contentDivId} className="content" hidden={!expanded}>
-				<QuestionChoices
+				<Choices
 					questionFamilyId={family_id}
 					choices={isInstructorView ? choices : shuffledChoices}
 					disabled={isInstructorView || response != null}
@@ -269,33 +270,6 @@ const styles = (shouldShowReminder: boolean) => css`
 	}
 
 	.content {
-		fieldset {
-			margin: 0;
-			padding: 0;
-			border: none;
-		}
-
-		.question-choices {
-			padding: 0 2rem;
-			display: grid;
-			grid-template-columns: auto 1fr;
-			align-items: flex-start;
-			column-gap: 1.5rem;
-			row-gap: 1rem;
-			font-size: 18px;
-			line-height: 22px;
-
-			> div {
-				display: contents;
-			}
-
-			input[type='radio'] {
-				width: 1.5rem;
-				height: 1.5rem;
-				accent-color: #5f01df;
-			}
-		}
-
 		.divider-and-save {
 			padding: 1.5rem 2rem;
 		}

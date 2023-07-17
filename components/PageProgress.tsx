@@ -12,10 +12,8 @@ const PageProgress: React.VFC<PageProgressProps> = ({
 }) => {
 	return (
 		<span {...rest}>
-			{/* FIXME */}
-			{/* On this page: {numAttempted} of {total} attempted ({Math.round((numAttempted / total) * 100)}
-			%) | {numCorrect} of {total} correct ({Math.round((numCorrect / total) * 100)}%) */}
-			On this page: {numAttempted} of N attempted (0%) | {numCorrect} of N correct (0%)
+			On this page: {numAttempted} of {total} attempted ({Math.round((numAttempted / total) * 100)}
+			%) | {numCorrect} of {total} correct ({Math.round((numCorrect / total) * 100)}%)
 		</span>
 	);
 };

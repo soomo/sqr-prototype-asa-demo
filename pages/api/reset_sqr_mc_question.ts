@@ -2,7 +2,8 @@
 import shuffle from '@soomo/lib/utils/shuffle';
 
 import pooledPage from '../../fixtures/pooledPage';
-import { quizResponses } from '../../fixtures/database';
+
+import { FAKE_USER_ID, getOrCreateQuizResponse, updateQuizResponse } from '../../fixtures/database';
 
 import type { NextApiHandler } from 'next';
 import type { MCQuestionPool, SQRResetPayload, SQRResetResponse } from '../../types';
@@ -21,24 +22,16 @@ const handler: NextApiHandler<SQRResetResponse> = (req, res) => {
 
 		const respondableFamilyId = parentQuestionPool.familyId;
 
-		const qr = quizResponses[respondableFamilyId];
-		if (qr == null) {
-			res.status(400).send({} as SQRResetResponse);
-			return;
-		}
+		const qr = getOrCreateQuizResponse(respondableFamilyId);
 		qr.reset_count++;
 		qr.seed = Math.floor(Math.random() * (2 ** 30 - 1));
 
 		if (parentQuestionPool.questions.length > 1) {
 			// this is a pooled MC question
-			// silly way to get a numeric seed out of the family id
-			const poolOrderSeed = containingPage.elements.findIndex(
-				(el) => el.familyId === parentQuestionPool.familyId
-			)!;
 			const shuffledQuestions = shuffle({
 				list: parentQuestionPool.questions,
-				key: '',
-				seed: poolOrderSeed
+				key: respondableFamilyId,
+				seed: FAKE_USER_ID
 			});
 			const newQuestion = { ...shuffledQuestions[qr.reset_count % shuffledQuestions.length] };
 			newQuestion.choices = shuffle({ list: newQuestion.choices, key: '', seed: qr.seed });
@@ -48,7 +41,6 @@ const handler: NextApiHandler<SQRResetResponse> = (req, res) => {
 				new_question: newQuestion,
 				was_reset: true
 			});
-			return;
 		} else {
 			// this is an unpooled MC question;
 			// return the same question but with the choices shuffled
@@ -60,8 +52,10 @@ const handler: NextApiHandler<SQRResetResponse> = (req, res) => {
 				new_question: newQuestion,
 				was_reset: true
 			});
-			return;
 		}
+
+		updateQuizResponse(respondableFamilyId, qr);
+		return;
 	}
 
 	res.status(400).send({} as SQRResetResponse);

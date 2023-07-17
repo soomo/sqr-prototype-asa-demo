@@ -1,15 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { quizResponses } from '../../fixtures/database';
+import { getOrCreateQuizResponse, updateQuizResponse } from '../../fixtures/database';
 import pooledPage from '../../fixtures/pooledPage';
 
 import type { NextApiHandler } from 'next';
-import type {
-	MCQuestion,
-	MCQuestionPool,
-	QuizResponse,
-	SQRSavePayload,
-	SQRSaveResponse
-} from '../../types';
+import type { MCQuestion, MCQuestionPool, SQRSavePayload, SQRSaveResponse } from '../../types';
 
 const handler: NextApiHandler<SQRSaveResponse> = (req, res) => {
 	if (req.method === 'POST') {
@@ -24,12 +18,7 @@ const handler: NextApiHandler<SQRSaveResponse> = (req, res) => {
 			) as MCQuestionPool;
 
 		const respondableFamilyId = parentQuestionPool.familyId;
-		const qr: QuizResponse = quizResponses[respondableFamilyId] ?? {
-			assignment_family_id: respondableFamilyId,
-			reset_count: 0,
-			seed: 0,
-			answers: []
-		};
+		const qr = getOrCreateQuizResponse(respondableFamilyId);
 
 		const el = containingPage.elements
 			.flatMap((el) => (el.type === 'NG::Soomo::MC::QuestionPool' ? el.questions : el))
@@ -54,7 +43,7 @@ const handler: NextApiHandler<SQRSaveResponse> = (req, res) => {
 			question_family_id: questionFamilyId
 		};
 		qr.answers = Object.values(answerMap);
-		quizResponses[respondableFamilyId] = qr;
+		updateQuizResponse(respondableFamilyId, qr);
 		return;
 	}
 

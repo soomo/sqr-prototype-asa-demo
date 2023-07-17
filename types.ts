@@ -26,11 +26,14 @@ export interface Page extends NGFamily {
 export interface MCQuestion extends NGFamily {
 	type: 'NG::Soomo::MC::Question';
 	body: string;
-	choices: MCChoice[];
+	choices: RedactedMCChoice[];
 }
 
-export interface MCChoice extends NGFamily {
+export interface RedactedMCChoice extends NGFamily {
 	body: string;
+}
+
+export interface FullMCChoice extends RedactedMCChoice {
 	correct?: boolean;
 	rejoinder: string;
 }

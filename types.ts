@@ -95,5 +95,5 @@ export interface SQRResetResponse {
 	question_family_id: FamilyId;
 	was_reset: boolean; // or maybe just return a different status code besides 200 if reset failed?
 	reset_count: number;
-	new_pool_item: MCQuestion;
+	new_question: MCQuestion;
 }

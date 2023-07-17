@@ -6,108 +6,108 @@ const elements: PageElement[] = [
 		type: 'NG::Soomo::Text',
 		body: '<h1>POOLED Sample Page</h1><p>Praesent arcu lectus, aliquam id faucibus nec, varius non est. Praesent et leo eu purus venenatis bibendum ut eget metus. Curabitur eget quam non quam mattis semper vel quis sapien. Aenean sodales velit nec fermentum blandit. Proin congue id nisi sit amet aliquam. Phasellus blandit risus vel iaculis congue. Aenean tempor arcu libero, euismod ultricies sapien mollis sit amet. Donec in consequat dolor. Ut id finibus sem. Aenean quis nisi ante. Duis interdum placerat erat, at dignissim dolor laoreet quis. Proin mollis nunc risus, id suscipit dolor auctor iaculis.</p>'
 	},
-	// {
-	// 	familyId: 'standalone-pool',
-	// 	type: 'NG::Soomo::MC::QuestionPool',
-	// 	questions: [
-	// 		{
-	// 			familyId: 'standalone-pool-mcq-1',
-	// 			type: 'NG::Soomo::MC::Question',
-	// 			body: 'The constitutional amendment process requires near-unanimous agreement. Why might this be considered a disadvantage?',
-	// 			choices: [
-	// 				{
-	// 					familyId: 'standalone-pool-mcq-1-choice-1',
-	// 					body: 'Because it makes national government slow to respond to problems concerning political process and public policy.',
-	// 					correct: true,
-	// 					rejoinder:
-	// 						'The constitutional amendment process’s requirement for near-unanimous agreement can make national government slow to respond to policy concerns.'
-	// 				},
-	// 				{
-	// 					familyId: 'standalone-pool-mcq-1-choice-2',
-	// 					body: 'Because it provides an ultimate relief valve for resolving political conflict in our democratic society.',
-	// 					rejoinder:
-	// 						'This would be considered an advantage—not a disadvantage—of the constitutional amendment process.'
-	// 				},
-	// 				{
-	// 					familyId: 'standalone-pool-mcq-1-choice-3',
-	// 					body: 'Because it provides fundamental principles that inform and unify national and state government.',
-	// 					rejoinder:
-	// 						'This would be considered an advantage—not a disadvantage—of the constitutional amendment process.'
-	// 				},
-	// 				{
-	// 					familyId: 'standalone-pool-mcq-1-choice-4',
-	// 					body: 'Because it preserves the integrity and brevity of the document.',
-	// 					rejoinder:
-	// 						'This would be considered an advantage—not a disadvantage—of the constitutional amendment process.'
-	// 				}
-	// 			]
-	// 		},
-	// 		{
-	// 			familyId: 'standalone-pool-mcq-2',
-	// 			type: 'NG::Soomo::MC::Question',
-	// 			body: "What is one disadvantage of the constitutional amendment process's requirement for near-unanimous agreement?",
-	// 			choices: [
-	// 				{
-	// 					familyId: 'standalone-pool-mcq-2-choice-1',
-	// 					body: 'It can make national government slow to respond to policy concerns.',
-	// 					correct: true,
-	// 					rejoinder:
-	// 						"The constitutional amendment process's requirement for near-unanimous agreement can make the national government slow to respond to policy concerns."
-	// 				},
-	// 				{
-	// 					familyId: 'standalone-pool-mcq-2-choice-2',
-	// 					body: 'It provides an ultimate relief valve for resolving political conflict in our democratic society.',
-	// 					rejoinder:
-	// 						'This would be considered an advantage—not a disadvantage—of the constitutional amendment process.'
-	// 				},
-	// 				{
-	// 					familyId: 'standalone-pool-mcq-2-choice-3',
-	// 					body: 'It provides a framework of fundamental principles that unifies national and state government.',
-	// 					rejoinder:
-	// 						'This would be considered an advantage—not a disadvantage—of the constitutional amendment process.'
-	// 				},
-	// 				{
-	// 					familyId: 'standalone-pool-mcq-2-choice-4',
-	// 					body: 'It preserves the integrity and brevity of the document.',
-	// 					rejoinder:
-	// 						'This would be considered an advantage—not a disadvantage—of the constitutional amendment process.'
-	// 				}
-	// 			]
-	// 		},
-	// 		{
-	// 			familyId: 'standalone-pool-mcq-3',
-	// 			type: 'NG::Soomo::MC::Question',
-	// 			body: "What is one way in which the constitutional amendment process's requirement for near-unanimous agreement could be considered a disadvantage?",
-	// 			choices: [
-	// 				{
-	// 					familyId: 'standalone-pool-mcq-3-choice-1',
-	// 					body: "It can hinder the national government's ability to respond quickly to policy concerns.",
-	// 					correct: true,
-	// 					rejoinder:
-	// 						"The constitutional amendment process's requirement for near-unanimous agreement can slow the national government's response to policy concerns."
-	// 				},
-	// 				{
-	// 					familyId: 'standalone-pool-mcq-3-choice-2',
-	// 					body: 'It provides a necessary mechanism for resolving political conflict in our democracy.',
-	// 					rejoinder:
-	// 						'While the constitutional amendment process is a mechanism for resolving political conflict, the requirement for near-unanimous agreement is not always necessary for this resolution.'
-	// 				},
-	// 				{
-	// 					familyId: 'standalone-pool-mcq-3-choice-3',
-	// 					body: 'It provides a framework of fundamental principles that unifies national and state government.',
-	// 					rejoinder:
-	// 						'While the Constitution does provide a framework of fundamental principles, the requirement for near-unanimous agreement is not always necessary for maintaining this unification.'
-	// 				},
-	// 				{
-	// 					familyId: 'standalone-pool-mcq-3-choice-4',
-	// 					body: 'It preserves the integrity and brevity of the document.',
-	// 					rejoinder:
-	// 						"While the Constitution's amendment process does help preserve the document's integrity and brevity, the requirement for near-unanimous agreement is not necessarily related to this preservation."
-	// 				}
-	// 			]
-	// 		}
-	// 	]
-	// },
+	{
+		familyId: 'standalone-pool',
+		type: 'NG::Soomo::MC::QuestionPool',
+		questions: [
+			{
+				familyId: 'standalone-pool-mcq-1',
+				type: 'NG::Soomo::MC::Question',
+				body: 'The constitutional amendment process requires near-unanimous agreement. Why might this be considered a disadvantage?',
+				choices: [
+					{
+						familyId: 'standalone-pool-mcq-1-choice-1',
+						body: 'Because it makes national government slow to respond to problems concerning political process and public policy.',
+						correct: true,
+						rejoinder:
+							'The constitutional amendment process’s requirement for near-unanimous agreement can make national government slow to respond to policy concerns.'
+					},
+					{
+						familyId: 'standalone-pool-mcq-1-choice-2',
+						body: 'Because it provides an ultimate relief valve for resolving political conflict in our democratic society.',
+						rejoinder:
+							'This would be considered an advantage—not a disadvantage—of the constitutional amendment process.'
+					},
+					{
+						familyId: 'standalone-pool-mcq-1-choice-3',
+						body: 'Because it provides fundamental principles that inform and unify national and state government.',
+						rejoinder:
+							'This would be considered an advantage—not a disadvantage—of the constitutional amendment process.'
+					},
+					{
+						familyId: 'standalone-pool-mcq-1-choice-4',
+						body: 'Because it preserves the integrity and brevity of the document.',
+						rejoinder:
+							'This would be considered an advantage—not a disadvantage—of the constitutional amendment process.'
+					}
+				]
+			},
+			{
+				familyId: 'standalone-pool-mcq-2',
+				type: 'NG::Soomo::MC::Question',
+				body: "What is one disadvantage of the constitutional amendment process's requirement for near-unanimous agreement?",
+				choices: [
+					{
+						familyId: 'standalone-pool-mcq-2-choice-1',
+						body: 'It can make national government slow to respond to policy concerns.',
+						correct: true,
+						rejoinder:
+							"The constitutional amendment process's requirement for near-unanimous agreement can make the national government slow to respond to policy concerns."
+					},
+					{
+						familyId: 'standalone-pool-mcq-2-choice-2',
+						body: 'It provides an ultimate relief valve for resolving political conflict in our democratic society.',
+						rejoinder:
+							'This would be considered an advantage—not a disadvantage—of the constitutional amendment process.'
+					},
+					{
+						familyId: 'standalone-pool-mcq-2-choice-3',
+						body: 'It provides a framework of fundamental principles that unifies national and state government.',
+						rejoinder:
+							'This would be considered an advantage—not a disadvantage—of the constitutional amendment process.'
+					},
+					{
+						familyId: 'standalone-pool-mcq-2-choice-4',
+						body: 'It preserves the integrity and brevity of the document.',
+						rejoinder:
+							'This would be considered an advantage—not a disadvantage—of the constitutional amendment process.'
+					}
+				]
+			},
+			{
+				familyId: 'standalone-pool-mcq-3',
+				type: 'NG::Soomo::MC::Question',
+				body: "What is one way in which the constitutional amendment process's requirement for near-unanimous agreement could be considered a disadvantage?",
+				choices: [
+					{
+						familyId: 'standalone-pool-mcq-3-choice-1',
+						body: "It can hinder the national government's ability to respond quickly to policy concerns.",
+						correct: true,
+						rejoinder:
+							"The constitutional amendment process's requirement for near-unanimous agreement can slow the national government's response to policy concerns."
+					},
+					{
+						familyId: 'standalone-pool-mcq-3-choice-2',
+						body: 'It provides a necessary mechanism for resolving political conflict in our democracy.',
+						rejoinder:
+							'While the constitutional amendment process is a mechanism for resolving political conflict, the requirement for near-unanimous agreement is not always necessary for this resolution.'
+					},
+					{
+						familyId: 'standalone-pool-mcq-3-choice-3',
+						body: 'It provides a framework of fundamental principles that unifies national and state government.',
+						rejoinder:
+							'While the Constitution does provide a framework of fundamental principles, the requirement for near-unanimous agreement is not always necessary for maintaining this unification.'
+					},
+					{
+						familyId: 'standalone-pool-mcq-3-choice-4',
+						body: 'It preserves the integrity and brevity of the document.',
+						rejoinder:
+							"While the Constitution's amendment process does help preserve the document's integrity and brevity, the requirement for near-unanimous agreement is not necessarily related to this preservation."
+					}
+				]
+			}
+		]
+	},
 	{
 		familyId: 'text-2',
 		type: 'NG::Soomo::Text',

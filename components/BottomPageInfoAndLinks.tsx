@@ -12,11 +12,17 @@ const BottomPageInfoAndLinks: React.VFC<Props> = ({
 	numCorrect,
 	total,
 	onBackLinkClick,
-	onNextLinkClick
+	onNextLinkClick,
+	isInstructorView
 }) => {
 	return (
 		<div css={styles}>
-			<PageProgress numAttempted={numAttempted} numCorrect={numCorrect} total={total} />
+			<PageProgress
+				numAttempted={numAttempted}
+				numCorrect={numCorrect}
+				total={total}
+				isInstructorView={isInstructorView}
+			/>
 
 			{onBackLinkClick && (
 				<a href="#" onClick={onBackLinkClick} className="page-back-link">

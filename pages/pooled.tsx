@@ -53,6 +53,7 @@ const Pooled: NextPage = () => {
 					numAttempted={numAttempted}
 					numCorrect={numCorrect}
 					total={questionCount}
+					isInstructorView={isInstructorView}
 				/>
 				<PageElements elements={pooledPage.elements} isInstructorView={isInstructorView} />
 				<BottomPageInfoAndLinks
@@ -63,6 +64,7 @@ const Pooled: NextPage = () => {
 					onNextLinkClick={() => {
 						router.push('/unpooled');
 					}}
+					isInstructorView={isInstructorView}
 				/>
 			</main>
 			<AriaLiveAnnouncer />

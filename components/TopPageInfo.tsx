@@ -6,7 +6,13 @@ interface Props extends PageProgressProps {
 	pageTitle: string;
 }
 
-const TopPageInfo: React.VFC<Props> = ({ pageTitle, numAttempted, numCorrect, total }) => {
+const TopPageInfo: React.VFC<Props> = ({
+	pageTitle,
+	numAttempted,
+	numCorrect,
+	total,
+	isInstructorView
+}) => {
 	return (
 		<div css={styles}>
 			<span>
@@ -20,6 +26,7 @@ const TopPageInfo: React.VFC<Props> = ({ pageTitle, numAttempted, numCorrect, to
 					color: #757575;
 					font-size: 14px;
 				`}
+				isInstructorView={isInstructorView}
 			/>
 			<hr />
 		</div>

@@ -77,6 +77,7 @@ export interface SQRSavePayload {
 }
 
 export interface SQRSaveResponse {
+	pool_family_id: FamilyId;
 	question_family_id: FamilyId;
 	choice_family_id: FamilyId;
 	rejoinder: string;
@@ -95,6 +96,7 @@ export interface SQRResetPayload {
 }
 
 export interface SQRResetResponse {
+	pool_family_id: FamilyId;
 	question_family_id: FamilyId;
 	was_reset: boolean; // or maybe just return a different status code besides 200 if reset failed?
 	reset_count: number;

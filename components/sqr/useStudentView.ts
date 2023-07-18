@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import { useAriaLiveAnnouncer } from '@soomo/lib/components/AriaLiveAnnouncer';
+import { emitCustomEvent } from '@soomo/lib/utils/emitCustomEvent';
 
 import type {
 	FamilyId,
@@ -37,6 +38,7 @@ export const useStudentView = (args: {
 				} as SQRResetPayload)
 			});
 			json = (await req.json()) as SQRResetResponse;
+			emitCustomEvent('question-reset', json);
 		} finally {
 			setRequestInProgress(false);
 		}
@@ -59,6 +61,7 @@ export const useStudentView = (args: {
 				} as SQRSavePayload)
 			});
 			json = (await req.json()) as SQRSaveResponse;
+			emitCustomEvent('question-saved', json);
 			makeAssertiveAnnouncement(
 				`Answer saved. ${json.is_correct ? 'Correct.' : 'Incorrect.'} ${json.rejoinder}`
 			);

@@ -35,6 +35,7 @@ const handler: NextApiHandler<SQRSaveResponse> = (req, res) => {
 		const isCorrect = correctChoice.familyId === choiceFamilyId;
 
 		res.status(200).json({
+			pool_family_id: respondableFamilyId,
 			attempts_remaining: -1, // unlimited
 			choice_family_id: choiceFamilyId,
 			is_correct: isCorrect,

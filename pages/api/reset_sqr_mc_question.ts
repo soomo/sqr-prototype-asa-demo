@@ -36,6 +36,7 @@ const handler: NextApiHandler<SQRResetResponse> = (req, res) => {
 			const newQuestion = { ...shuffledQuestions[qr.reset_count % shuffledQuestions.length] };
 			newQuestion.choices = shuffle({ list: newQuestion.choices, key: '', seed: qr.seed });
 			res.status(200).json({
+				pool_family_id: respondableFamilyId,
 				reset_count: qr.reset_count,
 				question_family_id: questionFamilyId,
 				new_question: newQuestion,
@@ -47,6 +48,7 @@ const handler: NextApiHandler<SQRResetResponse> = (req, res) => {
 			const newQuestion = { ...parentQuestionPool.questions[0] };
 			newQuestion.choices = shuffle({ list: newQuestion.choices, key: '', seed: qr.seed });
 			res.status(200).json({
+				pool_family_id: respondableFamilyId,
 				reset_count: qr.reset_count,
 				question_family_id: questionFamilyId,
 				new_question: newQuestion,

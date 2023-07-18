@@ -5,10 +5,11 @@ import dynamic from 'next/dynamic';
 import shuffle from '@soomo/lib/utils/shuffle';
 
 import { FAKE_USER_ID, getOrCreateQuizResponse } from '../fixtures/database';
-
-import type { PageElement, RedactedMCChoice } from '../types';
 import StudentViewQuestionPool from './sqr/StudentViewQuestionPool';
 import InstructorViewQuestionPool from './sqr/InstructorViewQuestionPool';
+import QuestionDeck from './sqr/QuestionDeck';
+
+import type { PageElement, RedactedMCChoice } from '../types';
 
 const Text = dynamic(() => import('@soomo/lib/components/pageElements').then((m) => m.Text), {
 	ssr: false
@@ -78,18 +79,21 @@ const PageElements: React.VFC<Props> = ({ elements, isInstructorView }) => {
 						);
 						break;
 					case 'NG::Soomo::QuestionDeck': {
-						// if (el.direction === 'in') {
-						// 	inQuestionDeck = true;
-						// } else {
-						// 	inQuestionDeck = false;
-						// 	component = (
-						// 		<SQRQuestionDeck
-						// 			key={el.familyId}
-						// 			questions={qdQuestions}
-						// 			isInstructorView={isInstructorView}
-						// 		/>
-						// 	);
-						// }
+						if (el.direction === 'in') {
+							inQuestionDeck = true;
+						} else {
+							inQuestionDeck = false;
+							const poolElements = []; // TODO
+							const initialQuestions = []; // TODO
+							component = (
+								<QuestionDeck
+									key={el.familyId}
+									isInstructorView={isInstructorView}
+									poolElements={poolElements}
+									initialQuestions={initialQuestions}
+								/>
+							);
+						}
 						break;
 					}
 				}

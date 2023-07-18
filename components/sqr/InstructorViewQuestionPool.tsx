@@ -35,7 +35,7 @@ const InstructorViewQuestionPool: React.VFC<Props> = ({ poolElement }) => {
 	)!;
 	const [headingRef, setFocusToHeading] = useAccessibilityFocus();
 
-	const handleBack = useCallback(() => {
+	const handlePrevious = useCallback(() => {
 		setActivePoolIndex((old) => old - 1);
 		setFocusToHeading();
 	}, [setFocusToHeading]);
@@ -66,7 +66,7 @@ const InstructorViewQuestionPool: React.VFC<Props> = ({ poolElement }) => {
 						css={rejoinderStyles}
 					/>
 					<InstructorViewPoolNavigation
-						onPrevious={handleBack}
+						onPrevious={handlePrevious}
 						onNext={handleNext}
 						activeIndex={activePoolIndex}
 						numQuestions={poolElement.questions.length}

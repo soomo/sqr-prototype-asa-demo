@@ -113,219 +113,219 @@ const elements: PageElement[] = [
 		type: 'NG::Soomo::Text',
 		body: '<p>Pellentesque elementum tincidunt dolor. Nunc lacinia in libero non efficitur. In vitae arcu eros. Donec tincidunt purus in est porttitor ornare. Sed commodo lacus a dolor molestie, a tincidunt tellus molestie. Cras tempor lacus in libero luctus, nec consequat dui pharetra. Nulla at nunc mauris. Cras nisi dui, dictum et maximus non, ultricies nec nisl. Fusce vel imperdiet lectus. Aliquam vel dolor sem. In non sodales ex. Fusce lacus ligula, mollis sit amet vestibulum et, sodales ac ante.</p>'
 	},
-	{
-		familyId: 'question-deck-in',
-		type: 'NG::Soomo::QuestionDeck',
-		direction: 'in'
-	},
-	{
-		familyId: 'qd-pool-1',
-		type: 'NG::Soomo::MC::QuestionPool',
-		questions: [
-			{
-				familyId: 'qd-pool-1-mcq-1',
-				type: 'NG::Soomo::MC::Question',
-				body: 'Which of the following statements about the amendment process is accurate?',
-				choices: [
-					{
-						familyId: 'qd-pool-1-mcq-1-choice-1',
-						body: 'The failure of the Equal Rights Amendment shows the difficulty of modifying the Constitution.',
-						correct: true,
-						rejoinder:
-							'The failure of the Equal Rights Amendment provides a contemporary example of how difficult it is to amend the Constitution.'
-					},
-					{
-						familyId: 'qd-pool-1-mcq-1-choice-2',
-						body: 'It is much easier for an amendment to move past the proposal stage than it is for it to move past the ratification stage.',
-						rejoinder:
-							'It is difficult for an amendment to move past the proposal stage; only 33 out of 11,000 amendments have proceeded past this stage. Of these, 27 have been ratified.'
-					},
-					{
-						familyId: 'qd-pool-1-mcq-1-choice-3',
-						body: 'The amendment process is especially responsive to minority groups.',
-						rejoinder:
-							'It is difficult for an amendment to move past the proposal stage; only 33 out of 11,000 amendments have proceeded past this stage. Of these, 27 have been ratified.'
-					},
-					{
-						familyId: 'qd-pool-1-mcq-1-choice-4',
-						body: 'Amendment language is designed to be concise and unambiguous.',
-						rejoinder: 'Amendment language is designed to be vague and open to interpretation.'
-					}
-				]
-			},
-			{
-				familyId: 'qd-pool-1-mcq-2',
-				type: 'NG::Soomo::MC::Question',
-				body: 'Here is a multiple-choice question about the amendment process. Which of the following statements below is correct?',
-				choices: [
-					{
-						familyId: 'qd-pool-1-mcq-2-choice-1',
-						body: 'The difficulty of amending the Constitution is exemplified by the failure of the Equal Rights Amendment.',
-						correct: true,
-						rejoinder:
-							'The failure of the Equal Rights Amendment shows how challenging it can be to amend the Constitution.'
-					},
-					{
-						familyId: 'qd-pool-1-mcq-2-choice-2',
-						body: 'It is easier for amendments to advance past the ratification stage than the proposal stage.',
-						rejoinder:
-							'It is actually quite difficult for an amendment to move past the proposal stage; out of 11,000 amendments proposed, only 33 have proceeded past this stage, and of these, 27 have been ratified.'
-					},
-					{
-						familyId: 'qd-pool-1-mcq-2-choice-3',
-						body: 'The amendment process is particularly sensitive to minority groups.',
-						rejoinder:
-							'There is no evidence to suggest that the amendment process is any more or less responsive to minority groups than to any other group.'
-					},
-					{
-						familyId: 'qd-pool-1-mcq-2-choice-4',
-						body: 'The language of amendments is meant to be short and clear.',
-						rejoinder:
-							'Amendment language is often intentionally ambiguous and open to interpretation.'
-					}
-				]
-			},
-			{
-				familyId: 'qd-pool-1-mcq-3',
-				type: 'NG::Soomo::MC::Question',
-				body: 'Which of the following statements about the amendment process is accurate?',
-				choices: [
-					{
-						familyId: 'qd-pool-1-mcq-3-choice-1',
-						body: 'The failure of the Equal Rights Amendment shows the difficulty of modifying the Constitution.',
-						correct: true,
-						rejoinder:
-							'The failure of the Equal Rights Amendment provides a contemporary example of how challenging it is to amend the Constitution.'
-					},
-					{
-						familyId: 'qd-pool-1-mcq-3-choice-2',
-						body: 'It is much easier for an amendment to move past the proposal stage than it is for it to move past the ratification stage.',
-						rejoinder:
-							'In reality, amendments face significant challenges even at the proposal stage. Out of 11,000 amendments proposed, only 33 have proceeded past this stage, and of these, 27 have been ratified.'
-					},
-					{
-						familyId: 'qd-pool-1-mcq-3-choice-3',
-						body: 'The amendment process is especially responsive to minority groups.',
-						rejoinder:
-							'There is no evidence to suggest that minority groups have a greater or lesser influence on the amendment process than any other group.'
-					},
-					{
-						familyId: 'qd-pool-1-mcq-3-choice-4',
-						body: 'Amendment language is designed to be concise and unambiguous.',
-						rejoinder:
-							'Amendment language is often intentionally ambiguous and open to interpretation.'
-					}
-				]
-			}
-		]
-	},
-	{
-		familyId: 'qd-pool-2',
-		type: 'NG::Soomo::MC::QuestionPool',
-		questions: [
-			{
-				familyId: 'qd-pool-2-mcq-1',
-				type: 'NG::Soomo::MC::Question',
-				body: 'The Constitution includes intentionally vague language. Why might this be considered an advantage during the amendment process?',
-				choices: [
-					{
-						familyId: 'qd-pool-2-mcq-1-choice-1',
-						body: 'Because it provides flexibility, endurance, and diversity in interpretation and application.',
-						correct: true,
-						rejoinder:
-							'The Constitution’s vague language can be considered an advantage because it provides flexibility, endurance, and diversity in interpretation and application.'
-					},
-					{
-						familyId: 'qd-pool-2-mcq-1-choice-2',
-						body: 'Because it provides an ultimate relief valve for resolving political conflict in our democratic society.',
-						rejoinder:
-							'While this is certainly an advantage of the constitutional amendment process, the Constitution’s vague language does not provide an ultimate relief valve for resolving political conflict.'
-					},
-					{
-						familyId: 'qd-pool-2-mcq-1-choice-3',
-						body: 'Because it provides fundamental principles that inform and unify national and state government.',
-						rejoinder:
-							'While this is certainly an advantage of the constitutional amendment process, the Constitution’s vague language does not provide an overarching framework of fundamental principles.'
-					},
-					{
-						familyId: 'qd-pool-2-mcq-1-choice-4',
-						body: 'Because it preserves the integrity and brevity of the document.',
-						rejoinder:
-							'While this is certainly an advantage of the constitutional amendment process, the Constitution’s vague language does not necessarily preserve the integrity or brevity of the document.'
-					}
-				]
-			},
-			{
-				familyId: 'qd-pool-2-mcq-2',
-				type: 'NG::Soomo::MC::Question',
-				body: "Which of the following statements accurately explains why the Constitution's intentionally vague language might be considered an advantage during the amendment process?",
-				choices: [
-					{
-						familyId: 'qd-pool-2-mcq-2-choice-1',
-						body: 'Because it allows for flexibility, endurance, and diversity in interpretation and application.',
-						correct: true,
-						rejoinder:
-							"The Constitution's intentionally vague language can be considered an advantage because it allows for flexibility, endurance, and diversity in interpretation and application."
-					},
-					{
-						familyId: 'qd-pool-2-mcq-2-choice-2',
-						body: 'Because it provides a means for resolving political conflict in our democratic society.',
-						rejoinder:
-							"While the constitutional amendment process does provide a means for resolving political conflict, the Constitution's intentionally vague language does not necessarily provide a mechanism for this resolution."
-					},
-					{
-						familyId: 'qd-pool-2-mcq-2-choice-3',
-						body: 'Because it provides a framework of fundamental principles that unifies national and state government.',
-						rejoinder:
-							"While the Constitution does provide a framework of fundamental principles, the document's intentionally vague language does not necessarily serve this unifying function."
-					},
-					{
-						familyId: 'qd-pool-2-mcq-2-choice-4',
-						body: 'Because it preserves the integrity and brevity of the document.',
-						rejoinder:
-							"While the Constitution's intentionally vague language does contribute to the document's integrity and brevity, this is not the primary reason for its inclusion."
-					}
-				]
-			},
-			{
-				familyId: 'qd-pool-2-mcq-3',
-				type: 'NG::Soomo::MC::Question',
-				body: "Which of the following accurately describes why the Constitution's intentionally vague language is considered an advantage during the amendment process?",
-				choices: [
-					{
-						familyId: 'qd-pool-2-mcq-3-choice-1',
-						body: 'Because it allows for diverse interpretations and flexible application.',
-						correct: true,
-						rejoinder:
-							"The Constitution's intentionally vague language is an advantage during the amendment process because it allows for diverse interpretations and flexible application."
-					},
-					{
-						familyId: 'qd-pool-2-mcq-3-choice-2',
-						body: 'Because it provides a necessary mechanism for resolving political conflict in our democracy.',
-						rejoinder:
-							"While the constitutional amendment process is a mechanism for resolving political conflict, the Constitution's intentionally vague language does not necessarily provide a solution to this conflict."
-					},
-					{
-						familyId: 'qd-pool-2-mcq-3-choice-3',
-						body: 'Because it provides a framework of fundamental principles that unifies national and state government.',
-						rejoinder:
-							"While the Constitution does provide a framework of fundamental principles, the document's intentionally vague language does not necessarily serve this unifying function."
-					},
-					{
-						familyId: 'qd-pool-2-mcq-3-choice-4',
-						body: 'Because it preserves the integrity and brevity of the document.',
-						rejoinder:
-							"While the Constitution's intentionally vague language does contribute to the document's integrity and brevity, this is not the primary reason for its inclusion."
-					}
-				]
-			}
-		]
-	},
-	{
-		familyId: 'question-deck-out',
-		type: 'NG::Soomo::QuestionDeck',
-		direction: 'out'
-	},
+	// {
+	// 	familyId: 'question-deck-in',
+	// 	type: 'NG::Soomo::QuestionDeck',
+	// 	direction: 'in'
+	// },
+	// {
+	// 	familyId: 'qd-pool-1',
+	// 	type: 'NG::Soomo::MC::QuestionPool',
+	// 	questions: [
+	// 		{
+	// 			familyId: 'qd-pool-1-mcq-1',
+	// 			type: 'NG::Soomo::MC::Question',
+	// 			body: 'Which of the following statements about the amendment process is accurate?',
+	// 			choices: [
+	// 				{
+	// 					familyId: 'qd-pool-1-mcq-1-choice-1',
+	// 					body: 'The failure of the Equal Rights Amendment shows the difficulty of modifying the Constitution.',
+	// 					correct: true,
+	// 					rejoinder:
+	// 						'The failure of the Equal Rights Amendment provides a contemporary example of how difficult it is to amend the Constitution.'
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-1-mcq-1-choice-2',
+	// 					body: 'It is much easier for an amendment to move past the proposal stage than it is for it to move past the ratification stage.',
+	// 					rejoinder:
+	// 						'It is difficult for an amendment to move past the proposal stage; only 33 out of 11,000 amendments have proceeded past this stage. Of these, 27 have been ratified.'
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-1-mcq-1-choice-3',
+	// 					body: 'The amendment process is especially responsive to minority groups.',
+	// 					rejoinder:
+	// 						'It is difficult for an amendment to move past the proposal stage; only 33 out of 11,000 amendments have proceeded past this stage. Of these, 27 have been ratified.'
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-1-mcq-1-choice-4',
+	// 					body: 'Amendment language is designed to be concise and unambiguous.',
+	// 					rejoinder: 'Amendment language is designed to be vague and open to interpretation.'
+	// 				}
+	// 			]
+	// 		},
+	// 		{
+	// 			familyId: 'qd-pool-1-mcq-2',
+	// 			type: 'NG::Soomo::MC::Question',
+	// 			body: 'Here is a multiple-choice question about the amendment process. Which of the following statements below is correct?',
+	// 			choices: [
+	// 				{
+	// 					familyId: 'qd-pool-1-mcq-2-choice-1',
+	// 					body: 'The difficulty of amending the Constitution is exemplified by the failure of the Equal Rights Amendment.',
+	// 					correct: true,
+	// 					rejoinder:
+	// 						'The failure of the Equal Rights Amendment shows how challenging it can be to amend the Constitution.'
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-1-mcq-2-choice-2',
+	// 					body: 'It is easier for amendments to advance past the ratification stage than the proposal stage.',
+	// 					rejoinder:
+	// 						'It is actually quite difficult for an amendment to move past the proposal stage; out of 11,000 amendments proposed, only 33 have proceeded past this stage, and of these, 27 have been ratified.'
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-1-mcq-2-choice-3',
+	// 					body: 'The amendment process is particularly sensitive to minority groups.',
+	// 					rejoinder:
+	// 						'There is no evidence to suggest that the amendment process is any more or less responsive to minority groups than to any other group.'
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-1-mcq-2-choice-4',
+	// 					body: 'The language of amendments is meant to be short and clear.',
+	// 					rejoinder:
+	// 						'Amendment language is often intentionally ambiguous and open to interpretation.'
+	// 				}
+	// 			]
+	// 		},
+	// 		{
+	// 			familyId: 'qd-pool-1-mcq-3',
+	// 			type: 'NG::Soomo::MC::Question',
+	// 			body: 'Which of the following statements about the amendment process is accurate?',
+	// 			choices: [
+	// 				{
+	// 					familyId: 'qd-pool-1-mcq-3-choice-1',
+	// 					body: 'The failure of the Equal Rights Amendment shows the difficulty of modifying the Constitution.',
+	// 					correct: true,
+	// 					rejoinder:
+	// 						'The failure of the Equal Rights Amendment provides a contemporary example of how challenging it is to amend the Constitution.'
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-1-mcq-3-choice-2',
+	// 					body: 'It is much easier for an amendment to move past the proposal stage than it is for it to move past the ratification stage.',
+	// 					rejoinder:
+	// 						'In reality, amendments face significant challenges even at the proposal stage. Out of 11,000 amendments proposed, only 33 have proceeded past this stage, and of these, 27 have been ratified.'
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-1-mcq-3-choice-3',
+	// 					body: 'The amendment process is especially responsive to minority groups.',
+	// 					rejoinder:
+	// 						'There is no evidence to suggest that minority groups have a greater or lesser influence on the amendment process than any other group.'
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-1-mcq-3-choice-4',
+	// 					body: 'Amendment language is designed to be concise and unambiguous.',
+	// 					rejoinder:
+	// 						'Amendment language is often intentionally ambiguous and open to interpretation.'
+	// 				}
+	// 			]
+	// 		}
+	// 	]
+	// },
+	// {
+	// 	familyId: 'qd-pool-2',
+	// 	type: 'NG::Soomo::MC::QuestionPool',
+	// 	questions: [
+	// 		{
+	// 			familyId: 'qd-pool-2-mcq-1',
+	// 			type: 'NG::Soomo::MC::Question',
+	// 			body: 'The Constitution includes intentionally vague language. Why might this be considered an advantage during the amendment process?',
+	// 			choices: [
+	// 				{
+	// 					familyId: 'qd-pool-2-mcq-1-choice-1',
+	// 					body: 'Because it provides flexibility, endurance, and diversity in interpretation and application.',
+	// 					correct: true,
+	// 					rejoinder:
+	// 						'The Constitution’s vague language can be considered an advantage because it provides flexibility, endurance, and diversity in interpretation and application.'
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-2-mcq-1-choice-2',
+	// 					body: 'Because it provides an ultimate relief valve for resolving political conflict in our democratic society.',
+	// 					rejoinder:
+	// 						'While this is certainly an advantage of the constitutional amendment process, the Constitution’s vague language does not provide an ultimate relief valve for resolving political conflict.'
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-2-mcq-1-choice-3',
+	// 					body: 'Because it provides fundamental principles that inform and unify national and state government.',
+	// 					rejoinder:
+	// 						'While this is certainly an advantage of the constitutional amendment process, the Constitution’s vague language does not provide an overarching framework of fundamental principles.'
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-2-mcq-1-choice-4',
+	// 					body: 'Because it preserves the integrity and brevity of the document.',
+	// 					rejoinder:
+	// 						'While this is certainly an advantage of the constitutional amendment process, the Constitution’s vague language does not necessarily preserve the integrity or brevity of the document.'
+	// 				}
+	// 			]
+	// 		},
+	// 		{
+	// 			familyId: 'qd-pool-2-mcq-2',
+	// 			type: 'NG::Soomo::MC::Question',
+	// 			body: "Which of the following statements accurately explains why the Constitution's intentionally vague language might be considered an advantage during the amendment process?",
+	// 			choices: [
+	// 				{
+	// 					familyId: 'qd-pool-2-mcq-2-choice-1',
+	// 					body: 'Because it allows for flexibility, endurance, and diversity in interpretation and application.',
+	// 					correct: true,
+	// 					rejoinder:
+	// 						"The Constitution's intentionally vague language can be considered an advantage because it allows for flexibility, endurance, and diversity in interpretation and application."
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-2-mcq-2-choice-2',
+	// 					body: 'Because it provides a means for resolving political conflict in our democratic society.',
+	// 					rejoinder:
+	// 						"While the constitutional amendment process does provide a means for resolving political conflict, the Constitution's intentionally vague language does not necessarily provide a mechanism for this resolution."
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-2-mcq-2-choice-3',
+	// 					body: 'Because it provides a framework of fundamental principles that unifies national and state government.',
+	// 					rejoinder:
+	// 						"While the Constitution does provide a framework of fundamental principles, the document's intentionally vague language does not necessarily serve this unifying function."
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-2-mcq-2-choice-4',
+	// 					body: 'Because it preserves the integrity and brevity of the document.',
+	// 					rejoinder:
+	// 						"While the Constitution's intentionally vague language does contribute to the document's integrity and brevity, this is not the primary reason for its inclusion."
+	// 				}
+	// 			]
+	// 		},
+	// 		{
+	// 			familyId: 'qd-pool-2-mcq-3',
+	// 			type: 'NG::Soomo::MC::Question',
+	// 			body: "Which of the following accurately describes why the Constitution's intentionally vague language is considered an advantage during the amendment process?",
+	// 			choices: [
+	// 				{
+	// 					familyId: 'qd-pool-2-mcq-3-choice-1',
+	// 					body: 'Because it allows for diverse interpretations and flexible application.',
+	// 					correct: true,
+	// 					rejoinder:
+	// 						"The Constitution's intentionally vague language is an advantage during the amendment process because it allows for diverse interpretations and flexible application."
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-2-mcq-3-choice-2',
+	// 					body: 'Because it provides a necessary mechanism for resolving political conflict in our democracy.',
+	// 					rejoinder:
+	// 						"While the constitutional amendment process is a mechanism for resolving political conflict, the Constitution's intentionally vague language does not necessarily provide a solution to this conflict."
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-2-mcq-3-choice-3',
+	// 					body: 'Because it provides a framework of fundamental principles that unifies national and state government.',
+	// 					rejoinder:
+	// 						"While the Constitution does provide a framework of fundamental principles, the document's intentionally vague language does not necessarily serve this unifying function."
+	// 				},
+	// 				{
+	// 					familyId: 'qd-pool-2-mcq-3-choice-4',
+	// 					body: 'Because it preserves the integrity and brevity of the document.',
+	// 					rejoinder:
+	// 						"While the Constitution's intentionally vague language does contribute to the document's integrity and brevity, this is not the primary reason for its inclusion."
+	// 				}
+	// 			]
+	// 		}
+	// 	]
+	// },
+	// {
+	// 	familyId: 'question-deck-out',
+	// 	type: 'NG::Soomo::QuestionDeck',
+	// 	direction: 'out'
+	// },
 	{
 		familyId: 'text-3',
 		type: 'NG::Soomo::Text',

@@ -1,12 +1,25 @@
 import { css } from '@emotion/core';
 import { QuestionChoices } from '@soomo/lib/components/shared/Question';
 
-type Props = Parameters<typeof QuestionChoices>[0];
+import type { FullMCChoice, RedactedMCChoice } from '../../types';
+import type { QuestionChoice } from '@soomo/lib/types/WebtextManifest';
 
-const Choices: React.VFC<Props> = (props) => {
+type Props = Omit<Parameters<typeof QuestionChoices>[0], 'choices'> & {
+	choices: (RedactedMCChoice | FullMCChoice)[];
+};
+
+const Choices: React.VFC<Props> = ({ choices: rawChoices, ...rest }) => {
+	const choices = rawChoices.map(
+		(ch, i) =>
+			({
+				body: ch.body,
+				id: i,
+				family_id: ch.familyId
+			} as QuestionChoice)
+	);
 	return (
 		<div css={styles}>
-			<QuestionChoices {...props} />
+			<QuestionChoices choices={choices} {...rest} />
 		</div>
 	);
 };

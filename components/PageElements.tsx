@@ -4,11 +4,11 @@ import dynamic from 'next/dynamic';
 
 import shuffle from '@soomo/lib/utils/shuffle';
 
-import QuestionPool from './sqr/StandaloneQuestionPool';
-
 import { FAKE_USER_ID, getOrCreateQuizResponse } from '../fixtures/database';
 
-import type { PageElement } from '../types';
+import type { PageElement, RedactedMCChoice } from '../types';
+import StudentViewQuestionPool from './sqr/StudentViewQuestionPool';
+import InstructorViewQuestionPool from './sqr/InstructorViewQuestionPool';
 
 const Text = dynamic(() => import('@soomo/lib/components/pageElements').then((m) => m.Text), {
 	ssr: false
@@ -35,38 +35,38 @@ const PageElements: React.VFC<Props> = ({ elements, isInstructorView }) => {
 				let component = <Fragment key={el.familyId} />;
 				switch (el.type) {
 					case 'NG::Soomo::MC::QuestionPool': {
-						// if (inQuestionDeck) {
-						// 	qdQuestions.push(el);
-						// } else {
-						// 	const qr = getOrCreateQuizResponse(el.familyId);
-						// 	const poolIndex = qr != null ? qr.reset_count % el.questions.length : 0;
-						// 	const shuffledQuestions = shuffle({
-						// 		list: el.questions,
-						// 		key: el.familyId,
-						// 		seed: FAKE_USER_ID
-						// 	});
-						// 	const currentQuestion = shuffledQuestions[poolIndex];
-						// 	const redactedChoices = currentQuestion.choices.map((ch) => ({
-						// 		body: ch.body,
-						// 		familyId: ch.familyId
-						// 	}));
-						// 	const shuffledChoices = isInstructorView
-						// 		? redactedChoices
-						// 		: shuffle({
-						// 				list: redactedChoices,
-						// 				key: '',
-						// 				seed: FAKE_USER_ID
-						// 		  });
-						// 	const question = { ...currentQuestion, choices: shuffledChoices };
-						// 	component = (
-						// 		<QuestionPool
-						// 			key={el.familyId}
-						// 			poolFamilyId={el.familyId}
-						// 			question={question}
-						// 			isInstructorView={isInstructorView}
-						// 		/>
-						// 	);
-						// }
+						if (inQuestionDeck) {
+							qdQuestions.push(el);
+						} else {
+							if (isInstructorView) {
+								component = <InstructorViewQuestionPool key={el.familyId} poolElement={el} />;
+							} else {
+								const qr = getOrCreateQuizResponse(el.familyId);
+								const poolIndex = qr != null ? qr.reset_count % el.questions.length : 0;
+								const shuffledQuestions = shuffle({
+									list: el.questions,
+									key: el.familyId,
+									seed: FAKE_USER_ID
+								});
+								const currentQuestion = shuffledQuestions[poolIndex];
+								const redactedChoices = currentQuestion.choices.map((ch) => ({
+									body: ch.body,
+									familyId: ch.familyId
+									// excluding `correct` and `rejoinder`
+								})) as RedactedMCChoice[];
+								const shuffledChoices = isInstructorView
+									? redactedChoices
+									: shuffle({
+											list: redactedChoices,
+											key: '',
+											seed: FAKE_USER_ID
+									  });
+								const initialQuestion = { ...currentQuestion, choices: shuffledChoices };
+								component = (
+									<StudentViewQuestionPool key={el.familyId} initialQuestion={initialQuestion} />
+								);
+							}
+						}
 						break;
 					}
 					case 'NG::Soomo::Text':

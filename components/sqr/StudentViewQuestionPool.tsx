@@ -11,7 +11,7 @@ import Prompt from './Prompt';
 import Choices from './Choices';
 import Rejoinder from './Rejoinder';
 import Heading from './Heading';
-import { choicesStyles, rejoinderStyles } from './standaloneStyles';
+import { choicesStyles, rejoinderStyles } from './standaloneStyleOverrides';
 
 import type {
 	FamilyId,

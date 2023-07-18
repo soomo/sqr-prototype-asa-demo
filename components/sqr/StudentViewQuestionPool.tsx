@@ -122,7 +122,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 	]);
 
 	return (
-		<div css={styles} {...rest}>
+		<div {...rest}>
 			<WebtextQuestion>
 				<UniversalVelvetLeftBorder>
 					<Heading ref={headingRef} />
@@ -143,14 +143,22 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 								correct={answer.correct}
 								css={rejoinderStyles}
 							/>
-							<button onClick={handleReset}>
-								{isRequestInProgress ? 'Resetting...' : 'Try Again'}
-							</button>
+							<div css={tryAgainContainerStyles}>
+								<span>
+									The Try Again button will test your knowledge with a similar multiple-choice
+									question.
+								</span>
+								<button onClick={handleReset} css={buttonStyles}>
+									{isRequestInProgress ? 'Resetting...' : 'Try Again'}
+								</button>
+							</div>
 						</>
 					) : (
 						<>
-							<hr />
-							<button onClick={handleSubmit}>{isRequestInProgress ? 'Saving...' : 'Save'}</button>
+							<hr css={dividerStyles} />
+							<button onClick={handleSubmit} css={buttonStyles} disabled={choiceFamilyId == null}>
+								{isRequestInProgress ? 'Saving...' : 'Save'}
+							</button>
 						</>
 					)}
 				</UniversalVelvetLeftBorder>
@@ -161,4 +169,49 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 
 export default StudentViewQuestionPool;
 
-const styles = css``;
+const dividerStyles = css`
+	margin: 2rem 0 1.25rem;
+	border-top: 1px solid #ccc;
+	border-bottom: none;
+`;
+
+const tryAgainContainerStyles = css`
+	display: grid;
+	padding: 1rem 0 0.5rem;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	column-gap: 5rem;
+	font-size: 14px;
+	line-height: 18px;
+	color: #545454;
+`;
+
+const buttonStyles = css`
+	display: flex;
+	margin-left: auto;
+	padding: 1rem 1.5rem;
+	border: 2px solid;
+	border-radius: 6px;
+	font: inherit;
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: 500;
+	cursor: pointer;
+
+	&:disabled {
+		border-color: #585858;
+		color: #585858;
+	}
+
+	&:not(:disabled) {
+		background: #5f01df;
+		border-color: transparent;
+		color: #fff;
+	}
+
+	&:focus {
+		outline-width: 2px;
+		outline-style: solid;
+		outline-offset: 2px;
+	}
+`;

@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
+
 import { css } from '@emotion/core';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -9,13 +10,19 @@ import TopBar from '../components/TopBar';
 import TopPageInfo from '../components/TopPageInfo';
 import BottomPageInfoAndLinks from '../components/BottomPageInfoAndLinks';
 import pooledPage from '../fixtures/pooledPage';
-import { quizResponses } from '../fixtures/database';
 
 import type { NextPage } from 'next';
 
 const PageElements = dynamic(() => import('../components/PageElements').then((m) => m.default), {
 	ssr: false
 });
+
+const AriaLiveAnnouncer = dynamic(
+	() => import('@soomo/lib/components/AriaLiveAnnouncer').then((m) => m.default),
+	{
+		ssr: false
+	}
+);
 
 const Pooled: NextPage = () => {
 	const [isInstructorView, setInstructorView] = useState(false);
@@ -58,6 +65,7 @@ const Pooled: NextPage = () => {
 					}}
 				/>
 			</main>
+			<AriaLiveAnnouncer />
 		</ThemeProvider>
 	);
 };

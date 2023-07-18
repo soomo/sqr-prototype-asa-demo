@@ -19,6 +19,7 @@ import type {
 	SQRSavePayload,
 	SQRSaveResponse
 } from '../../types';
+import { useAriaLiveAnnouncer } from '@soomo/lib/components/AriaLiveAnnouncer';
 
 interface SyntheticAnswer {
 	correct: boolean;
@@ -57,6 +58,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 	const [answer, setAnswer] = useState<SyntheticAnswer | null>(null);
 	const [rejoinderRef, setFocusToRejoinder] = useAccessibilityFocus();
 	const [headingRef, setFocusToHeading] = useAccessibilityFocus();
+	const { makeAssertiveAnnouncement } = useAriaLiveAnnouncer();
 
 	const handleReset = useCallback(async () => {
 		if (isRequestInProgress || !answer) {
@@ -103,10 +105,20 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 				wasFinalAttempt: json.attempts_remaining === 0
 			});
 			setFocusToRejoinder();
+			makeAssertiveAnnouncement(
+				`Answer saved. ${json.is_correct ? 'Correct.' : 'Incorrect.'} ${json.rejoinder}`
+			);
 		} finally {
 			setRequestInProgress(false);
 		}
-	}, [isRequestInProgress, answer, activeQuestion.familyId, choiceFamilyId, setFocusToRejoinder]);
+	}, [
+		isRequestInProgress,
+		answer,
+		activeQuestion.familyId,
+		choiceFamilyId,
+		setFocusToRejoinder,
+		makeAssertiveAnnouncement
+	]);
 
 	return (
 		<div css={styles} {...rest}>

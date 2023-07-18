@@ -31,7 +31,9 @@ const Pooled: NextPage = () => {
 	const router = useRouter();
 
 	const questionCount = useMemo(() => {
-		return pooledPage.elements.filter((el) => el.type !== 'NG::Soomo::Text').length;
+		return pooledPage.elements.filter(
+			(el) => el.type !== 'NG::Soomo::Text' && el.type !== 'NG::Soomo::QuestionDeck'
+		).length;
 	}, []);
 
 	const handleToggleView = useCallback(() => {

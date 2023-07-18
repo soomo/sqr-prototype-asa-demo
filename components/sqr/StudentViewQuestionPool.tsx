@@ -5,7 +5,6 @@ import { css } from '@emotion/core';
 import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
 import { WebtextQuestion } from '@soomo/lib/components/shared/Question';
 import { useAccessibilityFocus } from '@soomo/lib/hooks';
-import { useAriaLiveAnnouncer } from '@soomo/lib/components/AriaLiveAnnouncer';
 
 import Prompt from './Prompt';
 import Choices from './Choices';
@@ -76,10 +75,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 			wasFinalAttempt: json.attempts_remaining === 0
 		});
 		setFocusToRejoinder();
-		makeAssertiveAnnouncement(
-			`Answer saved. ${json.is_correct ? 'Correct.' : 'Incorrect.'} ${json.rejoinder}`
-		);
-	}, [isRequestInProgress, answer, performSave, setFocusToRejoinder, makeAssertiveAnnouncement]);
+	}, [isRequestInProgress, answer, performSave, setFocusToRejoinder]);
 
 	return (
 		<div {...rest}>

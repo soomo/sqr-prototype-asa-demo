@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react';
 
+import { useAriaLiveAnnouncer } from '@soomo/lib/components/AriaLiveAnnouncer';
+
 import type {
 	FamilyId,
 	SQRResetPayload,
@@ -18,6 +20,7 @@ export const useStudentView = (args: {
 } => {
 	const { questionFamilyId, choiceFamilyId } = args;
 	const [isRequestInProgress, setRequestInProgress] = useState(false);
+	const { makeAssertiveAnnouncement } = useAriaLiveAnnouncer();
 
 	const performReset = useCallback(async () => {
 		if (isRequestInProgress) {
@@ -56,11 +59,14 @@ export const useStudentView = (args: {
 				} as SQRSavePayload)
 			});
 			json = (await req.json()) as SQRSaveResponse;
+			makeAssertiveAnnouncement(
+				`Answer saved. ${json.is_correct ? 'Correct.' : 'Incorrect.'} ${json.rejoinder}`
+			);
 		} finally {
 			setRequestInProgress(false);
 		}
 		return json;
-	}, [isRequestInProgress, questionFamilyId, choiceFamilyId]);
+	}, [isRequestInProgress, questionFamilyId, choiceFamilyId, makeAssertiveAnnouncement]);
 
 	return {
 		isRequestInProgress,

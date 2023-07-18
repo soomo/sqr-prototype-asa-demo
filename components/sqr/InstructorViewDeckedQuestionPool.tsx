@@ -3,6 +3,8 @@ import { useCallback, useState } from 'react';
 
 import { css } from '@emotion/core';
 
+import { useAccessibilityFocus } from '@soomo/lib/hooks';
+
 import CorrectIcon from './CorrectIcon';
 import Prompt from './Prompt';
 import Choices from './Choices';
@@ -25,6 +27,8 @@ const InstructorViewDeckedQuestionPool: React.VFC<Props> = ({
 	expanded
 }) => {
 	const [activePoolIndex, setActivePoolIndex] = useState(0);
+	const [buttonRef, setFocusToButton] = useAccessibilityFocus();
+
 	const activeQuestion = poolElement.questions[activePoolIndex];
 	const activeQuestionCorrectChoice = (activeQuestion.choices as FullMCChoice[]).find(
 		(ch) => ch.correct
@@ -33,15 +37,18 @@ const InstructorViewDeckedQuestionPool: React.VFC<Props> = ({
 
 	const handlePrevious = useCallback(() => {
 		setActivePoolIndex((old) => old - 1);
-	}, []);
+		setFocusToButton();
+	}, [setFocusToButton]);
 
 	const handleNext = useCallback(() => {
 		setActivePoolIndex((old) => old + 1);
-	}, []);
+		setFocusToButton();
+	}, [setFocusToButton]);
 
 	return (
 		<div css={styles}>
 			<button
+				ref={buttonRef}
 				className="prompt-and-pivotar"
 				aria-expanded={expanded ?? false}
 				aria-controls={contentDivId}

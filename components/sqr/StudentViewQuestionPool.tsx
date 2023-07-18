@@ -135,7 +135,12 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 					/>
 					{answer ? (
 						<>
-							<Rejoinder ref={rejoinderRef} rejoinder={answer.rejoinder} />
+							<Rejoinder
+								ref={rejoinderRef}
+								rejoinder={answer.rejoinder}
+								correct={answer.correct}
+								css={rejoinderStyles}
+							/>
 							<button onClick={handleReset}>
 								{isRequestInProgress ? 'Resetting...' : 'Try Again'}
 							</button>
@@ -155,3 +160,9 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 export default StudentViewQuestionPool;
 
 const styles = css``;
+
+const rejoinderStyles = css`
+	// counteract left padding from UniversalVelvetLeftBorder
+	margin-left: -50px;
+	padding-left: 50px;
+`;

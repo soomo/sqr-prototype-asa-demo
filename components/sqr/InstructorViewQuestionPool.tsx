@@ -58,7 +58,7 @@ const InstructorViewQuestionPool: React.VFC<Props> = ({ poolElement }) => {
 						questionFamilyId={activeQuestion.familyId}
 						selectedChoiceFamilyId={activeQuestionCorrectChoice.familyId}
 					/>
-					<Rejoinder rejoinder={activeQuestionCorrectChoice.rejoinder} />
+					<Rejoinder rejoinder={activeQuestionCorrectChoice.rejoinder} correct={true} />
 					<div className="instructor-view-pool-navigation">
 						<span className="label">
 							Browse items in this pool ({poolElement.questions.length} total)

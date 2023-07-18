@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { css } from '@emotion/core';
 
 import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
-import { WebtextQuestion } from '@soomo/lib/components/shared/Question';
+import { QuestionType, WebtextQuestion } from '@soomo/lib/components/shared/Question';
 
 import Prompt from './Prompt';
 import Choices from './Choices';
@@ -18,6 +18,7 @@ import type {
 	SQRSaveResponse
 } from '../../types';
 import { useAccessibilityFocus } from '@soomo/lib/hooks';
+import MCQuestionIcon from './MCQuestionIcon';
 
 interface SyntheticAnswer {
 	correct: boolean;
@@ -55,6 +56,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 	const [isRequestInProgress, setRequestInProgress] = useState(false);
 	const [answer, setAnswer] = useState<SyntheticAnswer | null>(null);
 	const [rejoinderRef, setFocusToRejoinder] = useAccessibilityFocus();
+	const [headingRef, setFocusToHeading] = useAccessibilityFocus();
 
 	const handleReset = useCallback(async () => {
 		if (isRequestInProgress || !answer) {
@@ -73,11 +75,12 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 			if (json.was_reset) {
 				setActiveQuestion(json.new_question);
 				setAnswer(null);
+				setFocusToHeading();
 			}
 		} finally {
 			setRequestInProgress(false);
 		}
-	}, [activeQuestion.familyId, isRequestInProgress, answer]);
+	}, [isRequestInProgress, answer, activeQuestion.familyId, setFocusToHeading]);
 
 	const handleSubmit = useCallback(async () => {
 		if (isRequestInProgress || answer != null) {
@@ -109,6 +112,11 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 		<div css={styles} {...rest}>
 			<WebtextQuestion>
 				<UniversalVelvetLeftBorder>
+					<QuestionType ref={headingRef}>
+						<MCQuestionIcon />
+						Multiple-Choice Question
+					</QuestionType>
+
 					<Prompt body={activeQuestion.body} />
 					<Choices
 						choices={activeQuestion.choices}

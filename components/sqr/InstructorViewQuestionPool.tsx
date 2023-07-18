@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { css } from '@emotion/core';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 import { WebtextQuestion } from '@soomo/lib/components/shared/Question';
 import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
+import { useAccessibilityFocus } from '@soomo/lib/hooks';
 
 import Prompt from './Prompt';
 import Choices from './Choices';
 import Rejoinder from './Rejoinder';
+import Heading from './Heading';
 
 import type { FullMCChoice, MCQuestionPool } from '../../types';
 
@@ -30,11 +32,23 @@ const InstructorViewQuestionPool: React.VFC<Props> = ({ poolElement }) => {
 	const activeQuestionCorrectChoice = (activeQuestion.choices as FullMCChoice[]).find(
 		(ch) => ch.correct
 	)!;
+	const [headingRef, setFocusToHeading] = useAccessibilityFocus();
+
+	const handleBack = useCallback(() => {
+		setActivePoolIndex((old) => old - 1);
+		setFocusToHeading();
+	}, [setFocusToHeading]);
+
+	const handleNext = useCallback(() => {
+		setActivePoolIndex((old) => old + 1);
+		setFocusToHeading();
+	}, [setFocusToHeading]);
 
 	return (
 		<div css={styles}>
 			<WebtextQuestion>
 				<UniversalVelvetLeftBorder>
+					<Heading ref={headingRef} />
 					<Prompt body={activeQuestion.body} />
 					<Choices
 						disabled
@@ -57,13 +71,13 @@ const InstructorViewQuestionPool: React.VFC<Props> = ({ poolElement }) => {
 						<button
 							aria-label="previous pool question"
 							disabled={activePoolIndex === 0}
-							onClick={() => setActivePoolIndex((old) => old - 1)}>
+							onClick={handleBack}>
 							<FaChevronLeft size={17} />
 						</button>
 						<button
 							aria-label="next pool question"
 							disabled={activePoolIndex === poolElement.questions.length - 1}
-							onClick={() => setActivePoolIndex((old) => old + 1)}>
+							onClick={handleNext}>
 							<FaChevronRight size={17} />
 						</button>
 					</div>

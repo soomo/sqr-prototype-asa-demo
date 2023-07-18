@@ -3,11 +3,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { css } from '@emotion/core';
 
 import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
-import { QuestionType, WebtextQuestion } from '@soomo/lib/components/shared/Question';
+import { WebtextQuestion } from '@soomo/lib/components/shared/Question';
+import { useAccessibilityFocus } from '@soomo/lib/hooks';
 
 import Prompt from './Prompt';
 import Choices from './Choices';
 import Rejoinder from './Rejoinder';
+import Heading from './Heading';
 
 import type {
 	FamilyId,
@@ -17,8 +19,6 @@ import type {
 	SQRSavePayload,
 	SQRSaveResponse
 } from '../../types';
-import { useAccessibilityFocus } from '@soomo/lib/hooks';
-import MCQuestionIcon from './MCQuestionIcon';
 
 interface SyntheticAnswer {
 	correct: boolean;
@@ -112,11 +112,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 		<div css={styles} {...rest}>
 			<WebtextQuestion>
 				<UniversalVelvetLeftBorder>
-					<QuestionType ref={headingRef}>
-						<MCQuestionIcon />
-						Multiple-Choice Question
-					</QuestionType>
-
+					<Heading ref={headingRef} />
 					<Prompt body={activeQuestion.body} />
 					<Choices
 						choices={activeQuestion.choices}

@@ -18,10 +18,6 @@ export const deckedStyles = css`
 		text-align: initial;
 
 		&[aria-expanded='false'][data-answered='true'] .correctness-and-prompt .question-body {
-			display: -webkit-box;
-			overflow: hidden;
-			-webkit-box-orient: vertical;
-			-webkit-line-clamp: 1;
 			color: rgba(0, 0, 0, 0.5);
 		}
 
@@ -41,11 +37,6 @@ export const deckedStyles = css`
 				width: 27px;
 				height: 27px;
 			}
-		}
-
-		// QuestionPrompt outer div
-		div:last-of-type {
-			display: inline;
 		}
 
 		// QuestionPrompt inner div

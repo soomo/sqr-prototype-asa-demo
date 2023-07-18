@@ -2,8 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { css } from '@emotion/core';
 
+import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
+import { WebtextQuestion } from '@soomo/lib/components/shared/Question';
+
 import Prompt from './Prompt';
 import Choices from './Choices';
+import Rejoinder from './Rejoinder';
 
 import type {
 	FamilyId,
@@ -13,8 +17,6 @@ import type {
 	SQRSavePayload,
 	SQRSaveResponse
 } from '../../types';
-import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
-import { WebtextQuestion } from '@soomo/lib/components/shared/Question';
 
 interface SyntheticAnswer {
 	correct: boolean;
@@ -114,7 +116,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 					/>
 					{answer ? (
 						<>
-							<div dangerouslySetInnerHTML={{ __html: answer.rejoinder }} />
+							<Rejoinder rejoinder={answer.rejoinder} />
 							<button onClick={handleReset}>
 								{isRequestInProgress ? 'Resetting...' : 'Try Again'}
 							</button>

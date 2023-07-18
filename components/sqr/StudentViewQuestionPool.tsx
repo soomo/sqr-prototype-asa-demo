@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { css } from '@emotion/core';
-
 import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
 import { WebtextQuestion } from '@soomo/lib/components/shared/Question';
 import { useAccessibilityFocus } from '@soomo/lib/hooks';
@@ -10,10 +8,11 @@ import Prompt from './Prompt';
 import Choices from './Choices';
 import Rejoinder from './Rejoinder';
 import Heading from './Heading';
-import { choicesStyles, rejoinderStyles } from './standaloneStyleOverrides';
+import { buttonStyles, choicesStyles, dividerStyles, rejoinderStyles } from './studentViewStyles';
 import { useStudentView } from './useStudentView';
 
 import type { FamilyId, MCQuestion, SyntheticAnswer } from '../../types';
+import TryAgain from './TryAgain';
 
 interface Props {
 	initialQuestion: MCQuestion;
@@ -45,7 +44,6 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 	const [answer, setAnswer] = useState<SyntheticAnswer | null>(null);
 	const [rejoinderRef, setFocusToRejoinder] = useAccessibilityFocus();
 	const [headingRef, setFocusToHeading] = useAccessibilityFocus();
-	const { makeAssertiveAnnouncement } = useAriaLiveAnnouncer();
 	const { isRequestInProgress, performReset, performSave } = useStudentView({
 		questionFamilyId: activeQuestion.familyId,
 		choiceFamilyId
@@ -57,6 +55,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 		}
 		const json = await performReset();
 		if (json.was_reset) {
+			setChoiceFamilyId(null);
 			setActiveQuestion(json.new_question);
 			setAnswer(null);
 			setFocusToHeading();
@@ -99,15 +98,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 								correct={answer.correct}
 								css={rejoinderStyles}
 							/>
-							<div css={tryAgainContainerStyles}>
-								<span>
-									The Try Again button will test your knowledge with a similar multiple-choice
-									question.
-								</span>
-								<button onClick={handleReset} css={buttonStyles}>
-									{isRequestInProgress ? 'Resetting...' : 'Try Again'}
-								</button>
-							</div>
+							<TryAgain isRequestInProgress={isRequestInProgress} onReset={handleReset} />
 						</>
 					) : (
 						<>
@@ -124,50 +115,3 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 };
 
 export default StudentViewQuestionPool;
-
-const dividerStyles = css`
-	margin: 2rem 0 1.25rem;
-	border-top: 1px solid #ccc;
-	border-bottom: none;
-`;
-
-const tryAgainContainerStyles = css`
-	display: grid;
-	padding: 1rem 0 0.5rem;
-	grid-template-columns: 1fr auto;
-	align-items: center;
-	column-gap: 5rem;
-	font-size: 14px;
-	line-height: 18px;
-	color: #545454;
-`;
-
-const buttonStyles = css`
-	display: flex;
-	margin-left: auto;
-	padding: 1rem 1.5rem;
-	border: 2px solid;
-	border-radius: 6px;
-	font: inherit;
-	font-size: 18px;
-	line-height: 20px;
-	font-weight: 500;
-	cursor: pointer;
-
-	&:disabled {
-		border-color: #585858;
-		color: #585858;
-	}
-
-	&:not(:disabled) {
-		background: #5f01df;
-		border-color: transparent;
-		color: #fff;
-	}
-
-	&:focus {
-		outline-width: 2px;
-		outline-style: solid;
-		outline-offset: 2px;
-	}
-`;

@@ -12,7 +12,7 @@ import Choices from './Choices';
 import Rejoinder from './Rejoinder';
 import Heading from './Heading';
 import InstructorViewPoolNavigation from './InstructorViewPoolNavigation';
-import { choicesStyles, rejoinderStyles } from './standaloneStyleOverrides';
+import { choicesStyles, rejoinderStyles } from './studentViewStyles';
 
 import type { FullMCChoice, MCQuestionPool } from '../../types';
 

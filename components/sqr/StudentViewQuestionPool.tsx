@@ -17,6 +17,7 @@ import type {
 	SQRSavePayload,
 	SQRSaveResponse
 } from '../../types';
+import { useAccessibilityFocus } from '@soomo/lib/hooks';
 
 interface SyntheticAnswer {
 	correct: boolean;
@@ -53,6 +54,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 	const [choiceFamilyId, setChoiceFamilyId] = useState<FamilyId | null>(null);
 	const [isRequestInProgress, setRequestInProgress] = useState(false);
 	const [answer, setAnswer] = useState<SyntheticAnswer | null>(null);
+	const [rejoinderRef, setFocusToRejoinder] = useAccessibilityFocus();
 
 	const handleReset = useCallback(async () => {
 		if (isRequestInProgress || !answer) {
@@ -97,10 +99,11 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 				rejoinder: json.rejoinder,
 				wasFinalAttempt: json.attempts_remaining === 0
 			});
+			setFocusToRejoinder();
 		} finally {
 			setRequestInProgress(false);
 		}
-	}, [activeQuestion.familyId, choiceFamilyId, isRequestInProgress, answer]);
+	}, [isRequestInProgress, answer, activeQuestion.familyId, choiceFamilyId, setFocusToRejoinder]);
 
 	return (
 		<div css={styles} {...rest}>
@@ -116,7 +119,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 					/>
 					{answer ? (
 						<>
-							<Rejoinder rejoinder={answer.rejoinder} />
+							<Rejoinder ref={rejoinderRef} rejoinder={answer.rejoinder} />
 							<button onClick={handleReset}>
 								{isRequestInProgress ? 'Resetting...' : 'Try Again'}
 							</button>

@@ -33,7 +33,6 @@ const styles = css`
 	}
 
 	.question-choices {
-		padding: 0 2rem 0 1.5rem;
 		display: grid;
 		grid-template-columns: auto 1fr;
 		align-items: flex-start;

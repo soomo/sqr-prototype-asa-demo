@@ -9,7 +9,7 @@ import StudentViewQuestionPool from './sqr/StudentViewQuestionPool';
 import InstructorViewQuestionPool from './sqr/InstructorViewQuestionPool';
 import QuestionDeck from './sqr/QuestionDeck';
 
-import type { PageElement, RedactedMCChoice } from '../types';
+import type { MCQuestionPool, PageElement, RedactedMCChoice } from '../types';
 
 const Text = dynamic(() => import('@soomo/lib/components/pageElements').then((m) => m.Text), {
 	ssr: false
@@ -26,7 +26,7 @@ interface Props {
  */
 const PageElements: React.VFC<Props> = ({ elements, isInstructorView }) => {
 	let inQuestionDeck = false;
-	const qdQuestions = [];
+	let deckedQuestionPools: MCQuestionPool[] = [];
 	return (
 		<>
 			{elements.map((el) => {
@@ -34,7 +34,7 @@ const PageElements: React.VFC<Props> = ({ elements, isInstructorView }) => {
 				switch (el.type) {
 					case 'NG::Soomo::MC::QuestionPool': {
 						if (inQuestionDeck) {
-							qdQuestions.push(el);
+							deckedQuestionPools.push(el);
 						} else {
 							if (isInstructorView) {
 								component = <InstructorViewQuestionPool key={el.familyId} poolElement={el} />;
@@ -83,16 +83,39 @@ const PageElements: React.VFC<Props> = ({ elements, isInstructorView }) => {
 							inQuestionDeck = true;
 						} else {
 							inQuestionDeck = false;
-							const poolElements = []; // TODO
-							const initialQuestions = []; // TODO
+							const initialQuestions = deckedQuestionPools.map((pool) => {
+								const qr = getOrCreateQuizResponse(pool.familyId);
+								const poolIndex = qr != null ? qr.reset_count % pool.questions.length : 0;
+								const shuffledQuestions = shuffle({
+									list: pool.questions,
+									key: pool.familyId,
+									seed: FAKE_USER_ID
+								});
+								const currentQuestion = shuffledQuestions[poolIndex];
+								const redactedChoices = currentQuestion.choices.map((ch) => ({
+									body: ch.body,
+									familyId: ch.familyId
+									// excluding `correct` and `rejoinder`
+								})) as RedactedMCChoice[];
+								const shuffledChoices = isInstructorView
+									? redactedChoices
+									: shuffle({
+											list: redactedChoices,
+											key: '',
+											seed: FAKE_USER_ID
+									  });
+								const initialQuestion = { ...currentQuestion, choices: shuffledChoices };
+								return initialQuestion;
+							});
 							component = (
 								<QuestionDeck
 									key={el.familyId}
 									isInstructorView={isInstructorView}
-									poolElements={poolElements}
+									poolElements={[...deckedQuestionPools]}
 									initialQuestions={initialQuestions}
 								/>
 							);
+							deckedQuestionPools = [];
 						}
 						break;
 					}

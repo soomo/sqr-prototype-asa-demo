@@ -12,14 +12,16 @@ import type { MCQuestion, MCQuestionPool } from '../../types';
 
 interface Props {
 	isInstructorView: boolean;
-	poolElements?: MCQuestionPool[];
-	initialQuestions?: MCQuestion[];
+	poolElements?: MCQuestionPool[]; // instructor view only
+	initialQuestions?: MCQuestion[]; // student view only
 }
 
 const QuestionDeck: React.VFC<Props> = ({ isInstructorView, initialQuestions, poolElements }) => {
 	const [expandedIndexesMap, setExpandedIndexesMap] = useState<{
 		[index: number]: boolean;
-	}>({});
+	}>({
+		0: true // first question starts off expanded
+	});
 	const deckSize = isInstructorView ? poolElements.length : initialQuestions.length;
 
 	return (
@@ -32,7 +34,7 @@ const QuestionDeck: React.VFC<Props> = ({ isInstructorView, initialQuestions, po
 					</QuestionType>
 					<div className="questions">
 						{isInstructorView
-							? poolElements.map((poolElement, i) => {
+							? poolElements.map((poolElement, i) => (
 									<InstructorViewDeckedQuestionPool
 										key={i}
 										poolElement={poolElement}
@@ -43,9 +45,9 @@ const QuestionDeck: React.VFC<Props> = ({ isInstructorView, initialQuestions, po
 												[i]: !expandedIndexesMap[i]
 											})
 										}
-									/>;
-							  })
-							: initialQuestions.map((initialQuestion, i) => {
+									/>
+							  ))
+							: initialQuestions.map((initialQuestion, i) => (
 									<StudentViewDeckedQuestionPool
 										key={i}
 										initialQuestion={initialQuestion}
@@ -56,8 +58,8 @@ const QuestionDeck: React.VFC<Props> = ({ isInstructorView, initialQuestions, po
 												[i]: !expandedIndexesMap[i]
 											})
 										}
-									/>;
-							  })}
+									/>
+							  ))}
 					</div>
 				</UniversalVelvetLeftBorder>
 			</WebtextQuestion>

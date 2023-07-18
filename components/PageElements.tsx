@@ -13,9 +13,6 @@ import InstructorViewQuestionPool from './sqr/InstructorViewQuestionPool';
 const Text = dynamic(() => import('@soomo/lib/components/pageElements').then((m) => m.Text), {
 	ssr: false
 });
-const SQRQuestionDeck = dynamic(() => import('./sqr').then((m) => m.SQRQuestionDeck), {
-	ssr: false
-});
 
 interface Props {
 	elements: PageElement[];

@@ -5,11 +5,13 @@ import { css } from '@emotion/core';
 import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
 import { WebtextQuestion } from '@soomo/lib/components/shared/Question';
 import { useAccessibilityFocus } from '@soomo/lib/hooks';
+import { useAriaLiveAnnouncer } from '@soomo/lib/components/AriaLiveAnnouncer';
 
 import Prompt from './Prompt';
 import Choices from './Choices';
 import Rejoinder from './Rejoinder';
 import Heading from './Heading';
+import { choicesStyles, rejoinderStyles } from './standaloneStyles';
 
 import type {
 	FamilyId,
@@ -19,7 +21,6 @@ import type {
 	SQRSavePayload,
 	SQRSaveResponse
 } from '../../types';
-import { useAriaLiveAnnouncer } from '@soomo/lib/components/AriaLiveAnnouncer';
 
 interface SyntheticAnswer {
 	correct: boolean;
@@ -161,13 +162,3 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 export default StudentViewQuestionPool;
 
 const styles = css``;
-
-const choicesStyles = css`
-	margin-top: 1rem;
-`;
-
-const rejoinderStyles = css`
-	// counteract left padding from UniversalVelvetLeftBorder
-	margin-left: -50px;
-	padding-left: 50px;
-`;

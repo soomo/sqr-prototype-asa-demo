@@ -2,7 +2,6 @@
 import { useCallback, useState } from 'react';
 
 import { css } from '@emotion/core';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 import { WebtextQuestion } from '@soomo/lib/components/shared/Question';
 import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
@@ -12,6 +11,8 @@ import Prompt from './Prompt';
 import Choices from './Choices';
 import Rejoinder from './Rejoinder';
 import Heading from './Heading';
+import InstructorViewPoolNavigation from './InstructorViewPoolNavigation';
+import { choicesStyles, rejoinderStyles } from './standaloneStyles';
 
 import type { FullMCChoice, MCQuestionPool } from '../../types';
 
@@ -45,7 +46,7 @@ const InstructorViewQuestionPool: React.VFC<Props> = ({ poolElement }) => {
 	}, [setFocusToHeading]);
 
 	return (
-		<div css={styles}>
+		<div>
 			<WebtextQuestion>
 				<UniversalVelvetLeftBorder>
 					<Heading ref={headingRef} />
@@ -57,30 +58,20 @@ const InstructorViewQuestionPool: React.VFC<Props> = ({ poolElement }) => {
 						onChangeSelectedChoice={() => {}}
 						questionFamilyId={activeQuestion.familyId}
 						selectedChoiceFamilyId={activeQuestionCorrectChoice.familyId}
+						css={choicesStyles}
 					/>
-					<Rejoinder rejoinder={activeQuestionCorrectChoice.rejoinder} correct={true} />
-					<div className="instructor-view-pool-navigation">
-						<span className="label">
-							Browse items in this pool ({poolElement.questions.length} total)
-						</span>
-						<div className="explanatory-text">
-							The item assigned to each student for their initial attempt is randomized, and
-							students will receive a different item from the pool if they reset. Visit our{' '}
-							<a href="#">Help Center</a> to learn more.
-						</div>
-						<button
-							aria-label="previous pool question"
-							disabled={activePoolIndex === 0}
-							onClick={handleBack}>
-							<FaChevronLeft size={17} />
-						</button>
-						<button
-							aria-label="next pool question"
-							disabled={activePoolIndex === poolElement.questions.length - 1}
-							onClick={handleNext}>
-							<FaChevronRight size={17} />
-						</button>
-					</div>
+					<Rejoinder
+						rejoinder={activeQuestionCorrectChoice.rejoinder}
+						correct={true}
+						css={rejoinderStyles}
+					/>
+					<InstructorViewPoolNavigation
+						onPrevious={handleBack}
+						onNext={handleNext}
+						activeIndex={activePoolIndex}
+						numQuestions={poolElement.questions.length}
+						css={instructorViewPoolNavigationStyles}
+					/>
 				</UniversalVelvetLeftBorder>
 			</WebtextQuestion>
 		</div>
@@ -89,4 +80,6 @@ const InstructorViewQuestionPool: React.VFC<Props> = ({ poolElement }) => {
 
 export default InstructorViewQuestionPool;
 
-const styles = css``;
+const instructorViewPoolNavigationStyles = css`
+	margin-top: 1.5rem;
+`;

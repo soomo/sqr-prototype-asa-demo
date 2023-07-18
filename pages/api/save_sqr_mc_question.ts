@@ -3,7 +3,13 @@ import { getOrCreateQuizResponse, updateQuizResponse } from '../../fixtures/data
 import pooledPage from '../../fixtures/pooledPage';
 
 import type { NextApiHandler } from 'next';
-import type { MCQuestion, MCQuestionPool, SQRSavePayload, SQRSaveResponse } from '../../types';
+import type {
+	FullMCChoice,
+	MCQuestion,
+	MCQuestionPool,
+	SQRSavePayload,
+	SQRSaveResponse
+} from '../../types';
 
 const handler: NextApiHandler<SQRSaveResponse> = (req, res) => {
 	if (req.method === 'POST') {
@@ -24,8 +30,8 @@ const handler: NextApiHandler<SQRSaveResponse> = (req, res) => {
 			.flatMap((el) => (el.type === 'NG::Soomo::MC::QuestionPool' ? el.questions : el))
 			.find((el) => el.familyId === questionFamilyId) as MCQuestion;
 
-		const choice = el.choices.find((ch) => ch.familyId === choiceFamilyId)!;
-		const correctChoice = el.choices.find((ch) => ch.correct)!;
+		const choice = (el.choices as FullMCChoice[]).find((ch) => ch.familyId === choiceFamilyId)!;
+		const correctChoice = (el.choices as FullMCChoice[]).find((ch) => ch.correct)!;
 		const isCorrect = correctChoice.familyId === choiceFamilyId;
 
 		res.status(200).json({

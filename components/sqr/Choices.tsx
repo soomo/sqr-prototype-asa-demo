@@ -8,7 +8,14 @@ type Props = Omit<Parameters<typeof QuestionChoices>[0], 'choices'> & {
 	choices: (RedactedMCChoice | FullMCChoice)[];
 };
 
-const Choices: React.VFC<Props> = ({ choices: rawChoices, ...rest }) => {
+const Choices: React.VFC<Props> = ({
+	choices: rawChoices,
+	disabled,
+	onChangeSelectedChoice,
+	questionFamilyId,
+	selectedChoiceFamilyId,
+	...rest
+}) => {
 	const choices = rawChoices.map(
 		(ch, i) =>
 			({
@@ -18,8 +25,14 @@ const Choices: React.VFC<Props> = ({ choices: rawChoices, ...rest }) => {
 			} as QuestionChoice)
 	);
 	return (
-		<div css={styles}>
-			<QuestionChoices choices={choices} {...rest} />
+		<div css={styles} {...rest}>
+			<QuestionChoices
+				choices={choices}
+				disabled={disabled}
+				onChangeSelectedChoice={onChangeSelectedChoice}
+				questionFamilyId={questionFamilyId}
+				selectedChoiceFamilyId={selectedChoiceFamilyId}
+			/>
 		</div>
 	);
 };

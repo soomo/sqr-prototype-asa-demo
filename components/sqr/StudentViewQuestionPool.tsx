@@ -132,6 +132,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 						onChangeSelectedChoice={setChoiceFamilyId}
 						questionFamilyId={activeQuestion.familyId}
 						selectedChoiceFamilyId={choiceFamilyId}
+						css={choicesStyles}
 					/>
 					{answer ? (
 						<>
@@ -160,6 +161,10 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 export default StudentViewQuestionPool;
 
 const styles = css``;
+
+const choicesStyles = css`
+	margin-top: 1rem;
+`;
 
 const rejoinderStyles = css`
 	// counteract left padding from UniversalVelvetLeftBorder

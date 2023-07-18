@@ -17,13 +17,6 @@ export const deckedStyles = css`
 		cursor: pointer;
 		text-align: initial;
 
-		&[aria-expanded='false'][data-answered='true'] .correctness-and-prompt .question-body {
-			display: -webkit-box;
-			overflow: hidden;
-			-webkit-box-orient: vertical;
-			-webkit-line-clamp: 1;
-		}
-
 		.correctness {
 			position: absolute;
 			left: -13px;

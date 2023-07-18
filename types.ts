@@ -100,3 +100,13 @@ export interface SQRResetResponse {
 	reset_count: number;
 	new_question: MCQuestion;
 }
+
+/**
+ * Not actually like the Answer class in Core, but more convenient.
+ * We may have to break up `answer` into multiple props/state variables when actually implementing this.
+ */
+export interface SyntheticAnswer {
+	correct: boolean;
+	rejoinder: string;
+	wasFinalAttempt?: boolean;
+}

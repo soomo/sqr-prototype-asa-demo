@@ -12,21 +12,9 @@ import Choices from './Choices';
 import Rejoinder from './Rejoinder';
 import Heading from './Heading';
 import { choicesStyles, rejoinderStyles } from './standaloneStyleOverrides';
+import { useStudentView } from './useStudentView';
 
-import type {
-	FamilyId,
-	MCQuestion,
-	SQRResetPayload,
-	SQRResetResponse,
-	SQRSavePayload,
-	SQRSaveResponse
-} from '../../types';
-
-interface SyntheticAnswer {
-	correct: boolean;
-	rejoinder: string;
-	wasFinalAttempt?: boolean;
-}
+import type { FamilyId, MCQuestion, SyntheticAnswer } from '../../types';
 
 interface Props {
 	initialQuestion: MCQuestion;
@@ -55,71 +43,43 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 		setActiveQuestion(initialQuestion);
 	}, [initialQuestion]);
 	const [choiceFamilyId, setChoiceFamilyId] = useState<FamilyId | null>(null);
-	const [isRequestInProgress, setRequestInProgress] = useState(false);
 	const [answer, setAnswer] = useState<SyntheticAnswer | null>(null);
 	const [rejoinderRef, setFocusToRejoinder] = useAccessibilityFocus();
 	const [headingRef, setFocusToHeading] = useAccessibilityFocus();
 	const { makeAssertiveAnnouncement } = useAriaLiveAnnouncer();
+	const { isRequestInProgress, performReset, performSave } = useStudentView({
+		questionFamilyId: activeQuestion.familyId,
+		choiceFamilyId
+	});
 
 	const handleReset = useCallback(async () => {
 		if (isRequestInProgress || !answer) {
 			return;
 		}
-
-		setRequestInProgress(true);
-		try {
-			const req = await fetch('/api/reset_sqr_mc_question', {
-				method: 'POST',
-				body: JSON.stringify({
-					questionFamilyId: activeQuestion.familyId
-				} as SQRResetPayload)
-			});
-			const json = (await req.json()) as SQRResetResponse;
-			if (json.was_reset) {
-				setActiveQuestion(json.new_question);
-				setAnswer(null);
-				setFocusToHeading();
-			}
-		} finally {
-			setRequestInProgress(false);
+		const json = await performReset();
+		if (json.was_reset) {
+			setActiveQuestion(json.new_question);
+			setAnswer(null);
+			setFocusToHeading();
 		}
-	}, [isRequestInProgress, answer, activeQuestion.familyId, setFocusToHeading]);
+	}, [isRequestInProgress, answer, performReset, setFocusToHeading]);
 
 	const handleSubmit = useCallback(async () => {
 		if (isRequestInProgress || answer != null) {
 			return;
 		}
 
-		setRequestInProgress(true);
-		try {
-			const req = await fetch('/api/save_sqr_mc_question', {
-				method: 'POST',
-				body: JSON.stringify({
-					questionFamilyId: activeQuestion.familyId,
-					choiceFamilyId
-				} as SQRSavePayload)
-			});
-			const json = (await req.json()) as SQRSaveResponse;
-			setAnswer({
-				correct: json.is_correct,
-				rejoinder: json.rejoinder,
-				wasFinalAttempt: json.attempts_remaining === 0
-			});
-			setFocusToRejoinder();
-			makeAssertiveAnnouncement(
-				`Answer saved. ${json.is_correct ? 'Correct.' : 'Incorrect.'} ${json.rejoinder}`
-			);
-		} finally {
-			setRequestInProgress(false);
-		}
-	}, [
-		isRequestInProgress,
-		answer,
-		activeQuestion.familyId,
-		choiceFamilyId,
-		setFocusToRejoinder,
-		makeAssertiveAnnouncement
-	]);
+		const json = await performSave();
+		setAnswer({
+			correct: json.is_correct,
+			rejoinder: json.rejoinder,
+			wasFinalAttempt: json.attempts_remaining === 0
+		});
+		setFocusToRejoinder();
+		makeAssertiveAnnouncement(
+			`Answer saved. ${json.is_correct ? 'Correct.' : 'Incorrect.'} ${json.rejoinder}`
+		);
+	}, [isRequestInProgress, answer, performSave, setFocusToRejoinder, makeAssertiveAnnouncement]);
 
 	return (
 		<div {...rest}>

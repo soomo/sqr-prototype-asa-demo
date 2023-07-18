@@ -22,7 +22,6 @@ export const deckedStyles = css`
 			overflow: hidden;
 			-webkit-box-orient: vertical;
 			-webkit-line-clamp: 1;
-			color: rgba(0, 0, 0, 0.5);
 		}
 
 		.correctness {

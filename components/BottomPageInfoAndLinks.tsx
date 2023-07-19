@@ -1,5 +1,7 @@
 import { css } from '@emotion/core';
 
+import { breakpoints } from '@soomo/lib/styles/themes';
+
 import PageProgress, { PageProgressProps } from './PageProgress';
 
 interface Props extends PageProgressProps {
@@ -47,6 +49,10 @@ const styles = css`
 	border-top: 6px solid #e9e9e9;
 	grid-template-columns: 1fr auto auto;
 	align-items: center;
+
+	@media (max-width: ${breakpoints.small}) {
+		padding-bottom: 2rem;
+	}
 
 	a {
 		display: inline-block;

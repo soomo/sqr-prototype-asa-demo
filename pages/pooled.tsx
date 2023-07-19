@@ -66,11 +66,9 @@ const Pooled: NextPage = dynamic(
 			return (
 				<ThemeProvider theme={themes['universal_velvet']}>
 					<TopBar>
-						<div css={knobsStyles}>
-							<button onClick={handleToggleView}>
-								Switch to {isInstructorView ? 'Student' : 'Instructor'} View
-							</button>
-						</div>
+						<button onClick={handleToggleView}>
+							Switch to {isInstructorView ? 'Student' : 'Instructor'} View
+						</button>
 					</TopBar>
 					<main css={mainStyles}>
 						<TopPageInfo
@@ -104,19 +102,4 @@ const mainStyles = css`
 	padding-top: 1.5rem;
 	max-width: 800px;
 	margin: 0 auto;
-`;
-
-const knobsStyles = css`
-	display: flex;
-	margin-left: 4rem;
-	align-items: center;
-	column-gap: 2rem;
-
-	label {
-		font-weight: 500;
-	}
-
-	select {
-		margin-left: 1rem;
-	}
 `;

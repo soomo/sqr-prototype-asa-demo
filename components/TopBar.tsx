@@ -1,5 +1,7 @@
 import { css } from '@emotion/core';
 
+import { breakpoints } from '@soomo/lib/styles/themes';
+
 const TopBar: React.FC = ({ children }) => (
 	<header css={styles}>
 		<h1>Single Question Reset Prototype</h1>
@@ -12,16 +14,26 @@ const styles = css`
 	position: sticky;
 	top: 0;
 	z-index: 10000;
-	background: #ece9e9;
 	height: 52px;
 	display: flex;
-	align-items: center;
 	padding-left: 143px;
+	align-items: center;
 	border-bottom: 1px solid #bebebe;
+	background: #ece9e9;
+	column-gap: 4rem;
+
+	@media (max-width: ${breakpoints.small}) {
+		padding-left: 1rem;
+		column-gap: 1rem;
+	}
 
 	h1 {
 		font-size: 20px;
 		font-weight: 600;
+
+		@media (max-width: ${breakpoints.small}) {
+			font-size: 16px;
+		}
 	}
 
 	button {
@@ -50,6 +62,11 @@ const styles = css`
 			outline-width: 2px;
 			outline-style: solid;
 			outline-offset: 2px;
+		}
+
+		@media (max-width: ${breakpoints.small}) {
+			padding: 0.25rem 0.25rem;
+			font-size: 16px;
 		}
 	}
 `;

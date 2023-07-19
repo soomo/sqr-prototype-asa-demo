@@ -4,7 +4,7 @@ import { css } from '@emotion/core';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import themes, { ThemeProvider } from '@soomo/lib/styles/themes';
+import themes, { ThemeProvider, breakpoints } from '@soomo/lib/styles/themes';
 import { useCustomEventListener } from '@soomo/lib/hooks';
 
 import TopBar from '../components/TopBar';
@@ -102,4 +102,8 @@ const mainStyles = css`
 	padding-top: 1.5rem;
 	max-width: 800px;
 	margin: 0 auto;
+
+	@media (max-width: ${breakpoints.small}) {
+		width: 90%;
+	}
 `;

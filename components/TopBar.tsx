@@ -1,13 +1,18 @@
 import { css } from '@emotion/core';
+import { useMediaBreakpoint } from '@soomo/lib/hooks';
 
 import { breakpoints } from '@soomo/lib/styles/themes';
 
-const TopBar: React.FC = ({ children }) => (
-	<header css={styles}>
-		<h1>Single Question Reset Prototype</h1>
-		{children}
-	</header>
-);
+const TopBar: React.FC = ({ children }) => {
+	const isMobile = useMediaBreakpoint('max-width', 'sm');
+
+	return (
+		<header css={styles}>
+			<h1>{isMobile ? 'SQR' : 'Single Question Reset'} Prototype</h1>
+			{children}
+		</header>
+	);
+};
 export default TopBar;
 
 const styles = css`
@@ -23,8 +28,9 @@ const styles = css`
 	column-gap: 4rem;
 
 	@media (max-width: ${breakpoints.small}) {
-		padding-left: 1rem;
-		column-gap: 1rem;
+		padding: 0 1rem;
+		column-gap: 0.5rem;
+		justify-content: space-between;
 	}
 
 	h1 {
@@ -65,7 +71,7 @@ const styles = css`
 		}
 
 		@media (max-width: ${breakpoints.small}) {
-			padding: 0.25rem 0.25rem;
+			padding: 0.25rem 0.5rem;
 			font-size: 16px;
 		}
 	}

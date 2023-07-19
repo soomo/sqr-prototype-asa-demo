@@ -1,5 +1,8 @@
-import { css } from '@emotion/core';
 import { forwardRef } from 'react';
+
+import { css } from '@emotion/core';
+
+import { breakpoints } from '@soomo/lib/styles/themes';
 
 type HTMLString = string;
 
@@ -33,6 +36,11 @@ const styles = css`
 	font-style: italic;
 	color: #5f5f5f;
 	background: #fff;
+
+	@media (max-width: ${breakpoints.small}) {
+		font-size: 16px;
+		line-height: 23px;
+	}
 
 	.correctness {
 		font-weight: 500;

@@ -1,5 +1,7 @@
 import { css } from '@emotion/core';
 
+import { breakpoints } from '@soomo/lib/styles/themes';
+
 import { buttonStyles } from './studentViewStyles';
 
 interface Props {
@@ -31,4 +33,10 @@ const styles = css`
 	font-size: 14px;
 	line-height: 18px;
 	color: #545454;
+
+	@media (max-width: ${breakpoints.small}) {
+		grid-template-columns: unset;
+		grid-template-rows: auto auto;
+		row-gap: 1rem;
+	}
 `;

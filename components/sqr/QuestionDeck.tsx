@@ -5,6 +5,8 @@ import { RiCheckboxMultipleFill } from 'react-icons/ri';
 
 import { QuestionType, WebtextQuestion } from '@soomo/lib/components/shared/Question';
 import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
+import { breakpoints } from '@soomo/lib/styles/themes';
+
 import InstructorViewDeckedQuestionPool from './InstructorViewDeckedQuestionPool';
 import StudentViewDeckedQuestionPool from './StudentViewDeckedQuestionPool';
 
@@ -70,11 +72,22 @@ const QuestionDeck: React.VFC<Props> = ({ isInstructorView, initialQuestions, po
 export default QuestionDeck;
 
 const styles = css`
+	// WebtextQuestion inner div
+	.webtext-question-universal-velvet > div {
+		@media (max-width: ${breakpoints.small}) {
+			padding-right: 0.25rem;
+		}
+	}
+
 	[role='heading'] {
 		white-space: nowrap;
 		display: flex;
 		align-items: flex-start;
 		column-gap: 0.75rem;
+
+		@media (max-width: ${breakpoints.small}) {
+			flex-direction: column;
+		}
 	}
 
 	.question-deck-icon {
@@ -87,5 +100,9 @@ const styles = css`
 		display: flex;
 		flex-direction: column;
 		row-gap: 1rem;
+
+		@media (max-width: ${breakpoints.small}) {
+			margin-top: 1rem;
+		}
 	}
 `;

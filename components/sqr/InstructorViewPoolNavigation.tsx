@@ -1,6 +1,8 @@
 import { css } from '@emotion/core';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
+import { breakpoints } from '@soomo/lib/styles/themes';
+
 interface Props {
 	numQuestions: number;
 	activeIndex: number;
@@ -17,7 +19,9 @@ const InstructorViewPoolNavigation: React.VFC<Props> = ({
 }) => {
 	return (
 		<div css={styles} {...rest}>
-			<span className="label">Browse items in this pool ({numQuestions} total)</span>
+			<span className="label">
+				Browse items in this pool <wbr />({numQuestions} total)
+			</span>
 			<div className="explanatory-text">
 				The item assigned to each student for their initial attempt is randomized, and students will
 				receive a different item from the pool if they reset. Visit our <a href="#">Help Center</a>{' '}
@@ -50,6 +54,11 @@ const styles = css`
 	.label {
 		font-weight: 500;
 		line-height: 1;
+
+		@media (max-width: ${breakpoints.small}) {
+			white-space: nowrap;
+			text-align: end;
+		}
 	}
 
 	.explanatory-text {

@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react';
 import { css } from '@emotion/core';
 
 import { useAccessibilityFocus } from '@soomo/lib/hooks';
+import { breakpoints } from '@soomo/lib/styles/themes';
 
 import CorrectIcon from './CorrectIcon';
 import Prompt from './Prompt';
@@ -95,4 +96,9 @@ export default InstructorViewDeckedQuestionPool;
 const instructorViewPoolNavigationStyles = css`
 	margin-top: 1rem;
 	padding: 0 2rem 1.5rem 0;
+
+	@media (max-width: ${breakpoints.small}) {
+		padding-left: 1.5rem;
+		padding-right: 1rem;
+	}
 `;

@@ -1,5 +1,7 @@
 import { css } from '@emotion/core';
 
+import { breakpoints } from '@soomo/lib/styles/themes';
+
 export const deckedStyles = css`
 	border: 1px solid #c9c9c9;
 	border-radius: 0.5rem;
@@ -16,6 +18,11 @@ export const deckedStyles = css`
 		background: none;
 		cursor: pointer;
 		text-align: initial;
+
+		@media (max-width: ${breakpoints.small}) {
+			padding-right: 1rem;
+			column-gap: 0.5rem;
+		}
 
 		&[aria-expanded='false'][data-answered='true'] .correctness-and-prompt .question-body {
 			color: rgba(0, 0, 0, 0.5);
@@ -54,4 +61,8 @@ export const choicesStyles = css`
 export const rejoinderStyles = css`
 	margin-right: 2rem;
 	padding-left: 1.5rem;
+
+	@media (max-width: ${breakpoints.small}) {
+		margin-right: 1.25rem;
+	}
 `;

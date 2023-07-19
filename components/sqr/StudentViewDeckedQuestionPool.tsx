@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { css } from '@emotion/core';
 
 import { useAccessibilityFocus } from '@soomo/lib/hooks';
+import { breakpoints } from '@soomo/lib/styles/themes';
 
 import CorrectIcon from './CorrectIcon';
 import IncorrectIcon from './IncorrectIcon';
@@ -136,4 +137,8 @@ const dividerAndSaveStyles = css`
 
 const tryAgainStyles = css`
 	padding: 1rem 2rem 1.5rem 1.5rem;
+
+	@media (max-width: ${breakpoints.small}) {
+		padding-right: 1rem;
+	}
 `;

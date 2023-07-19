@@ -1,5 +1,7 @@
 import { css } from '@emotion/core';
+
 import { QuestionChoices } from '@soomo/lib/components/shared/Question';
+import { breakpoints } from '@soomo/lib/styles/themes';
 
 import type { FullMCChoice, RedactedMCChoice } from '../../types';
 import type { QuestionChoice } from '@soomo/lib/types/WebtextManifest';
@@ -53,6 +55,10 @@ const styles = css`
 		row-gap: 1rem;
 		font-size: 18px;
 		line-height: 22px;
+
+		@media (max-width: ${breakpoints.small}) {
+			font-size: 15px;
+		}
 
 		> div {
 			display: contents;

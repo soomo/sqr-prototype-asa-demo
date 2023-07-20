@@ -24,10 +24,6 @@ export const deckedStyles = css`
 			column-gap: 0.5rem;
 		}
 
-		&[aria-expanded='false'][data-answered='true'] .correctness-and-prompt .question-body {
-			color: rgba(0, 0, 0, 0.5);
-		}
-
 		.correctness {
 			position: absolute;
 			left: -13px;

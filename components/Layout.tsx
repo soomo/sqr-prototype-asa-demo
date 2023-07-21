@@ -13,6 +13,7 @@ import BottomPageInfoAndLinks from '../components/BottomPageInfoAndLinks';
 import type { FamilyId, Page, SQRResetResponse, SQRSaveResponse } from '../types';
 import AriaLiveAnnouncer from '@soomo/lib/components/AriaLiveAnnouncer';
 import PageElements from './PageElements';
+import { deleteAllQuizResponses } from '../fixtures/database';
 
 interface Props {
 	page: Page;
@@ -77,6 +78,7 @@ const Layout: React.VFC<Props> = ({ page, backUrl, nextUrl }) => {
 							<option value="3">3 attempts</option>
 						</select>
 					</label>
+					<button onClick={() => deleteAllQuizResponses()}>Clear Responses</button>
 				</div>
 			</TopBar>
 			<main css={mainStyles}>

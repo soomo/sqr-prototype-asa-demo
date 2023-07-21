@@ -4,6 +4,14 @@ export const FAKE_USER_ID = 0;
 
 let quizResponses: { [assignmentFamilyId: FamilyId]: QuizResponse } = {};
 
+if (localStorage.getItem('quizResponses')) {
+	quizResponses = JSON.parse(localStorage.getItem('quizResponses'));
+}
+
+addEventListener('beforeunload', () => {
+	localStorage.setItem('quizResponses', JSON.stringify(quizResponses));
+});
+
 export function getAllQuizResponses() {
 	return { ...quizResponses };
 }
@@ -32,4 +40,5 @@ export function deleteQuizResponse(respondableFamilyId: FamilyId) {
 
 export function deleteAllQuizResponses() {
 	quizResponses = {};
+	localStorage.removeItem('quizResponses');
 }

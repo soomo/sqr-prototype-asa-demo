@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { css } from '@emotion/core';
 import { RiCheckboxMultipleFill } from 'react-icons/ri';
@@ -10,24 +10,23 @@ import { breakpoints } from '@soomo/lib/styles/themes';
 import InstructorViewDeckedQuestionPool from './InstructorViewDeckedQuestionPool';
 import StudentViewDeckedQuestionPool from './StudentViewDeckedQuestionPool';
 import { getAllQuizResponses } from '../../fixtures/database';
+import { PageContext } from '../Layout';
 
 import type { FamilyId, MCQuestion, MCQuestionPool, QuizResponse } from '../../types';
 
-const resetsRemaining = Number.MAX_SAFE_INTEGER;
-
 interface Props {
-	isInstructorView: boolean;
 	poolElements?: MCQuestionPool[]; // instructor view only
 	initialQuestions?: MCQuestion[]; // student view only
 }
 
-const QuestionDeck: React.VFC<Props> = ({ isInstructorView, initialQuestions, poolElements }) => {
+const QuestionDeck: React.VFC<Props> = ({ initialQuestions, poolElements }) => {
+	const { maxAttempts, isInstructorView } = useContext(PageContext);
 	const [expandedIndexesMap, setExpandedIndexesMap] = useState<{
 		[index: number]: boolean;
 	}>(
 		initialExpandedState({
+			maxAttempts,
 			quizResponses: getAllQuizResponses(),
-			isInstructorView,
 			initialQuestions,
 			poolElements
 		})
@@ -117,12 +116,13 @@ const styles = css`
 
 function initialExpandedState(
 	args: Props & {
+		maxAttempts: number;
 		quizResponses: Record<FamilyId, QuizResponse>;
 	}
 ): {
 	[index: number]: boolean;
 } {
-	const { isInstructorView, quizResponses, initialQuestions, poolElements } = args;
+	const { maxAttempts, isInstructorView, quizResponses, initialQuestions, poolElements } = args;
 	const items = isInstructorView ? poolElements : initialQuestions;
 
 	// the first question that can still earn points is expanded:
@@ -132,7 +132,7 @@ function initialExpandedState(
 	for (let i = 0; i < items.length; i++) {
 		const item = items[i];
 		const qr = quizResponses[item.familyId];
-		if (!qr || qr.answers.length === 0 || qr.reset_count < resetsRemaining) {
+		if (!qr || qr.answers.length === 0 || qr.reset_count < maxAttempts - 1) {
 			expandedQuestionFamilyId = item.familyId;
 			break;
 		}

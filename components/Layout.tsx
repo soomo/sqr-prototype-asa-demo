@@ -1,25 +1,36 @@
-import { useCallback, useMemo, useState } from 'react';
+import { createContext, useCallback, useMemo, useState } from 'react';
 
 import { css } from '@emotion/core';
 import { useRouter } from 'next/router';
 
 import themes, { ThemeProvider, breakpoints } from '@soomo/lib/styles/themes';
 import { useCustomEventListener } from '@soomo/lib/hooks';
-
-import TopBar from '../components/TopBar';
-import TopPageInfo from '../components/TopPageInfo';
-import BottomPageInfoAndLinks from '../components/BottomPageInfoAndLinks';
-
-import type { FamilyId, Page, SQRResetResponse, SQRSaveResponse } from '../types';
 import AriaLiveAnnouncer from '@soomo/lib/components/AriaLiveAnnouncer';
+
+import TopBar from './TopBar';
+import TopPageInfo from './TopPageInfo';
+import BottomPageInfoAndLinks from './BottomPageInfoAndLinks';
 import PageElements from './PageElements';
 import { deleteAllQuizResponses } from '../fixtures/database';
+
+import type { FamilyId, Page, SQRResetResponse, SQRSaveResponse } from '../types';
 
 interface Props {
 	page: Page;
 	backUrl?: string;
 	nextUrl?: string;
 }
+
+interface PageContextType {
+	maxAttempts: number;
+	isInstructorView: boolean;
+}
+
+export const PageContext = createContext<PageContextType>({
+	maxAttempts: -1,
+	isInstructorView: false
+});
+PageContext.displayName = 'PageContext';
 
 const Layout: React.VFC<Props> = ({ page, backUrl, nextUrl }) => {
 	const [isInstructorView, setInstructorView] = useState(false);
@@ -59,48 +70,48 @@ const Layout: React.VFC<Props> = ({ page, backUrl, nextUrl }) => {
 	});
 
 	return (
-		<ThemeProvider theme={themes['universal_velvet']}>
-			<TopBar>
-				<div css={knobsStyles}>
-					<button onClick={handleToggleView}>
-						Switch to {isInstructorView ? 'Student' : 'Instructor'} View
-					</button>
-					<label>
-						Attempts per question
-						<select
-							value={maxAttempts}
-							onChange={(e) => {
-								setMaxAttempts(parseInt(e.target.value, 10));
-							}}>
-							<option value="-1">unlimited</option>
-							<option value="1">1 attempt</option>
-							<option value="2">2 attempts</option>
-							<option value="3">3 attempts</option>
-						</select>
-					</label>
-					<button onClick={() => deleteAllQuizResponses()}>Clear Responses</button>
-				</div>
-			</TopBar>
-			<main css={mainStyles}>
-				<TopPageInfo
-					pageTitle="Pooled Sample Page"
-					numAttempted={numAttempted}
-					numCorrect={numCorrect}
-					total={questionCount}
-					isInstructorView={isInstructorView}
-				/>
-				<PageElements elements={page.elements} isInstructorView={isInstructorView} />
-				<BottomPageInfoAndLinks
-					numAttempted={numAttempted}
-					numCorrect={numCorrect}
-					total={questionCount}
-					onBackLinkClick={backUrl ? () => router.push(backUrl) : undefined}
-					onNextLinkClick={nextUrl ? () => router.push(nextUrl) : undefined}
-					isInstructorView={isInstructorView}
-				/>
-			</main>
-			<AriaLiveAnnouncer />
-		</ThemeProvider>
+		<PageContext.Provider value={{ maxAttempts, isInstructorView }}>
+			<ThemeProvider theme={themes['universal_velvet']}>
+				<TopBar>
+					<div css={knobsStyles}>
+						<button onClick={handleToggleView}>
+							Switch to {isInstructorView ? 'Student' : 'Instructor'} View
+						</button>
+						<label>
+							Attempts per question
+							<select
+								value={maxAttempts}
+								onChange={(e) => {
+									setMaxAttempts(parseInt(e.target.value, 10));
+								}}>
+								<option value="-1">unlimited</option>
+								<option value="1">1 attempt</option>
+								<option value="2">2 attempts</option>
+								<option value="3">3 attempts</option>
+							</select>
+						</label>
+						<button onClick={() => deleteAllQuizResponses()}>Clear Responses</button>
+					</div>
+				</TopBar>
+				<main css={mainStyles}>
+					<TopPageInfo
+						pageTitle="Pooled Sample Page"
+						numAttempted={numAttempted}
+						numCorrect={numCorrect}
+						total={questionCount}
+					/>
+					<PageElements elements={page.elements} />
+					<BottomPageInfoAndLinks
+						numAttempted={numAttempted}
+						numCorrect={numCorrect}
+						total={questionCount}
+						onBackLinkClick={backUrl ? () => router.push(backUrl) : undefined}
+						onNextLinkClick={nextUrl ? () => router.push(nextUrl) : undefined}
+					/>
+				</main>
+				<AriaLiveAnnouncer />
+			</ThemeProvider>
+		</PageContext.Provider>
 	);
 };
 export default Layout;

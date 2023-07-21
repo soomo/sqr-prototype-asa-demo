@@ -11,10 +11,11 @@ const TopPageInfo: React.VFC<Props> = ({
 	numAttempted,
 	numCorrect,
 	total,
-	isInstructorView
+	isInstructorView,
+	...rest
 }) => {
 	return (
-		<div css={styles}>
+		<div css={styles} {...rest}>
 			<span>
 				Sample Chapter / <span className="page-title">{pageTitle}</span>
 			</span>

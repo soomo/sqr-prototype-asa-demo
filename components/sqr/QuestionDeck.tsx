@@ -9,8 +9,11 @@ import { breakpoints } from '@soomo/lib/styles/themes';
 
 import InstructorViewDeckedQuestionPool from './InstructorViewDeckedQuestionPool';
 import StudentViewDeckedQuestionPool from './StudentViewDeckedQuestionPool';
+import { getAllQuizResponses } from '../../fixtures/database';
 
-import type { MCQuestion, MCQuestionPool } from '../../types';
+import type { FamilyId, MCQuestion, MCQuestionPool, QuizResponse } from '../../types';
+
+const resetsRemaining = Number.MAX_SAFE_INTEGER;
 
 interface Props {
 	isInstructorView: boolean;
@@ -21,9 +24,14 @@ interface Props {
 const QuestionDeck: React.VFC<Props> = ({ isInstructorView, initialQuestions, poolElements }) => {
 	const [expandedIndexesMap, setExpandedIndexesMap] = useState<{
 		[index: number]: boolean;
-	}>({
-		0: true // first question starts off expanded
-	});
+	}>(
+		initialExpandedState({
+			quizResponses: getAllQuizResponses(),
+			isInstructorView,
+			initialQuestions,
+			poolElements
+		})
+	);
 	const deckSize = isInstructorView ? poolElements.length : initialQuestions.length;
 
 	return (
@@ -106,3 +114,28 @@ const styles = css`
 		}
 	}
 `;
+
+function initialExpandedState(
+	args: Props & {
+		quizResponses: Record<FamilyId, QuizResponse>;
+	}
+): {
+	[index: number]: boolean;
+} {
+	const { isInstructorView, quizResponses, initialQuestions, poolElements } = args;
+	const items = isInstructorView ? poolElements : initialQuestions;
+
+	// the first question that can still earn points is expanded:
+	// - the first unanswered question, or
+	// - the first question which is incorrect *and* still has resets remaining
+	let expandedQuestionFamilyId: FamilyId | null = null;
+	for (let i = 0; i < items.length; i++) {
+		const item = items[i];
+		const qr = quizResponses[item.familyId];
+		if (!qr || qr.answers.length === 0 || qr.reset_count < resetsRemaining) {
+			expandedQuestionFamilyId = item.familyId;
+			break;
+		}
+	}
+	return expandedQuestionFamilyId != null ? { [expandedQuestionFamilyId]: true } : {};
+}

@@ -2,7 +2,11 @@ import type { FamilyId, QuizResponse } from '../types';
 
 export const FAKE_USER_ID = 0;
 
-const quizResponses: { [assignmentFamilyId: FamilyId]: QuizResponse } = {};
+let quizResponses: { [assignmentFamilyId: FamilyId]: QuizResponse } = {};
+
+export function getAllQuizResponses() {
+	return { ...quizResponses };
+}
 
 export function getOrCreateQuizResponse(respondableFamilyId: FamilyId) {
 	let qr: QuizResponse = quizResponses[respondableFamilyId];
@@ -24,4 +28,8 @@ export function updateQuizResponse(respondableFamilyId: FamilyId, qr: QuizRespon
 
 export function deleteQuizResponse(respondableFamilyId: FamilyId) {
 	delete quizResponses[respondableFamilyId];
+}
+
+export function deleteAllQuizResponses() {
+	quizResponses = {};
 }

@@ -64,6 +64,11 @@ const Layout: React.VFC<Props> = ({ page, backUrl, nextUrl }) => {
 		window.location.reload();
 	}, []);
 
+	const handleClearResponses = useCallback(() => {
+		deleteAllQuizResponses();
+		window.location.reload();
+	}, []);
+
 	useCustomEventListener<SQRSaveResponse>('question-saved', (json) => {
 		setAnsweredQuestionsMap((old) => ({
 			...old,
@@ -96,7 +101,7 @@ const Layout: React.VFC<Props> = ({ page, backUrl, nextUrl }) => {
 								<option value="3">3 attempts</option>
 							</select>
 						</label>
-						<button onClick={() => deleteAllQuizResponses()}>Clear Responses</button>
+						<button onClick={handleClearResponses}>Clear Responses</button>
 					</div>
 				</TopBar>
 				<main css={mainStyles}>

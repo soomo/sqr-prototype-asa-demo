@@ -43,12 +43,6 @@ export interface MCQuestionPool extends NGFamily {
 	questions: MCQuestion[];
 }
 
-export interface Answer {
-	body: FamilyId;
-	question_family_id: FamilyId;
-	correct: boolean;
-}
-
 export interface QuizResponse {
 	// in the prototype we'll just have a single implied user and course
 	// user: User;
@@ -68,12 +62,15 @@ export interface QuizResponse {
 	 */
 	seed: number;
 	reset_count: number;
-	answers: Answer[];
+	answers: SyntheticMCQAnswer[];
 }
 
 export interface SQRSavePayload {
 	questionFamilyId: FamilyId;
 	choiceFamilyId: FamilyId;
+
+	TEST_quizResponse: QuizResponse;
+	TEST_maxAttempts: number;
 }
 
 export interface SQRSaveResponse {
@@ -89,10 +86,14 @@ export interface SQRSaveResponse {
 		family_id: FamilyId;
 		rejoinder: string;
 	};
+
+	TEST_modifiedQuizResponse: QuizResponse;
 }
 
 export interface SQRResetPayload {
 	questionFamilyId: FamilyId;
+
+	TEST_quizResponse: QuizResponse;
 }
 
 export interface SQRResetResponse {
@@ -101,13 +102,17 @@ export interface SQRResetResponse {
 	was_reset: boolean; // or maybe just return a different status code besides 200 if reset failed?
 	reset_count: number;
 	new_question: MCQuestion;
+
+	TEST_modifiedQuizResponse: QuizResponse;
 }
 
 /**
  * Not actually like the Answer class in Core, but more convenient.
  * We may have to break up `answer` into multiple props/state variables when actually implementing this.
  */
-export interface SyntheticAnswer {
+export interface SyntheticMCQAnswer {
+	questionFamilyId: FamilyId;
+	choiceFamilyId: FamilyId;
 	correct: boolean;
 	rejoinder: string;
 	wasFinalAttempt?: boolean;

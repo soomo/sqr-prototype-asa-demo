@@ -12,11 +12,18 @@ import StudentViewDeckedQuestionPool from './StudentViewDeckedQuestionPool';
 import { getAllQuizResponses } from '../../fixtures/database';
 import { PageContext } from '../Layout';
 
-import type { FamilyId, MCQuestion, MCQuestionPool, QuizResponse } from '../../types';
+import type {
+	FamilyId,
+	MCQuestion,
+	MCQuestionPool,
+	QuizResponse,
+	SyntheticMCQAnswer
+} from '../../types';
 
 interface Props {
 	poolElements?: MCQuestionPool[]; // instructor view only
 	initialQuestions?: MCQuestion[]; // student view only
+	initialAnswers?: SyntheticMCQAnswer[]; // student view only
 }
 
 const QuestionDeck: React.VFC<Props> = ({ initialQuestions, poolElements }) => {

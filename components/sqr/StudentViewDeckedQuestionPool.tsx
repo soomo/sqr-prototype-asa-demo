@@ -17,7 +17,7 @@ import TryAgain from './TryAgain';
 import { useStudentView } from './useStudentView';
 import { choicesStyles, deckedStyles, rejoinderStyles } from './deckedStyles';
 
-import type { SyntheticAnswer, MCQuestion, FamilyId } from '../../types';
+import type { SyntheticMCQAnswer, MCQuestion, FamilyId } from '../../types';
 
 interface Props {
 	initialQuestion: MCQuestion;
@@ -35,7 +35,7 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 		setActiveQuestion(initialQuestion);
 	}, [initialQuestion]);
 	const [choiceFamilyId, setChoiceFamilyId] = useState<FamilyId | null>(null);
-	const [answer, setAnswer] = useState<SyntheticAnswer | null>(null);
+	const [answer, setAnswer] = useState<SyntheticMCQAnswer | null>(null);
 	const { isRequestInProgress, performReset, performSave } = useStudentView({
 		questionFamilyId: activeQuestion.familyId,
 		choiceFamilyId
@@ -63,6 +63,8 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 		}
 		const json = await performSave();
 		setAnswer({
+			questionFamilyId: json.question_family_id,
+			choiceFamilyId: json.choice_family_id,
 			correct: json.is_correct,
 			rejoinder: json.rejoinder,
 			wasFinalAttempt: json.attempts_remaining === 0

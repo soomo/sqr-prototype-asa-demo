@@ -1,30 +1,21 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import shuffle from '@soomo/lib/utils/shuffle';
 
-import pooledPage from '../../fixtures/pooledPage';
-
-import { FAKE_USER_ID, getOrCreateQuizResponse, updateQuizResponse } from '../../fixtures/database';
+import { FAKE_USER_ID } from '../../fixtures/database';
+import { TEST_getParentMCQuestionPool } from '../../fixtures/getRespondableFamilyId';
 
 import type { NextApiHandler } from 'next';
-import type { MCQuestionPool, SQRResetPayload, SQRResetResponse } from '../../types';
+import type { SQRResetPayload, SQRResetResponse } from '../../types';
 
 const handler: NextApiHandler<SQRResetResponse> = (req, res) => {
 	if (req.method === 'POST') {
-		const { questionFamilyId } = JSON.parse(req.body) as SQRResetPayload;
-
-		const containingPage = pooledPage; // TODO this will later have to determine if it's `pooledPage` or `unpooledPage`
-
-		const parentQuestionPool = containingPage.elements
-			.filter((el) => el.type === 'NG::Soomo::MC::QuestionPool')
-			.find(
-				(el: MCQuestionPool) => el.questions.find((el) => el.familyId === questionFamilyId) != null
-			) as MCQuestionPool;
-
+		const { questionFamilyId, TEST_quizResponse: qr } = JSON.parse(req.body) as SQRResetPayload;
+		const parentQuestionPool = TEST_getParentMCQuestionPool(questionFamilyId);
 		const respondableFamilyId = parentQuestionPool.familyId;
 
-		const qr = getOrCreateQuizResponse(respondableFamilyId);
 		qr.reset_count++;
 		qr.seed = Math.floor(Math.random() * (2 ** 30 - 1));
+		qr.answers = qr.answers.filter((ans) => ans.questionFamilyId !== questionFamilyId);
 
 		if (parentQuestionPool.questions.length > 1) {
 			// this is a pooled MC question
@@ -40,7 +31,8 @@ const handler: NextApiHandler<SQRResetResponse> = (req, res) => {
 				reset_count: qr.reset_count,
 				question_family_id: questionFamilyId,
 				new_question: newQuestion,
-				was_reset: true
+				was_reset: true,
+				TEST_modifiedQuizResponse: qr
 			});
 		} else {
 			// this is an unpooled MC question;
@@ -52,11 +44,10 @@ const handler: NextApiHandler<SQRResetResponse> = (req, res) => {
 				reset_count: qr.reset_count,
 				question_family_id: questionFamilyId,
 				new_question: newQuestion,
-				was_reset: true
+				was_reset: true,
+				TEST_modifiedQuizResponse: qr
 			});
 		}
-
-		updateQuizResponse(respondableFamilyId, qr);
 		return;
 	}
 

@@ -10,12 +10,13 @@ import Rejoinder from './Rejoinder';
 import Heading from './Heading';
 import { buttonStyles, choicesStyles, dividerStyles, rejoinderStyles } from './studentViewStyles';
 import { useStudentView } from './useStudentView';
-
-import type { FamilyId, MCQuestion, SyntheticAnswer } from '../../types';
 import TryAgain from './TryAgain';
+
+import type { SyntheticMCQAnswer, FamilyId, MCQuestion } from '../../types';
 
 interface Props {
 	initialQuestion: MCQuestion;
+	initialAnswer: SyntheticMCQAnswer | null;
 }
 
 /**
@@ -35,13 +36,15 @@ interface Props {
  * - for pooled MCQs: a new question from the pool
  * And the component will update with the response.
  */
-const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest }) => {
+const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, initialAnswer, ...rest }) => {
 	const [activeQuestion, setActiveQuestion] = useState<MCQuestion>(initialQuestion);
 	useEffect(() => {
 		setActiveQuestion(initialQuestion);
 	}, [initialQuestion]);
-	const [choiceFamilyId, setChoiceFamilyId] = useState<FamilyId | null>(null);
-	const [answer, setAnswer] = useState<SyntheticAnswer | null>(null);
+	const [choiceFamilyId, setChoiceFamilyId] = useState<FamilyId | null>(
+		initialAnswer?.choiceFamilyId ?? null
+	);
+	const [answer, setAnswer] = useState<SyntheticMCQAnswer | null>(initialAnswer);
 	const [rejoinderRef, setFocusToRejoinder] = useAccessibilityFocus();
 	const [headingRef, setFocusToHeading] = useAccessibilityFocus();
 	const { isRequestInProgress, performReset, performSave } = useStudentView({
@@ -69,6 +72,8 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, ...rest })
 
 		const json = await performSave();
 		setAnswer({
+			questionFamilyId: json.question_family_id,
+			choiceFamilyId: json.choice_family_id,
 			correct: json.is_correct,
 			rejoinder: json.rejoinder,
 			wasFinalAttempt: json.attempts_remaining === 0

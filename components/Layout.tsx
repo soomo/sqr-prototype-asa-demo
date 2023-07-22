@@ -37,7 +37,10 @@ const Layout: React.VFC<Props> = ({ page, backUrl, nextUrl }) => {
 	const [answeredQuestionsMap, setAnsweredQuestionsMap] = useState<
 		Record<FamilyId, SQRSaveResponse>
 	>({});
-	const [maxAttempts, setMaxAttempts] = useState(-1);
+	const localStorageMaxAttempts = localStorage.getItem('maxAttempts');
+	const [maxAttempts, setMaxAttempts] = useState(
+		localStorageMaxAttempts != null ? parseInt(localStorageMaxAttempts, 10) : -1
+	);
 	const router = useRouter();
 
 	const numAttempted = Object.values(answeredQuestionsMap).filter(Boolean).length;
@@ -52,6 +55,13 @@ const Layout: React.VFC<Props> = ({ page, backUrl, nextUrl }) => {
 	const handleToggleView = useCallback(() => {
 		setInstructorView((old) => !old);
 		setAnsweredQuestionsMap({});
+	}, []);
+
+	const handleChangeMaxAttempts = useCallback((e) => {
+		setMaxAttempts(parseInt(e.target.value, 10));
+		localStorage.setItem('maxAttempts', e.target.value);
+		deleteAllQuizResponses();
+		window.location.reload();
 	}, []);
 
 	useCustomEventListener<SQRSaveResponse>('question-saved', (json) => {
@@ -79,11 +89,7 @@ const Layout: React.VFC<Props> = ({ page, backUrl, nextUrl }) => {
 						</button>
 						<label>
 							Attempts per question
-							<select
-								value={maxAttempts}
-								onChange={(e) => {
-									setMaxAttempts(parseInt(e.target.value, 10));
-								}}>
+							<select value={maxAttempts} onChange={handleChangeMaxAttempts}>
 								<option value="-1">unlimited</option>
 								<option value="1">1 attempt</option>
 								<option value="2">2 attempts</option>

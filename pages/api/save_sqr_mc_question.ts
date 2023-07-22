@@ -1,38 +1,35 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { getOrCreateQuizResponse, updateQuizResponse } from '../../fixtures/database';
-import pooledPage from '../../fixtures/pooledPage';
+import { TEST_getParentMCQuestionPool } from '../../fixtures/getRespondableFamilyId';
 
 import type { NextApiHandler } from 'next';
-import type {
-	FullMCChoice,
-	MCQuestion,
-	MCQuestionPool,
-	SQRSavePayload,
-	SQRSaveResponse
-} from '../../types';
+import type { FullMCChoice, MCQuestion, SQRSavePayload, SQRSaveResponse } from '../../types';
 
 const handler: NextApiHandler<SQRSaveResponse> = (req, res) => {
 	if (req.method === 'POST') {
-		const { questionFamilyId, choiceFamilyId } = JSON.parse(req.body) as SQRSavePayload;
+		const {
+			questionFamilyId,
+			choiceFamilyId,
+			TEST_quizResponse: qr,
+			TEST_maxAttempts: maxAttempts
+		} = JSON.parse(req.body) as SQRSavePayload;
 
-		const containingPage = pooledPage; // TODO this will later have to determine if it's `pooledPage` or `unpooledPage`
-
-		const parentQuestionPool = containingPage.elements
-			.filter((el) => el.type === 'NG::Soomo::MC::QuestionPool')
-			.find(
-				(el: MCQuestionPool) => el.questions.find((el) => el.familyId === questionFamilyId) != null
-			) as MCQuestionPool;
-
+		const parentQuestionPool = TEST_getParentMCQuestionPool(questionFamilyId);
 		const respondableFamilyId = parentQuestionPool.familyId;
-		const qr = getOrCreateQuizResponse(respondableFamilyId);
 
-		const el = containingPage.elements
-			.flatMap((el) => (el.type === 'NG::Soomo::MC::QuestionPool' ? el.questions : el))
-			.find((el) => el.familyId === questionFamilyId) as MCQuestion;
-
+		const el = parentQuestionPool.questions.find((mcq) => mcq.familyId === questionFamilyId)!;
 		const choice = (el.choices as FullMCChoice[]).find((ch) => ch.familyId === choiceFamilyId)!;
 		const correctChoice = (el.choices as FullMCChoice[]).find((ch) => ch.correct)!;
 		const isCorrect = correctChoice.familyId === choiceFamilyId;
+
+		const answerMap = Object.fromEntries(qr.answers.map((ans) => [ans.questionFamilyId, ans]));
+		answerMap[questionFamilyId] = {
+			questionFamilyId,
+			choiceFamilyId,
+			correct: isCorrect,
+			rejoinder: choice.rejoinder,
+			wasFinalAttempt: maxAttempts !== -1 && qr.reset_count >= maxAttempts - 1
+		};
+		qr.answers = Object.values(answerMap);
 
 		res.status(200).json({
 			pool_family_id: respondableFamilyId,
@@ -40,17 +37,9 @@ const handler: NextApiHandler<SQRSaveResponse> = (req, res) => {
 			choice_family_id: choiceFamilyId,
 			is_correct: isCorrect,
 			question_family_id: questionFamilyId,
-			rejoinder: choice.rejoinder
+			rejoinder: choice.rejoinder,
+			TEST_modifiedQuizResponse: qr
 		});
-
-		const answerMap = Object.fromEntries(qr.answers.map((ans) => [ans.question_family_id, ans]));
-		answerMap[questionFamilyId] = {
-			body: choiceFamilyId,
-			correct: isCorrect,
-			question_family_id: questionFamilyId
-		};
-		qr.answers = Object.values(answerMap);
-		updateQuizResponse(respondableFamilyId, qr);
 		return;
 	}
 

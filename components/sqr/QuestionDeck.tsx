@@ -9,31 +9,29 @@ import { breakpoints } from '@soomo/lib/styles/themes';
 
 import InstructorViewDeckedQuestionPool from './InstructorViewDeckedQuestionPool';
 import StudentViewDeckedQuestionPool from './StudentViewDeckedQuestionPool';
-import { getAllQuizResponses } from '../../fixtures/database';
 import { PageContext } from '../Layout';
 
-import type {
-	FamilyId,
-	MCQuestion,
-	MCQuestionPool,
-	QuizResponse,
-	SyntheticMCQAnswer
-} from '../../types';
+import type { FamilyId, MCQuestion, MCQuestionPool, QuizResponse } from '../../types';
 
 interface Props {
 	poolElements?: MCQuestionPool[]; // instructor view only
 	initialQuestions?: MCQuestion[]; // student view only
-	initialAnswers?: SyntheticMCQAnswer[]; // student view only
+	initialQuizResponses?: QuizResponse[]; // student view only
 }
 
-const QuestionDeck: React.VFC<Props> = ({ initialQuestions, poolElements }) => {
+const QuestionDeck: React.VFC<Props> = ({
+	initialQuestions,
+	poolElements,
+	initialQuizResponses
+}) => {
 	const { maxAttempts, isInstructorView } = useContext(PageContext);
 	const [expandedIndexesMap, setExpandedIndexesMap] = useState<{
 		[index: number]: boolean;
 	}>(
 		initialExpandedState({
 			maxAttempts,
-			quizResponses: getAllQuizResponses(),
+			isInstructorView,
+			initialQuizResponses,
 			initialQuestions,
 			poolElements
 		})
@@ -74,6 +72,7 @@ const QuestionDeck: React.VFC<Props> = ({ initialQuestions, poolElements }) => {
 												[i]: !expandedIndexesMap[i]
 											})
 										}
+										initialQuizResponse={initialQuizResponses[i]}
 									/>
 							  ))}
 					</div>
@@ -124,12 +123,18 @@ const styles = css`
 function initialExpandedState(
 	args: Props & {
 		maxAttempts: number;
-		quizResponses: Record<FamilyId, QuizResponse>;
+		isInstructorView: boolean;
 	}
 ): {
 	[index: number]: boolean;
 } {
-	const { maxAttempts, isInstructorView, quizResponses, initialQuestions, poolElements } = args;
+	const {
+		maxAttempts,
+		isInstructorView,
+		initialQuizResponses: quizResponses,
+		initialQuestions,
+		poolElements
+	} = args;
 	const items = isInstructorView ? poolElements : initialQuestions;
 
 	// the first question that can still earn points is expanded:
@@ -138,7 +143,7 @@ function initialExpandedState(
 	let expandedQuestionFamilyId: FamilyId | null = null;
 	for (let i = 0; i < items.length; i++) {
 		const item = items[i];
-		const qr = quizResponses[item.familyId];
+		const qr = quizResponses[i];
 		if (!qr || qr.answers.length === 0 || qr.reset_count < maxAttempts - 1) {
 			expandedQuestionFamilyId = item.familyId;
 			break;

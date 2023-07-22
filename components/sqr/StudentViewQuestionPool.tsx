@@ -12,11 +12,11 @@ import { buttonStyles, choicesStyles, dividerStyles, rejoinderStyles } from './s
 import { useStudentView } from './useStudentView';
 import TryAgain from './TryAgain';
 
-import type { SyntheticMCQAnswer, FamilyId, MCQuestion } from '../../types';
+import type { FamilyId, MCQuestion, QuizResponse } from '../../types';
 
 interface Props {
 	initialQuestion: MCQuestion;
-	initialAnswer: SyntheticMCQAnswer | null;
+	initialQuizResponse: QuizResponse;
 }
 
 /**
@@ -36,15 +36,22 @@ interface Props {
  * - for pooled MCQs: a new question from the pool
  * And the component will update with the response.
  */
-const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, initialAnswer, ...rest }) => {
+const StudentViewQuestionPool: React.VFC<Props> = ({
+	initialQuestion,
+	initialQuizResponse,
+	...rest
+}) => {
 	const [activeQuestion, setActiveQuestion] = useState<MCQuestion>(initialQuestion);
 	useEffect(() => {
 		setActiveQuestion(initialQuestion);
 	}, [initialQuestion]);
-	const [choiceFamilyId, setChoiceFamilyId] = useState<FamilyId | null>(
-		initialAnswer?.choiceFamilyId ?? null
+	const [quizResponse, setQuizResponse] = useState<QuizResponse>(initialQuizResponse);
+	const answer = quizResponse.answers.find(
+		(ans) => ans.questionFamilyId === activeQuestion.familyId
 	);
-	const [answer, setAnswer] = useState<SyntheticMCQAnswer | null>(initialAnswer);
+	const [choiceFamilyId, setChoiceFamilyId] = useState<FamilyId | null>(
+		answer?.choiceFamilyId ?? null
+	);
 	const [rejoinderRef, setFocusToRejoinder] = useAccessibilityFocus();
 	const [headingRef, setFocusToHeading] = useAccessibilityFocus();
 	const { isRequestInProgress, performReset, performSave } = useStudentView({
@@ -60,7 +67,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, initialAns
 		if (json.was_reset) {
 			setChoiceFamilyId(null);
 			setActiveQuestion(json.new_question);
-			setAnswer(null);
+			setQuizResponse(json.TEST_modifiedQuizResponse);
 			setFocusToHeading();
 		}
 	}, [isRequestInProgress, answer, performReset, setFocusToHeading]);
@@ -71,13 +78,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, initialAns
 		}
 
 		const json = await performSave();
-		setAnswer({
-			questionFamilyId: json.question_family_id,
-			choiceFamilyId: json.choice_family_id,
-			correct: json.is_correct,
-			rejoinder: json.rejoinder,
-			wasFinalAttempt: json.attempts_remaining === 0
-		});
+		setQuizResponse(json.TEST_modifiedQuizResponse);
 		setFocusToRejoinder();
 	}, [isRequestInProgress, answer, performSave, setFocusToRejoinder]);
 
@@ -103,7 +104,11 @@ const StudentViewQuestionPool: React.VFC<Props> = ({ initialQuestion, initialAns
 								correct={answer.correct}
 								css={rejoinderStyles}
 							/>
-							<TryAgain isRequestInProgress={isRequestInProgress} onReset={handleReset} />
+							<TryAgain
+								isRequestInProgress={isRequestInProgress}
+								onReset={handleReset}
+								quizResponse={quizResponse}
+							/>
 						</>
 					) : (
 						<>

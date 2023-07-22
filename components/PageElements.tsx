@@ -66,7 +66,7 @@ const PageElements: React.VFC<Props> = ({ elements }) => {
 									<StudentViewQuestionPool
 										key={el.familyId}
 										initialQuestion={initialQuestion}
-										initialAnswer={qr.answers[0]}
+										initialQuizResponse={qr}
 									/>
 								);
 							}
@@ -113,19 +113,15 @@ const PageElements: React.VFC<Props> = ({ elements }) => {
 								const initialQuestion = { ...currentQuestion, choices: shuffledChoices };
 								return initialQuestion;
 							});
-							const initialAnswers = deckedQuestionPools.map((pool, i) => {
-								const qr = getOrCreateQuizResponse(pool.familyId);
-								const answer =
-									qr.answers.find((ans) => ans.questionFamilyId === initialQuestions[i].familyId) ??
-									null;
-								return answer;
-							});
+							const quizResponses = deckedQuestionPools.map((pool) =>
+								getOrCreateQuizResponse(pool.familyId)
+							);
 							component = (
 								<QuestionDeck
 									key={el.familyId}
 									poolElements={[...deckedQuestionPools]}
 									initialQuestions={initialQuestions}
-									initialAnswers={initialAnswers}
+									initialQuizResponses={quizResponses}
 								/>
 							);
 							deckedQuestionPools = [];

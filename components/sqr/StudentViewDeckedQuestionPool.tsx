@@ -17,25 +17,32 @@ import TryAgain from './TryAgain';
 import { useStudentView } from './useStudentView';
 import { choicesStyles, deckedStyles, rejoinderStyles } from './deckedStyles';
 
-import type { SyntheticMCQAnswer, MCQuestion, FamilyId } from '../../types';
+import type { MCQuestion, FamilyId, QuizResponse } from '../../types';
 
 interface Props {
 	initialQuestion: MCQuestion;
 	expanded?: boolean;
 	onToggleExpanded: () => void;
+	initialQuizResponse: QuizResponse;
 }
 
 const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 	initialQuestion,
 	onToggleExpanded,
-	expanded
+	expanded,
+	initialQuizResponse
 }) => {
 	const [activeQuestion, setActiveQuestion] = useState<MCQuestion>(initialQuestion);
 	useEffect(() => {
 		setActiveQuestion(initialQuestion);
 	}, [initialQuestion]);
-	const [choiceFamilyId, setChoiceFamilyId] = useState<FamilyId | null>(null);
-	const [answer, setAnswer] = useState<SyntheticMCQAnswer | null>(null);
+	const [quizResponse, setQuizResponse] = useState(initialQuizResponse);
+	const answer = quizResponse.answers.find(
+		(ans) => ans.questionFamilyId === activeQuestion.familyId
+	);
+	const [choiceFamilyId, setChoiceFamilyId] = useState<FamilyId | null>(
+		answer?.choiceFamilyId ?? null
+	);
 	const { isRequestInProgress, performReset, performSave } = useStudentView({
 		questionFamilyId: activeQuestion.familyId,
 		choiceFamilyId
@@ -52,7 +59,7 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 		if (json.was_reset) {
 			setChoiceFamilyId(null);
 			setActiveQuestion(json.new_question);
-			setAnswer(null);
+			setQuizResponse(json.TEST_modifiedQuizResponse);
 			setFocusToButton();
 		}
 	}, [answer, isRequestInProgress, performReset, setFocusToButton]);
@@ -62,13 +69,7 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 			return;
 		}
 		const json = await performSave();
-		setAnswer({
-			questionFamilyId: json.question_family_id,
-			choiceFamilyId: json.choice_family_id,
-			correct: json.is_correct,
-			rejoinder: json.rejoinder,
-			wasFinalAttempt: json.attempts_remaining === 0
-		});
+		setQuizResponse(json.TEST_modifiedQuizResponse);
 		setFocusToRejoinder();
 	}, [answer, isRequestInProgress, performSave, setFocusToRejoinder]);
 
@@ -116,6 +117,7 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 							isRequestInProgress={isRequestInProgress}
 							onReset={handleReset}
 							css={tryAgainStyles}
+							quizResponse={quizResponse}
 						/>
 					</>
 				) : (

@@ -2,7 +2,7 @@
 import { TEST_getParentMCQuestionPool } from '../../fixtures/getRespondableFamilyId';
 
 import type { NextApiHandler } from 'next';
-import type { FullMCChoice, MCQuestion, SQRSavePayload, SQRSaveResponse } from '../../types';
+import type { FullMCChoice, SQRSavePayload, SQRSaveResponse } from '../../types';
 
 const handler: NextApiHandler<SQRSaveResponse> = (req, res) => {
 	if (req.method === 'POST') {

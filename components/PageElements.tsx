@@ -4,7 +4,8 @@ import dynamic from 'next/dynamic';
 
 import shuffle from '@soomo/lib/utils/shuffle';
 
-import { FAKE_USER_ID, getOrCreateQuizResponse } from '../fixtures/database';
+import { FAKE_USER_ID } from '../fixtures/constants';
+import { getOrCreateQuizResponse } from '../fixtures/database';
 import StudentViewQuestionPool from './sqr/StudentViewQuestionPool';
 import InstructorViewQuestionPool from './sqr/InstructorViewQuestionPool';
 import QuestionDeck from './sqr/QuestionDeck';

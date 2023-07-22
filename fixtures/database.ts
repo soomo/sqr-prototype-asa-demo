@@ -1,6 +1,6 @@
-import type { FamilyId, QuizResponse } from '../types';
+import { FAKE_USER_ID } from './constants';
 
-export const FAKE_USER_ID = 0;
+import type { FamilyId, QuizResponse } from '../types';
 
 const localStorageQuizResponses = localStorage.getItem('quizResponses');
 let quizResponses: { [assignmentFamilyId: FamilyId]: QuizResponse } = localStorageQuizResponses

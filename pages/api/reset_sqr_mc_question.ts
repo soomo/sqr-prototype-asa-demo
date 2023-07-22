@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import shuffle from '@soomo/lib/utils/shuffle';
 
-import { FAKE_USER_ID } from '../../fixtures/database';
+import { FAKE_USER_ID } from '../../fixtures/constants';
 import { TEST_getParentMCQuestionPool } from '../../fixtures/getRespondableFamilyId';
 
 import type { NextApiHandler } from 'next';

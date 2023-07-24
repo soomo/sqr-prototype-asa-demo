@@ -149,7 +149,7 @@ const tryAgainStyles = css`
 		display: block;
 
 		small {
-			font-size: initial;
+			font-size: inherit;
 
 			&::before {
 				content: ' ';

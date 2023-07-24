@@ -119,6 +119,7 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 							onReset={handleReset}
 							css={tryAgainStyles}
 							quizResponse={quizResponse}
+							correct={answer.correct}
 						/>
 					</>
 				) : (

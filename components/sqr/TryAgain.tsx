@@ -13,9 +13,16 @@ interface Props {
 	onReset: () => void;
 	isRequestInProgress: boolean;
 	quizResponse: QuizResponse;
+	correct: boolean;
 }
 
-const TryAgain: React.VFC<Props> = ({ onReset, isRequestInProgress, quizResponse, ...rest }) => {
+const TryAgain: React.VFC<Props> = ({
+	onReset,
+	isRequestInProgress,
+	quizResponse,
+	correct,
+	...rest
+}) => {
 	const { maxAttempts } = useContext(PageContext);
 	const hasLimitedAttempts = maxAttempts !== -1;
 	const attemptsRemaining = maxAttempts - quizResponse.reset_count - 1;
@@ -26,6 +33,10 @@ const TryAgain: React.VFC<Props> = ({ onReset, isRequestInProgress, quizResponse
 				0 attempts remaining
 			</div>
 		);
+	}
+
+	if (correct && hasLimitedAttempts) {
+		return null;
 	}
 
 	return (

@@ -109,6 +109,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({
 								isRequestInProgress={isRequestInProgress}
 								onReset={handleReset}
 								quizResponse={quizResponse}
+								correct={answer.correct}
 							/>
 						</>
 					) : (

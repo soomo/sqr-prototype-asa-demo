@@ -21,7 +21,11 @@ const TryAgain: React.VFC<Props> = ({ onReset, isRequestInProgress, quizResponse
 	const attemptsRemaining = maxAttempts - quizResponse.reset_count - 1;
 
 	if (hasLimitedAttempts && attemptsRemaining <= 0) {
-		return <div css={noAttemptsRemainingStyles}>0 attempts remaining</div>;
+		return (
+			<div css={noAttemptsRemainingStyles} {...rest}>
+				0 attempts remaining
+			</div>
+		);
 	}
 
 	return (

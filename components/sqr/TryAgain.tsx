@@ -63,7 +63,7 @@ const styles = css`
 	padding: 1rem 0 0.5rem;
 	grid-template-columns: 1fr auto;
 	align-items: center;
-	column-gap: 5rem;
+	column-gap: 2rem;
 	font-size: 14px;
 	line-height: 18px;
 	color: #545454;

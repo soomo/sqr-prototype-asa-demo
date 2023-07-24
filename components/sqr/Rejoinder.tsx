@@ -4,26 +4,43 @@ import { css } from '@emotion/core';
 
 import { breakpoints } from '@soomo/lib/styles/themes';
 
+import type { FullMCChoice } from '../../types';
+
 type HTMLString = string;
 
 interface Props {
 	rejoinder: HTMLString;
 	correct: boolean;
+	correctChoice?: FullMCChoice;
 }
 
-const Rejoinder = forwardRef<HTMLElement, Props>(({ rejoinder, correct, ...rest }, ref) => {
-	return (
-		<div css={styles} {...rest}>
-			<span ref={ref} tabIndex={-1} />
-			<div>
-				<span className="correctness" data-correct={correct}>
-					{correct ? 'Correct.' : 'Incorrect.'}
-				</span>{' '}
-				<span dangerouslySetInnerHTML={{ __html: rejoinder }} />
+const Rejoinder = forwardRef<HTMLElement, Props>(
+	({ rejoinder, correct, correctChoice, ...rest }, ref) => {
+		return (
+			<div css={styles} {...rest}>
+				<span ref={ref} tabIndex={-1} />
+				<div>
+					<span className="correctness" data-correct={correct}>
+						{correct ? 'Correct.' : 'Incorrect.'}
+					</span>{' '}
+					<span dangerouslySetInnerHTML={{ __html: rejoinder }} />
+					{correctChoice && (
+						<div css={correctChoiceStyles}>
+							<div className="correct-choice-body">
+								<b>Correct Answer:</b>{' '}
+								<span dangerouslySetInnerHTML={{ __html: correctChoice.body }} />
+							</div>
+							<div
+								className="correct-choice-rejoinder"
+								dangerouslySetInnerHTML={{ __html: correctChoice.rejoinder }}
+							/>
+						</div>
+					)}
+				</div>
 			</div>
-		</div>
-	);
-});
+		);
+	}
+);
 Rejoinder.displayName = 'Rejoinder';
 
 export default Rejoinder;
@@ -52,5 +69,16 @@ const styles = css`
 		&[data-correct='false'] {
 			color: #e70000;
 		}
+	}
+`;
+
+const correctChoiceStyles = css`
+	.correct-choice-body,
+	.correct-choice-rejoinder {
+		margin-top: 1rem;
+	}
+
+	b {
+		font-weight: 500;
 	}
 `;

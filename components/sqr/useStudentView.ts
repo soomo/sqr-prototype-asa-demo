@@ -1,18 +1,20 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 
 import { useAriaLiveAnnouncer } from '@soomo/lib/components/AriaLiveAnnouncer';
 import { emitCustomEvent } from '@soomo/lib/utils/emitCustomEvent';
 
 import { getOrCreateQuizResponse, updateQuizResponse } from '../../fixtures/database';
+import { PageContext } from '../Layout';
+import { TEST_getRespondableFamilyId } from '../../fixtures/getRespondableFamilyId';
 
 import type {
 	FamilyId,
+	FullMCChoice,
 	SQRResetPayload,
 	SQRResetResponse,
 	SQRSavePayload,
 	SQRSaveResponse
 } from '../../types';
-import { TEST_getRespondableFamilyId } from '../../fixtures/getRespondableFamilyId';
 
 export const useStudentView = (args: {
 	questionFamilyId: FamilyId;
@@ -21,9 +23,12 @@ export const useStudentView = (args: {
 	isRequestInProgress: boolean;
 	performReset: () => Promise<SQRResetResponse>;
 	performSave: () => Promise<SQRSaveResponse>;
+	correctChoice?: FullMCChoice;
 } => {
 	const { questionFamilyId, choiceFamilyId } = args;
 	const [isRequestInProgress, setRequestInProgress] = useState(false);
+	const [correctChoice, setCorrectChoice] = useState<FullMCChoice | null>(null);
+	const { maxAttempts } = useContext(PageContext);
 	const { makeAssertiveAnnouncement } = useAriaLiveAnnouncer();
 
 	const TEST_respondableFamilyId = TEST_getRespondableFamilyId(questionFamilyId);
@@ -65,10 +70,14 @@ export const useStudentView = (args: {
 				body: JSON.stringify({
 					questionFamilyId,
 					choiceFamilyId,
-					TEST_quizResponse: getOrCreateQuizResponse(TEST_respondableFamilyId)
+					TEST_quizResponse: getOrCreateQuizResponse(TEST_respondableFamilyId),
+					TEST_maxAttempts: maxAttempts
 				} as SQRSavePayload)
 			});
 			json = (await req.json()) as SQRSaveResponse;
+			if (json.correct_choice) {
+				setCorrectChoice(json.correct_choice);
+			}
 			emitCustomEvent('question-saved', json);
 			makeAssertiveAnnouncement(
 				`Answer saved. ${json.is_correct ? 'Correct.' : 'Incorrect.'} ${json.rejoinder}`
@@ -83,11 +92,13 @@ export const useStudentView = (args: {
 		questionFamilyId,
 		choiceFamilyId,
 		TEST_respondableFamilyId,
+		maxAttempts,
 		makeAssertiveAnnouncement
 	]);
 
 	return {
 		isRequestInProgress,
+		correctChoice,
 		performReset,
 		performSave
 	};

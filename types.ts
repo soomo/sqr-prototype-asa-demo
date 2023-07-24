@@ -82,10 +82,7 @@ export interface SQRSaveResponse {
 	attempts_remaining: number; // -1 for unlimited resets
 
 	// if they just used their final attempt, we should show the information for the correct choice
-	correct_choice?: {
-		family_id: FamilyId;
-		rejoinder: string;
-	};
+	correct_choice?: FullMCChoice;
 
 	TEST_modifiedQuizResponse: QuizResponse;
 }

@@ -43,7 +43,7 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 	const [choiceFamilyId, setChoiceFamilyId] = useState<FamilyId | null>(
 		answer?.choiceFamilyId ?? null
 	);
-	const { isRequestInProgress, performReset, performSave } = useStudentView({
+	const { isRequestInProgress, performReset, performSave, correctChoice } = useStudentView({
 		questionFamilyId: activeQuestion.familyId,
 		choiceFamilyId
 	});
@@ -112,6 +112,7 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 							rejoinder={answer.rejoinder}
 							correct={answer.correct}
 							css={rejoinderStyles}
+							correctChoice={correctChoice}
 						/>
 						<TryAgain
 							isRequestInProgress={isRequestInProgress}
@@ -141,6 +142,19 @@ const dividerAndSaveStyles = css`
 
 const tryAgainStyles = css`
 	padding: 1rem 2rem 1.5rem 1.5rem;
+
+	/* FIXME temporary */
+	button {
+		display: block;
+
+		small {
+			font-size: initial;
+
+			&::before {
+				content: ' ';
+			}
+		}
+	}
 
 	@media (max-width: ${breakpoints.small}) {
 		padding-right: 1rem;

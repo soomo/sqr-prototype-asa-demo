@@ -22,23 +22,26 @@ const handler: NextApiHandler<SQRSaveResponse> = (req, res) => {
 		const isCorrect = correctChoice.familyId === choiceFamilyId;
 
 		const answerMap = Object.fromEntries(qr.answers.map((ans) => [ans.questionFamilyId, ans]));
+		const attemptsRemaining = maxAttempts === -1 ? -1 : maxAttempts - qr.reset_count - 1;
+		const wasFinalAttempt = maxAttempts !== -1 && attemptsRemaining <= 0;
 		answerMap[questionFamilyId] = {
 			questionFamilyId,
 			choiceFamilyId,
 			correct: isCorrect,
 			rejoinder: choice.rejoinder,
-			wasFinalAttempt: maxAttempts !== -1 && qr.reset_count >= maxAttempts - 1
+			wasFinalAttempt
 		};
 		qr.answers = Object.values(answerMap);
 
 		res.status(200).json({
 			pool_family_id: respondableFamilyId,
-			attempts_remaining: -1, // unlimited
+			attempts_remaining: attemptsRemaining,
 			choice_family_id: choiceFamilyId,
 			is_correct: isCorrect,
 			question_family_id: questionFamilyId,
 			rejoinder: choice.rejoinder,
-			TEST_modifiedQuizResponse: qr
+			TEST_modifiedQuizResponse: qr,
+			correct_choice: wasFinalAttempt ? correctChoice : undefined
 		});
 		return;
 	}

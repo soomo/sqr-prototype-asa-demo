@@ -54,7 +54,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({
 	);
 	const [rejoinderRef, setFocusToRejoinder] = useAccessibilityFocus();
 	const [headingRef, setFocusToHeading] = useAccessibilityFocus();
-	const { isRequestInProgress, performReset, performSave } = useStudentView({
+	const { isRequestInProgress, performReset, performSave, correctChoice } = useStudentView({
 		questionFamilyId: activeQuestion.familyId,
 		choiceFamilyId
 	});
@@ -103,6 +103,7 @@ const StudentViewQuestionPool: React.VFC<Props> = ({
 								rejoinder={answer.rejoinder}
 								correct={answer.correct}
 								css={rejoinderStyles}
+								correctChoice={correctChoice}
 							/>
 							<TryAgain
 								isRequestInProgress={isRequestInProgress}

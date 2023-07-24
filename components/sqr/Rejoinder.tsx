@@ -24,7 +24,7 @@ const Rejoinder = forwardRef<HTMLElement, Props>(
 						{correct ? 'Correct.' : 'Incorrect.'}
 					</span>{' '}
 					<span dangerouslySetInnerHTML={{ __html: rejoinder }} />
-					{correctChoice && (
+					{!correct && correctChoice && (
 						<div css={correctChoiceStyles}>
 							<div className="correct-choice-body">
 								<b>Correct Answer:</b>{' '}

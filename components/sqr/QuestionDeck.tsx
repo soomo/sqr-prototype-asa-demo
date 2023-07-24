@@ -137,17 +137,22 @@ function initialExpandedState(
 	} = args;
 	const items = isInstructorView ? poolElements : initialQuestions;
 
-	// the first question that can still earn points is expanded:
+	// for instructors, simply start with the first question expanded
+	if (isInstructorView) {
+		return { [0]: true };
+	}
+
+	// for students, the first question that can still earn points is expanded:
 	// - the first unanswered question, or
 	// - the first question which is incorrect *and* still has resets remaining
-	let expandedQuestionFamilyId: FamilyId | null = null;
+	let expandedIndex: number | null = null;
 	for (let i = 0; i < items.length; i++) {
-		const item = items[i];
 		const qr = quizResponses[i];
-		if (!qr || qr.answers.length === 0 || qr.reset_count < maxAttempts - 1) {
-			expandedQuestionFamilyId = item.familyId;
+		const ans = qr.answers.find((ans) => ans.questionFamilyId === initialQuestions[i].familyId);
+		if (!qr || qr.answers.length === 0 || (!ans.correct && qr.reset_count < maxAttempts - 1)) {
+			expandedIndex = i;
 			break;
 		}
 	}
-	return expandedQuestionFamilyId != null ? { [expandedQuestionFamilyId]: true } : {};
+	return expandedIndex != null ? { [expandedIndex]: true } : {};
 }

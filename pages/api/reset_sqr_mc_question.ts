@@ -5,7 +5,7 @@ import { FAKE_USER_ID } from '../../fixtures/constants';
 import { TEST_getParentMCQuestionPool } from '../../fixtures/getRespondableFamilyId';
 
 import type { NextApiHandler } from 'next';
-import type { SQRResetPayload, SQRResetResponse } from '../../types';
+import type { RedactedMCChoice, SQRResetPayload, SQRResetResponse } from '../../types';
 
 const handler: NextApiHandler<SQRResetResponse> = (req, res) => {
 	if (req.method === 'POST') {
@@ -25,7 +25,13 @@ const handler: NextApiHandler<SQRResetResponse> = (req, res) => {
 				seed: FAKE_USER_ID
 			});
 			const newQuestion = { ...shuffledQuestions[qr.reset_count % shuffledQuestions.length] };
-			newQuestion.choices = shuffle({ list: newQuestion.choices, key: '', seed: qr.seed });
+			newQuestion.choices = shuffle({ list: newQuestion.choices, key: '', seed: qr.seed }).map(
+				(ch) =>
+					({
+						body: ch.body,
+						familyId: ch.familyId
+					} as RedactedMCChoice)
+			);
 			res.status(200).json({
 				pool_family_id: respondableFamilyId,
 				reset_count: qr.reset_count,

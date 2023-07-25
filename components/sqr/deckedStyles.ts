@@ -58,6 +58,10 @@ export const rejoinderStyles = css`
 	margin-right: 2rem;
 	padding-left: 1.5rem;
 
+	&:last-child {
+		border-bottom-left-radius: 0.5rem;
+	}
+
 	@media (max-width: ${breakpoints.small}) {
 		margin-right: 1.25rem;
 	}

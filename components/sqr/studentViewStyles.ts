@@ -20,6 +20,9 @@ const buttonStyles = css`
 	display: flex;
 	margin-left: auto;
 	padding: 1rem 1.5rem;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 0.25rem;
 	border: 2px solid;
 	border-radius: 6px;
 	font: inherit;

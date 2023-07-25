@@ -1,17 +1,20 @@
+import { useContext } from 'react';
+
+import { PageContext } from './Layout';
+
 export interface PageProgressProps {
 	numAttempted: number;
 	numCorrect: number;
 	total: number;
-	isInstructorView?: boolean;
 }
 
 const PageProgress: React.VFC<PageProgressProps> = ({
 	numAttempted,
 	numCorrect,
 	total,
-	isInstructorView,
 	...rest
 }) => {
+	const { isInstructorView } = useContext(PageContext);
 	return (
 		<span {...rest}>
 			{!isInstructorView && (

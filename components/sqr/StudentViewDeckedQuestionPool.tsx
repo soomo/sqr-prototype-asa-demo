@@ -17,26 +17,33 @@ import TryAgain from './TryAgain';
 import { useStudentView } from './useStudentView';
 import { choicesStyles, deckedStyles, rejoinderStyles } from './deckedStyles';
 
-import type { SyntheticAnswer, MCQuestion, FamilyId } from '../../types';
+import type { MCQuestion, FamilyId, QuizResponse } from '../../types';
 
 interface Props {
 	initialQuestion: MCQuestion;
 	expanded?: boolean;
 	onToggleExpanded: () => void;
+	initialQuizResponse: QuizResponse;
 }
 
 const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 	initialQuestion,
 	onToggleExpanded,
-	expanded
+	expanded,
+	initialQuizResponse
 }) => {
 	const [activeQuestion, setActiveQuestion] = useState<MCQuestion>(initialQuestion);
 	useEffect(() => {
 		setActiveQuestion(initialQuestion);
 	}, [initialQuestion]);
-	const [choiceFamilyId, setChoiceFamilyId] = useState<FamilyId | null>(null);
-	const [answer, setAnswer] = useState<SyntheticAnswer | null>(null);
-	const { isRequestInProgress, performReset, performSave } = useStudentView({
+	const [quizResponse, setQuizResponse] = useState(initialQuizResponse);
+	const answer = quizResponse.answers.find(
+		(ans) => ans.questionFamilyId === activeQuestion.familyId
+	);
+	const [choiceFamilyId, setChoiceFamilyId] = useState<FamilyId | null>(
+		answer?.choiceFamilyId ?? null
+	);
+	const { isRequestInProgress, performReset, performSave, correctChoice } = useStudentView({
 		questionFamilyId: activeQuestion.familyId,
 		choiceFamilyId
 	});
@@ -52,7 +59,7 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 		if (json.was_reset) {
 			setChoiceFamilyId(null);
 			setActiveQuestion(json.new_question);
-			setAnswer(null);
+			setQuizResponse(json.TEST_modifiedQuizResponse);
 			setFocusToButton();
 		}
 	}, [answer, isRequestInProgress, performReset, setFocusToButton]);
@@ -62,11 +69,7 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 			return;
 		}
 		const json = await performSave();
-		setAnswer({
-			correct: json.is_correct,
-			rejoinder: json.rejoinder,
-			wasFinalAttempt: json.attempts_remaining === 0
-		});
+		setQuizResponse(json.TEST_modifiedQuizResponse);
 		setFocusToRejoinder();
 	}, [answer, isRequestInProgress, performSave, setFocusToRejoinder]);
 
@@ -109,11 +112,14 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 							rejoinder={answer.rejoinder}
 							correct={answer.correct}
 							css={rejoinderStyles}
+							correctChoice={correctChoice}
 						/>
 						<TryAgain
 							isRequestInProgress={isRequestInProgress}
 							onReset={handleReset}
 							css={tryAgainStyles}
+							quizResponse={quizResponse}
+							correct={answer.correct}
 						/>
 					</>
 				) : (
@@ -137,6 +143,19 @@ const dividerAndSaveStyles = css`
 
 const tryAgainStyles = css`
 	padding: 1rem 2rem 1.5rem 1.5rem;
+
+	/* FIXME temporary */
+	button {
+		display: block;
+
+		small {
+			font-size: inherit;
+
+			&::before {
+				content: ' ';
+			}
+		}
+	}
 
 	@media (max-width: ${breakpoints.small}) {
 		padding-right: 1rem;

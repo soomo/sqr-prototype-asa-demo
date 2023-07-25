@@ -1,13 +1,15 @@
-import { Fragment } from 'react';
+import { Fragment, useContext } from 'react';
 
 import dynamic from 'next/dynamic';
 
 import shuffle from '@soomo/lib/utils/shuffle';
 
-import { FAKE_USER_ID, getOrCreateQuizResponse } from '../fixtures/database';
+import { FAKE_USER_ID } from '../fixtures/constants';
+import { getOrCreateQuizResponse } from '../fixtures/database';
 import StudentViewQuestionPool from './sqr/StudentViewQuestionPool';
 import InstructorViewQuestionPool from './sqr/InstructorViewQuestionPool';
 import QuestionDeck from './sqr/QuestionDeck';
+import { PageContext } from './Layout';
 
 import type { MCQuestionPool, PageElement, RedactedMCChoice } from '../types';
 
@@ -17,14 +19,14 @@ const Text = dynamic(() => import('@soomo/lib/components/pageElements').then((m)
 
 interface Props {
 	elements: PageElement[];
-	isInstructorView?: boolean;
 }
 
 /**
  * Emulates a Haml template / Ruby helper for pages#show. "Server-side-only" code is fine here,
  * as when we actually implement this the code here will instead be in a Ruby helper and thus hidden from the client.
  */
-const PageElements: React.VFC<Props> = ({ elements, isInstructorView }) => {
+const PageElements: React.VFC<Props> = ({ elements }) => {
+	const { isInstructorView } = useContext(PageContext);
 	let inQuestionDeck = false;
 	let deckedQuestionPools: MCQuestionPool[] = [];
 	return (
@@ -61,7 +63,11 @@ const PageElements: React.VFC<Props> = ({ elements, isInstructorView }) => {
 									  });
 								const initialQuestion = { ...currentQuestion, choices: shuffledChoices };
 								component = (
-									<StudentViewQuestionPool key={el.familyId} initialQuestion={initialQuestion} />
+									<StudentViewQuestionPool
+										key={el.familyId}
+										initialQuestion={initialQuestion}
+										initialQuizResponse={qr}
+									/>
 								);
 							}
 						}
@@ -107,12 +113,15 @@ const PageElements: React.VFC<Props> = ({ elements, isInstructorView }) => {
 								const initialQuestion = { ...currentQuestion, choices: shuffledChoices };
 								return initialQuestion;
 							});
+							const quizResponses = deckedQuestionPools.map((pool) =>
+								getOrCreateQuizResponse(pool.familyId)
+							);
 							component = (
 								<QuestionDeck
 									key={el.familyId}
-									isInstructorView={isInstructorView}
 									poolElements={[...deckedQuestionPools]}
 									initialQuestions={initialQuestions}
+									initialQuizResponses={quizResponses}
 								/>
 							);
 							deckedQuestionPools = [];

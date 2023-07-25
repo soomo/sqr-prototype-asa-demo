@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { css } from '@emotion/core';
 import { RiCheckboxMultipleFill } from 'react-icons/ri';
@@ -9,21 +9,33 @@ import { breakpoints } from '@soomo/lib/styles/themes';
 
 import InstructorViewDeckedQuestionPool from './InstructorViewDeckedQuestionPool';
 import StudentViewDeckedQuestionPool from './StudentViewDeckedQuestionPool';
+import { PageContext } from '../Layout';
 
-import type { MCQuestion, MCQuestionPool } from '../../types';
+import type { FamilyId, MCQuestion, MCQuestionPool, QuizResponse } from '../../types';
 
 interface Props {
-	isInstructorView: boolean;
 	poolElements?: MCQuestionPool[]; // instructor view only
 	initialQuestions?: MCQuestion[]; // student view only
+	initialQuizResponses?: QuizResponse[]; // student view only
 }
 
-const QuestionDeck: React.VFC<Props> = ({ isInstructorView, initialQuestions, poolElements }) => {
+const QuestionDeck: React.VFC<Props> = ({
+	initialQuestions,
+	poolElements,
+	initialQuizResponses
+}) => {
+	const { maxAttempts, isInstructorView } = useContext(PageContext);
 	const [expandedIndexesMap, setExpandedIndexesMap] = useState<{
 		[index: number]: boolean;
-	}>({
-		0: true // first question starts off expanded
-	});
+	}>(
+		initialExpandedState({
+			maxAttempts,
+			isInstructorView,
+			initialQuizResponses,
+			initialQuestions,
+			poolElements
+		})
+	);
 	const deckSize = isInstructorView ? poolElements.length : initialQuestions.length;
 
 	return (
@@ -60,6 +72,7 @@ const QuestionDeck: React.VFC<Props> = ({ isInstructorView, initialQuestions, po
 												[i]: !expandedIndexesMap[i]
 											})
 										}
+										initialQuizResponse={initialQuizResponses[i]}
 									/>
 							  ))}
 					</div>
@@ -106,3 +119,40 @@ const styles = css`
 		}
 	}
 `;
+
+function initialExpandedState(
+	args: Props & {
+		maxAttempts: number;
+		isInstructorView: boolean;
+	}
+): {
+	[index: number]: boolean;
+} {
+	const {
+		maxAttempts,
+		isInstructorView,
+		initialQuizResponses: quizResponses,
+		initialQuestions,
+		poolElements
+	} = args;
+	const items = isInstructorView ? poolElements : initialQuestions;
+
+	// for instructors, simply start with the first question expanded
+	if (isInstructorView) {
+		return { [0]: true };
+	}
+
+	// for students, the first question that can still earn points is expanded:
+	// - the first unanswered question, or
+	// - the first question which is incorrect *and* still has resets remaining
+	let expandedIndex: number | null = null;
+	for (let i = 0; i < items.length; i++) {
+		const qr = quizResponses[i];
+		const ans = qr.answers.find((ans) => ans.questionFamilyId === initialQuestions[i].familyId);
+		if (!qr || qr.answers.length === 0 || (!ans.correct && qr.reset_count < maxAttempts - 1)) {
+			expandedIndex = i;
+			break;
+		}
+	}
+	return expandedIndex != null ? { [expandedIndex]: true } : {};
+}

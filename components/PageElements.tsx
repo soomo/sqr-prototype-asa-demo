@@ -42,7 +42,9 @@ const PageElements: React.VFC<Props> = ({ elements }) => {
 								component = <InstructorViewQuestionPool key={el.familyId} poolElement={el} />;
 							} else {
 								const qr = getOrCreateQuizResponse(el.familyId);
-								const poolIndex = qr != null ? qr.reset_count % el.questions.length : 0;
+								const poolIndex = qr.reset_count % el.questions.length;
+
+								// shuffle pool items using `${poolFamilyId}${userId}`
 								const shuffledQuestions = shuffle({
 									list: el.questions,
 									key: el.familyId,
@@ -54,12 +56,14 @@ const PageElements: React.VFC<Props> = ({ elements }) => {
 									familyId: ch.familyId
 									// excluding `correct` and `rejoinder`
 								})) as RedactedMCChoice[];
+
+								// shuffle choices using the QR seed (initially `userId`)
 								const shuffledChoices = isInstructorView
 									? redactedChoices
 									: shuffle({
 											list: redactedChoices,
 											key: '',
-											seed: FAKE_USER_ID
+											seed: qr.seed
 									  });
 								const initialQuestion = { ...currentQuestion, choices: shuffledChoices };
 								component = (
@@ -91,7 +95,7 @@ const PageElements: React.VFC<Props> = ({ elements }) => {
 							inQuestionDeck = false;
 							const initialQuestions = deckedQuestionPools.map((pool) => {
 								const qr = getOrCreateQuizResponse(pool.familyId);
-								const poolIndex = qr != null ? qr.reset_count % pool.questions.length : 0;
+								const poolIndex = qr.reset_count % pool.questions.length;
 								const shuffledQuestions = shuffle({
 									list: pool.questions,
 									key: pool.familyId,
@@ -108,7 +112,7 @@ const PageElements: React.VFC<Props> = ({ elements }) => {
 									: shuffle({
 											list: redactedChoices,
 											key: '',
-											seed: FAKE_USER_ID
+											seed: qr.seed
 									  });
 								const initialQuestion = { ...currentQuestion, choices: shuffledChoices };
 								return initialQuestion;

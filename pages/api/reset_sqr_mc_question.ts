@@ -14,11 +14,7 @@ const handler: NextApiHandler<SQRResetResponse> = (req, res) => {
 		const respondableFamilyId = parentQuestionPool.familyId;
 
 		qr.reset_count++;
-		// XXX normally we would advance the seed using the code below, but in this prototype
-		// the QuizResponse is sent immediately back with the new seed, causing choices to be reshuffled upon rerender.
-		// so, in order to prevent choices from suddenly reordering themselves, we'll just stick to using the FAKE_USER_ID
-		// as the constant seed.
-		// qr.seed = Math.floor(Math.random() * (2 ** 30 - 1));
+		qr.seed = Math.floor(Math.random() * (2 ** 30 - 1));
 		qr.answers = qr.answers.filter((ans) => ans.questionFamilyId !== questionFamilyId);
 
 		if (parentQuestionPool.questions.length > 1) {

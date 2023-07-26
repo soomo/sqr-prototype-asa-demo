@@ -147,6 +147,12 @@ const tryAgainStyles = css`
 	/* FIXME temporary */
 	button {
 		display: block;
+		white-space: nowrap;
+
+		span,
+		small {
+			line-height: 22px;
+		}
 
 		small {
 			font-size: inherit;
@@ -157,10 +163,6 @@ const tryAgainStyles = css`
 		}
 
 		@media (max-width: ${breakpoints.small}) {
-			white-space: nowrap;
-			display: flex;
-			flex-direction: column;
-			row-gap: 0.25rem;
 		}
 	}
 

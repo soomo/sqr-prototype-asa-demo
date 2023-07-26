@@ -20,7 +20,9 @@ const InstructorViewPoolNavigation: React.VFC<Props> = ({
 	return (
 		<div css={styles} {...rest}>
 			<span className="label">
-				Browse items in this pool <wbr />({numQuestions} total)
+				<span>Browse items in this pool</span>
+				<wbr />
+				<span>({numQuestions} total)</span>
 			</span>
 			<div className="explanatory-text">
 				The item assigned to each student for their initial attempt is randomized, and students will
@@ -56,8 +58,11 @@ const styles = css`
 		line-height: 1;
 
 		@media (max-width: ${breakpoints.small}) {
-			white-space: nowrap;
 			text-align: end;
+
+			span {
+				white-space: nowrap;
+			}
 		}
 	}
 

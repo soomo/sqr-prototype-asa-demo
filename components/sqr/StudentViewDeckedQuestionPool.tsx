@@ -147,7 +147,6 @@ const tryAgainStyles = css`
 	/* FIXME temporary */
 	button {
 		display: block;
-		white-space: nowrap;
 
 		span,
 		small {
@@ -155,6 +154,7 @@ const tryAgainStyles = css`
 		}
 
 		small {
+			white-space: nowrap;
 			font-size: inherit;
 
 			&::before {

@@ -155,6 +155,13 @@ const tryAgainStyles = css`
 				content: ' ';
 			}
 		}
+
+		@media (max-width: ${breakpoints.small}) {
+			white-space: nowrap;
+			display: flex;
+			flex-direction: column;
+			row-gap: 0.25rem;
+		}
 	}
 
 	@media (max-width: ${breakpoints.small}) {

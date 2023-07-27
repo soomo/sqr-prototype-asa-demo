@@ -48,7 +48,7 @@ const TryAgain: React.VFC<Props> = ({
 				data-has-limited-attempts={hasLimitedAttempts}
 				onClick={onReset}
 				css={[buttonStyles, tryAgainButtonStyles]}>
-				<span>{isRequestInProgress ? 'Resetting...' : 'Try Again'}</span>
+				<span>{getButtonLabel({ isRequestInProgress, correct })}</span>
 				{hasLimitedAttempts && (
 					<small>
 						{attemptsRemaining} {attemptsRemaining === 1 ? 'attempt' : 'attempts'} remaining
@@ -60,6 +60,16 @@ const TryAgain: React.VFC<Props> = ({
 };
 
 export default TryAgain;
+
+function getButtonLabel({
+	isRequestInProgress,
+	correct
+}: Pick<Props, 'isRequestInProgress' | 'correct'>) {
+	if (isRequestInProgress) {
+		return 'Resetting...';
+	}
+	return correct ? 'Retest' : 'Try Again';
+}
 
 const styles = css`
 	display: grid;

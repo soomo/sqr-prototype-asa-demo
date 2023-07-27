@@ -1,16 +1,6 @@
-/**
- * Styles used by both standalone and decked implementations.
- */
-
 import { css } from '@emotion/core';
 
-const dividerStyles = css`
-	margin: 2rem 0 1.25rem;
-	border-top: 1px solid #ccc;
-	border-bottom: none;
-`;
-
-const buttonStyles = css`
+export const buttonStyles = css`
 	display: flex;
 	margin-left: auto;
 	padding: 1rem 1.5rem;
@@ -42,5 +32,3 @@ const buttonStyles = css`
 		outline-offset: 2px;
 	}
 `;
-
-export { buttonStyles, dividerStyles };

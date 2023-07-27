@@ -13,8 +13,8 @@ import ExpandIcon from './ExpandIcon';
 import Prompt from './Prompt';
 import Choices from './Choices';
 import Rejoinder from './Rejoinder';
-import { buttonStyles, dividerStyles } from './commonStyles';
 import TryAgain from './TryAgain';
+import SaveButton from './SaveButton';
 import { useStudentView } from './useStudentView';
 import { choicesStyles, deckStyles, rejoinderStyles } from './deckedStyles';
 
@@ -133,10 +133,11 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 					</>
 				) : (
 					<div css={dividerAndSaveStyles}>
-						<hr css={dividerStyles} />
-						<button onClick={handleSubmit} css={buttonStyles} disabled={choiceFamilyId == null}>
-							{isRequestInProgress ? 'Saving...' : 'Save'}
-						</button>
+						<SaveButton
+							onClick={handleSubmit}
+							disabled={choiceFamilyId == null}
+							isRequestInProgress={isRequestInProgress}
+						/>
 					</div>
 				)}
 			</div>

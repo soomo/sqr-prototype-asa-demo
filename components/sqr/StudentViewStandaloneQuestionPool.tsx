@@ -8,10 +8,10 @@ import Prompt from './Prompt';
 import Choices from './Choices';
 import Rejoinder from './Rejoinder';
 import Heading from './Heading';
-import { choicesStyles, rejoinderStyles } from './standaloneStyles';
-import { buttonStyles, dividerStyles } from './commonStyles';
-import { useStudentView } from './useStudentView';
 import TryAgain from './TryAgain';
+import SaveButton from './SaveButton';
+import { choicesStyles, rejoinderStyles } from './standaloneStyles';
+import { useStudentView } from './useStudentView';
 
 import type { FamilyId, MCQuestion, QuizResponse } from '../../types';
 
@@ -122,12 +122,11 @@ const StudentViewStandaloneQuestionPool: React.VFC<Props> = ({
 							/>
 						</>
 					) : (
-						<>
-							<hr css={dividerStyles} />
-							<button onClick={handleSubmit} css={buttonStyles} disabled={choiceFamilyId == null}>
-								{isRequestInProgress ? 'Saving...' : 'Save'}
-							</button>
-						</>
+						<SaveButton
+							onClick={handleSubmit}
+							disabled={choiceFamilyId == null}
+							isRequestInProgress={isRequestInProgress}
+						/>
 					)}
 				</UniversalVelvetLeftBorder>
 			</WebtextQuestion>

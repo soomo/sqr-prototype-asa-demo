@@ -126,6 +126,7 @@ const StudentViewStandaloneQuestionPool: React.VFC<Props> = ({
 							onClick={handleSubmit}
 							disabled={choiceFamilyId == null}
 							isRequestInProgress={isRequestInProgress}
+							quizResponse={quizResponse}
 						/>
 					)}
 				</UniversalVelvetLeftBorder>

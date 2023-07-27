@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { UniversalVelvetLeftBorder } from '@soomo/lib/components/pageElements';
-import { WebtextQuestion } from '@soomo/lib/components/shared/Question';
+import { AnswerStatus, WebtextQuestion } from '@soomo/lib/components/shared/Question';
 import { useAccessibilityFocus } from '@soomo/lib/hooks';
 
 import Prompt from './Prompt';
@@ -103,8 +103,16 @@ const StudentViewQuestionPool: React.VFC<Props> = ({
 								rejoinder={answer.rejoinder}
 								correct={answer.correct}
 								css={rejoinderStyles}
-								correctChoice={correctChoice}
-							/>
+								correctChoice={correctChoice}>
+								<AnswerStatus
+									suppressAria={true}
+									postedAt={''}
+									updatedAt={quizResponse.updated_at}
+									saving={false}
+									posting={false}
+									unposting={false}
+								/>
+							</Rejoinder>
 							<TryAgain
 								isRequestInProgress={isRequestInProgress}
 								onReset={handleReset}

@@ -4,6 +4,7 @@ import { css } from '@emotion/core';
 
 import { useAccessibilityFocus } from '@soomo/lib/hooks';
 import { breakpoints } from '@soomo/lib/styles/themes';
+import { AnswerStatus } from '@soomo/lib/components/shared/Question';
 
 import CorrectIcon from './CorrectIcon';
 import IncorrectIcon from './IncorrectIcon';
@@ -112,8 +113,16 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 							rejoinder={answer.rejoinder}
 							correct={answer.correct}
 							css={rejoinderStyles}
-							correctChoice={correctChoice}
-						/>
+							correctChoice={correctChoice}>
+							<AnswerStatus
+								suppressAria={true}
+								postedAt={''}
+								updatedAt={quizResponse.updated_at}
+								saving={false}
+								posting={false}
+								unposting={false}
+							/>
+						</Rejoinder>
 						<TryAgain
 							isRequestInProgress={isRequestInProgress}
 							onReset={handleReset}

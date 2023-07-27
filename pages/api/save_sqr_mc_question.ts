@@ -32,6 +32,7 @@ const handler: NextApiHandler<SQRSaveResponse> = (req, res) => {
 			wasFinalAttempt
 		};
 		qr.answers = Object.values(answerMap);
+		qr.updated_at = new Date().toISOString();
 
 		res.status(200).json({
 			pool_family_id: respondableFamilyId,

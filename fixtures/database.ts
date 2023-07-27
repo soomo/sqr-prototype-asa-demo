@@ -18,7 +18,9 @@ export function getOrCreateQuizResponse(respondableFamilyId: FamilyId) {
 			reset_count: 0,
 			answers: [],
 			assignment_family_id: respondableFamilyId,
-			seed: FAKE_USER_ID
+			seed: FAKE_USER_ID,
+			created_at: new Date().toISOString(),
+			updated_at: new Date().toISOString()
 		};
 		quizResponses[respondableFamilyId] = qr;
 		localStorage.setItem('quizResponses', JSON.stringify(quizResponses));

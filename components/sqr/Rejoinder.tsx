@@ -9,13 +9,14 @@ import type { FullMCChoice } from '../../types';
 type HTMLString = string;
 
 interface Props {
+	children?: React.ReactElement;
 	rejoinder: HTMLString;
 	correct: boolean;
 	correctChoice?: FullMCChoice;
 }
 
 const Rejoinder = forwardRef<HTMLElement, Props>(
-	({ rejoinder, correct, correctChoice, ...rest }, ref) => {
+	({ children, rejoinder, correct, correctChoice, ...rest }, ref) => {
 		return (
 			<div css={styles} {...rest}>
 				<span ref={ref} tabIndex={-1} />
@@ -36,6 +37,7 @@ const Rejoinder = forwardRef<HTMLElement, Props>(
 							/>
 						</div>
 					)}
+					{children}
 				</div>
 			</div>
 		);
@@ -69,6 +71,10 @@ const styles = css`
 		&[data-correct='false'] {
 			color: #e70000;
 		}
+	}
+
+	.answer-status {
+		margin-top: 1rem;
 	}
 `;
 

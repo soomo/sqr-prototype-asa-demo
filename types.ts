@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-interface */
 export type FamilyId = string; // a UUID
 type HTMLString = string;
+type ISO8601String = string;
 
 export interface NGFamily {
 	familyId: FamilyId;
@@ -63,6 +64,9 @@ export interface QuizResponse {
 	seed: number;
 	reset_count: number;
 	answers: SyntheticMCQAnswer[];
+
+	created_at: ISO8601String;
+	updated_at: ISO8601String;
 }
 
 export interface SQRSavePayload {

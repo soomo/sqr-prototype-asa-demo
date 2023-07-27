@@ -16,6 +16,7 @@ const handler: NextApiHandler<SQRResetResponse> = (req, res) => {
 		qr.reset_count++;
 		qr.seed = Math.floor(Math.random() * (2 ** 30 - 1));
 		qr.answers = qr.answers.filter((ans) => ans.questionFamilyId !== questionFamilyId);
+		qr.updated_at = new Date().toISOString();
 
 		if (parentQuestionPool.questions.length > 1) {
 			// this is a pooled MC question

@@ -6,8 +6,8 @@ import shuffle from '@soomo/lib/utils/shuffle';
 
 import { FAKE_USER_ID } from '../fixtures/constants';
 import { getOrCreateQuizResponse } from '../fixtures/database';
-import StudentViewQuestionPool from './sqr/StudentViewQuestionPool';
-import InstructorViewQuestionPool from './sqr/InstructorViewQuestionPool';
+import StudentViewStandaloneQuestionPool from './sqr/StudentViewStandaloneQuestionPool';
+import InstructorViewStandaloneQuestionPool from './sqr/InstructorViewStandaloneQuestionPool';
 import QuestionDeck from './sqr/QuestionDeck';
 import { PageContext } from './Layout';
 
@@ -39,7 +39,9 @@ const PageElements: React.VFC<Props> = ({ elements }) => {
 							deckedQuestionPools.push(el);
 						} else {
 							if (isInstructorView) {
-								component = <InstructorViewQuestionPool key={el.familyId} poolElement={el} />;
+								component = (
+									<InstructorViewStandaloneQuestionPool key={el.familyId} poolElement={el} />
+								);
 							} else {
 								const qr = getOrCreateQuizResponse(el.familyId);
 								const poolIndex = qr.reset_count % el.questions.length;
@@ -67,7 +69,7 @@ const PageElements: React.VFC<Props> = ({ elements }) => {
 									  });
 								const initialQuestion = { ...currentQuestion, choices: shuffledChoices };
 								component = (
-									<StudentViewQuestionPool
+									<StudentViewStandaloneQuestionPool
 										key={el.familyId}
 										initialQuestion={initialQuestion}
 										initialQuizResponse={qr}

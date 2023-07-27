@@ -27,7 +27,7 @@ interface Props {
  * as there is no concern about leaking information like subsequent pool items,
  * correct choices, or choice rejoinders to the client.
  */
-const InstructorViewQuestionPool: React.VFC<Props> = ({ poolElement }) => {
+const InstructorViewStandaloneQuestionPool: React.VFC<Props> = ({ poolElement }) => {
 	const [activePoolIndex, setActivePoolIndex] = useState(0);
 	const activeQuestion = poolElement.questions[activePoolIndex];
 	const activeQuestionCorrectChoice = (activeQuestion.choices as FullMCChoice[]).find(
@@ -78,7 +78,7 @@ const InstructorViewQuestionPool: React.VFC<Props> = ({ poolElement }) => {
 	);
 };
 
-export default InstructorViewQuestionPool;
+export default InstructorViewStandaloneQuestionPool;
 
 const instructorViewPoolNavigationStyles = css`
 	margin-top: 1.5rem;

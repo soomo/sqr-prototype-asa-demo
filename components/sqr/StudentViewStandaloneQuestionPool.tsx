@@ -36,7 +36,7 @@ interface Props {
  * - for pooled MCQs: a new question from the pool
  * And the component will update with the response.
  */
-const StudentViewQuestionPool: React.VFC<Props> = ({
+const StudentViewStandaloneQuestionPool: React.VFC<Props> = ({
 	initialQuestion,
 	initialQuizResponse,
 	...rest
@@ -134,4 +134,4 @@ const StudentViewQuestionPool: React.VFC<Props> = ({
 	);
 };
 
-export default StudentViewQuestionPool;
+export default StudentViewStandaloneQuestionPool;

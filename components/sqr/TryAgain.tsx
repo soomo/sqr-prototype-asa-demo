@@ -49,7 +49,8 @@ const TryAgain: React.VFC<Props> = ({
 			<button
 				data-has-limited-attempts={hasLimitedAttempts}
 				onClick={onReset}
-				css={[buttonStyles, tryAgainButtonStyles]}>
+				css={[buttonStyles, tryAgainButtonStyles]}
+				disabled={isRequestInProgress}>
 				<span>{isRequestInProgress ? 'Resetting...' : buttonLabel}</span>
 				{hasLimitedAttempts && (
 					<small>

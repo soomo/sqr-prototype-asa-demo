@@ -26,7 +26,7 @@ const SaveButton: React.VFC<Props> = ({ onClick, disabled, isRequestInProgress, 
 			<div css={buttonContainerStyles}>
 				{hasLimitedAttempts && (
 					<span>
-						<PiWarningFill css={warningIconStyles} />
+						<PiWarningFill size={20} css={warningIconStyles} />
 						{maxAttempts === 1 && 'This is your only attempt.'}
 						{maxAttempts > 1 && attemptsRemaining === 1 && 'This is your final attempt.'}
 						{maxAttempts > 1 &&

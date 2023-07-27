@@ -13,7 +13,7 @@ import Rejoinder from './Rejoinder';
 import InstructorViewPoolNavigation from './InstructorViewPoolNavigation';
 import CollapseIcon from './CollapseIcon';
 import ExpandIcon from './ExpandIcon';
-import { choicesStyles, deckedStyles, rejoinderStyles } from './deckedStyles';
+import { choicesStyles, deckStyles, rejoinderStyles } from './deckedStyles';
 
 import type { FullMCChoice, MCQuestionPool } from '../../types';
 
@@ -48,7 +48,7 @@ const InstructorViewDeckedQuestionPool: React.VFC<Props> = ({
 	}, [setFocusToButton]);
 
 	return (
-		<div css={deckedStyles}>
+		<div css={deckStyles}>
 			<button
 				ref={buttonRef}
 				className="prompt-and-pivotar"

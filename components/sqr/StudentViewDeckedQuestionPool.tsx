@@ -16,7 +16,7 @@ import Rejoinder from './Rejoinder';
 import { buttonStyles, dividerStyles } from './studentViewStyles';
 import TryAgain from './TryAgain';
 import { useStudentView } from './useStudentView';
-import { choicesStyles, deckedStyles, rejoinderStyles } from './deckedStyles';
+import { choicesStyles, deckStyles, rejoinderStyles } from './deckedStyles';
 
 import type { MCQuestion, FamilyId, QuizResponse } from '../../types';
 
@@ -75,7 +75,7 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 	}, [answer, isRequestInProgress, performSave, setFocusToRejoinder]);
 
 	return (
-		<div css={deckedStyles}>
+		<div css={deckStyles}>
 			<button
 				className="prompt-and-pivotar"
 				aria-expanded={expanded ?? false}

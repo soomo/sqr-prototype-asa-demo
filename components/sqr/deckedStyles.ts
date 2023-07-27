@@ -2,7 +2,7 @@ import { css } from '@emotion/core';
 
 import { breakpoints } from '@soomo/lib/styles/themes';
 
-export const deckedStyles = css`
+export const deckStyles = css`
 	border: 1px solid #c9c9c9;
 	border-radius: 0.5rem;
 

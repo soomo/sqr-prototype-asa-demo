@@ -11,7 +11,7 @@ import InstructorViewDeckedQuestionPool from './InstructorViewDeckedQuestionPool
 import StudentViewDeckedQuestionPool from './StudentViewDeckedQuestionPool';
 import { PageContext } from '../Layout';
 
-import type { FamilyId, MCQuestion, MCQuestionPool, QuizResponse } from '../../types';
+import type { MCQuestion, MCQuestionPool, QuizResponse } from '../../types';
 
 interface Props {
 	poolElements?: MCQuestionPool[]; // instructor view only

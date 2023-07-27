@@ -153,28 +153,6 @@ const dividerAndSaveStyles = css`
 const tryAgainStyles = css`
 	padding: 1rem 2rem 1.5rem 1.5rem;
 
-	/* FIXME temporary */
-	button {
-		display: block;
-
-		span,
-		small {
-			line-height: 22px;
-		}
-
-		small {
-			white-space: nowrap;
-			font-size: inherit;
-
-			&::before {
-				content: ' ';
-			}
-		}
-
-		@media (max-width: ${breakpoints.small}) {
-		}
-	}
-
 	@media (max-width: ${breakpoints.small}) {
 		padding-right: 1rem;
 	}

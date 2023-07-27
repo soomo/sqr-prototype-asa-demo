@@ -8,7 +8,8 @@ import Prompt from './Prompt';
 import Choices from './Choices';
 import Rejoinder from './Rejoinder';
 import Heading from './Heading';
-import { buttonStyles, choicesStyles, dividerStyles, rejoinderStyles } from './studentViewStyles';
+import { choicesStyles, rejoinderStyles } from './standaloneStyles';
+import { buttonStyles, dividerStyles } from './commonStyles';
 import { useStudentView } from './useStudentView';
 import TryAgain from './TryAgain';
 

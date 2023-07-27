@@ -13,7 +13,7 @@ import ExpandIcon from './ExpandIcon';
 import Prompt from './Prompt';
 import Choices from './Choices';
 import Rejoinder from './Rejoinder';
-import { buttonStyles, dividerStyles } from './studentViewStyles';
+import { buttonStyles, dividerStyles } from './commonStyles';
 import TryAgain from './TryAgain';
 import { useStudentView } from './useStudentView';
 import { choicesStyles, deckStyles, rejoinderStyles } from './deckedStyles';

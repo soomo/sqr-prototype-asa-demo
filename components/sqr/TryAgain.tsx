@@ -4,7 +4,7 @@ import { css } from '@emotion/core';
 
 import { breakpoints } from '@soomo/lib/styles/themes';
 
-import { buttonStyles } from './studentViewStyles';
+import { buttonStyles } from './commonStyles';
 import { PageContext } from '../Layout';
 
 import type { QuizResponse } from '../../types';

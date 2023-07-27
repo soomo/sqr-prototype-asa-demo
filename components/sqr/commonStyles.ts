@@ -1,14 +1,8 @@
+/**
+ * Styles used by both standalone and decked implementations.
+ */
+
 import { css } from '@emotion/core';
-
-const choicesStyles = css`
-	margin-top: 1rem;
-`;
-
-const rejoinderStyles = css`
-	// counteract left padding from UniversalVelvetLeftBorder
-	margin-left: -50px;
-	padding-left: 50px;
-`;
 
 const dividerStyles = css`
 	margin: 2rem 0 1.25rem;
@@ -49,4 +43,4 @@ const buttonStyles = css`
 	}
 `;
 
-export { choicesStyles, rejoinderStyles, dividerStyles, buttonStyles };
+export { buttonStyles, dividerStyles };

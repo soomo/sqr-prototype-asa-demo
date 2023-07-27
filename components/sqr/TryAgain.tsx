@@ -51,7 +51,7 @@ const TryAgain: React.VFC<Props> = ({
 				<span>{isRequestInProgress ? 'Resetting...' : 'Try Again'}</span>
 				{hasLimitedAttempts && (
 					<small>
-						({attemptsRemaining} {attemptsRemaining === 1 ? 'attempt' : 'attempts'} remaining)
+						{attemptsRemaining} {attemptsRemaining === 1 ? 'attempt' : 'attempts'} remaining
 					</small>
 				)}
 			</button>
@@ -91,5 +91,9 @@ const tryAgainButtonStyles = css`
 
 	&[data-has-limited-attempts='true'] {
 		padding: 0.75rem 1.5rem;
+	}
+
+	small {
+		font-weight: normal;
 	}
 `;

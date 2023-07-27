@@ -13,7 +13,7 @@ export const buttonStyles = css`
 	font-size: 18px;
 	line-height: 20px;
 	font-weight: 500;
-	cursor: pointer;
+	background: none;
 
 	&:disabled {
 		border-color: #585858;
@@ -24,6 +24,7 @@ export const buttonStyles = css`
 		background: #5f01df;
 		border-color: transparent;
 		color: #fff;
+		cursor: pointer;
 	}
 
 	&:focus {

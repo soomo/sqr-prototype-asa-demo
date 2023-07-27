@@ -62,7 +62,7 @@ const buttonContainerStyles = css`
 
 const warningIconStyles = css`
 	display: inline-block;
-	vertical-align: middle;
+	vertical-align: sub;
 	margin-right: 0.25rem;
 	color: #ea9508;
 `;

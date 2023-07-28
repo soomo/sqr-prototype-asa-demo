@@ -39,19 +39,20 @@ const TryAgain: React.VFC<Props> = ({
 		return null;
 	}
 
-	const buttonLabel = correct ? 'Retest' : 'Try Again';
-
 	return (
 		<div css={styles} {...rest}>
 			<span>
-				The {buttonLabel} button will test your knowledge with a similar multiple-choice question.
+				{correct
+					? 'Great work! If you want to make sure you understand this concept, you can use the Retest button to try again with a similar question.'
+					: 'The Try Again button will test your knowledge with a similar multiple-choice question.'}
 			</span>
 			<button
+				data-answer-correct={correct}
 				data-has-limited-attempts={hasLimitedAttempts}
 				onClick={onReset}
 				css={[buttonStyles, tryAgainButtonStyles]}
 				disabled={isRequestInProgress}>
-				<span>{isRequestInProgress ? 'Resetting...' : buttonLabel}</span>
+				<span>{isRequestInProgress ? 'Resetting...' : correct ? 'Retest' : 'Try Again'}</span>
 				{hasLimitedAttempts && (
 					<small>
 						{attemptsRemaining} {attemptsRemaining === 1 ? 'attempt' : 'attempts'} remaining
@@ -94,6 +95,13 @@ const tryAgainButtonStyles = css`
 
 	&[data-has-limited-attempts='true'] {
 		padding: 0.75rem 1.5rem;
+	}
+
+	&[data-answer-correct='true'] {
+		background: none;
+		border-width: 1px;
+		border-color: #5f01df;
+		color: #5f01df;
 	}
 
 	small {

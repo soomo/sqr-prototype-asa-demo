@@ -27,9 +27,10 @@ export const buttonStyles = css`
 		cursor: pointer;
 	}
 
-	&:focus {
+	&:focus-visible {
 		outline-width: 2px;
 		outline-style: solid;
 		outline-offset: 2px;
+		outline-color: #5f01df;
 	}
 `;

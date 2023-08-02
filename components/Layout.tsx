@@ -12,6 +12,7 @@ import TopPageInfo from './TopPageInfo';
 import BottomPageInfoAndLinks from './BottomPageInfoAndLinks';
 import PageElements from './PageElements';
 import { deleteAllQuizResponses } from '../fixtures/database';
+import { buttonStyles } from './sqr/buttonStyles';
 
 import type { FamilyId, Page, SQRResetResponse, SQRSaveResponse } from '../types';
 
@@ -143,32 +144,9 @@ const knobsStyles = css`
 	column-gap: 1.5rem;
 
 	button {
-		display: flex;
+		${buttonStyles}
 		padding: 0.5rem 0.75rem;
-		border: 2px solid;
-		border-radius: 6px;
-		font: inherit;
 		font-size: 16px;
-		line-height: 18px;
-		font-weight: 500;
-		cursor: pointer;
-
-		&:disabled {
-			border-color: #585858;
-			color: #585858;
-		}
-
-		&:not(:disabled) {
-			background: #5f01df;
-			border-color: transparent;
-			color: #fff;
-		}
-
-		&:focus {
-			outline-width: 2px;
-			outline-style: solid;
-			outline-offset: 2px;
-		}
 
 		@media (max-width: ${breakpoints.small}) {
 			padding: 0.25rem 0.5rem;

@@ -20,8 +20,7 @@ const InstructorViewPoolNavigation: React.VFC<Props> = ({
 	return (
 		<div css={styles} {...rest}>
 			<span className="label">
-				<span>Browse items in this pool</span>
-				<wbr />
+				<span>Browse items in this pool</span> <wbr />
 				<span>({numQuestions} total)</span>
 			</span>
 			<div className="explanatory-text">

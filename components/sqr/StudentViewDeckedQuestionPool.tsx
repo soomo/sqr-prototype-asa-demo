@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { css } from '@emotion/core';
 
@@ -17,6 +17,7 @@ import TryAgain from './TryAgain';
 import SaveButton from './SaveButton';
 import { useStudentView } from './useStudentView';
 import { choicesStyles, deckStyles, rejoinderStyles } from './deckedStyles';
+import { PageContext } from '../Layout';
 
 import type { MCQuestion, FamilyId, QuizResponse } from '../../types';
 
@@ -33,6 +34,7 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 	expanded,
 	initialQuizResponse
 }) => {
+	const { maxAttempts } = useContext(PageContext);
 	const [activeQuestion, setActiveQuestion] = useState<MCQuestion>(initialQuestion);
 	useEffect(() => {
 		setActiveQuestion(initialQuestion);
@@ -51,6 +53,7 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 	const [buttonRef, setFocusToButton] = useAccessibilityFocus();
 	const [rejoinderRef, setFocusToRejoinder] = useAccessibilityFocus();
 	const contentDivId = `${activeQuestion.familyId}-content`;
+	const attemptsRemaining = maxAttempts - initialQuizResponse.reset_count - 1;
 
 	const handleReset = useCallback(async () => {
 		if (isRequestInProgress || !answer) {
@@ -75,12 +78,14 @@ const StudentViewDeckedQuestionPool: React.VFC<Props> = ({
 	}, [answer, isRequestInProgress, performSave, setFocusToRejoinder]);
 
 	return (
-		<div css={deckStyles}>
+		<div css={[deckStyles, studentDeckStyles]}>
 			<button
 				className="prompt-and-pivotar"
 				aria-expanded={expanded ?? false}
 				aria-controls={contentDivId}
 				data-answered={answer != null}
+				data-has-limited-attempts={maxAttempts !== -1}
+				data-attempts-remaining={attemptsRemaining}
 				onClick={onToggleExpanded}
 				ref={buttonRef}>
 				<div className="correctness-and-prompt">
@@ -157,5 +162,13 @@ const tryAgainStyles = css`
 
 	@media (max-width: ${breakpoints.small}) {
 		padding-right: 1rem;
+	}
+`;
+
+const studentDeckStyles = css`
+	button[aria-expanded='false'][data-answered='true'][data-has-limited-attempts='true'][data-attempts-remaining='0'] {
+		.question-body {
+			color: rgba(0, 0, 0, 0.5);
+		}
 	}
 `;

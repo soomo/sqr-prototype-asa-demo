@@ -99,7 +99,6 @@ const tryAgainButtonStyles = css`
 
 	&[data-answer-correct='true'] {
 		background: none;
-		border-width: 1px;
 		border-color: #5f01df;
 		color: #5f01df;
 	}

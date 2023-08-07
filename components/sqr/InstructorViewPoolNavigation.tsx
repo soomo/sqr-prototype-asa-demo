@@ -21,7 +21,9 @@ const InstructorViewPoolNavigation: React.VFC<Props> = ({
 		<div css={styles} {...rest}>
 			<span className="label">
 				<span>Browse items in this pool</span> <wbr />
-				<span className="num-questions">({numQuestions} total)</span>
+				<span className="num-questions">
+					({activeIndex + 1} of {numQuestions})
+				</span>
 			</span>
 			<div className="explanatory-text">
 				The item assigned to each student for their initial attempt is randomized, and students will

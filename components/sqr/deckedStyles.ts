@@ -43,6 +43,11 @@ export const deckStyles = css`
 			}
 		}
 
+		> svg {
+			// expand & collapse icon
+			margin-top: 0.25rem;
+		}
+
 		// QuestionPrompt inner div
 		.question-body {
 			margin: 0;

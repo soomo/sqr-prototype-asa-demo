@@ -1,9 +1,8 @@
-import pooledPage from './pooledPage';
-import unpooledPage from './unpooledPage';
+import ciagPage from './ciagPage';
 
 import type { FamilyId, MCQuestionPool } from '../types';
 
-const allQuestionPools = [...pooledPage.elements, ...unpooledPage.elements].filter(
+const allQuestionPools = ciagPage.elements.filter(
 	(el) => el.type === 'NG::Soomo::MC::QuestionPool'
 ) as MCQuestionPool[];
 

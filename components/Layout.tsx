@@ -107,7 +107,7 @@ const Layout: React.VFC<Props> = ({ page, backUrl, nextUrl }) => {
 				</TopBar>
 				<main css={mainStyles}>
 					<TopPageInfo
-						pageTitle="Pooled Sample Page"
+						pageTitle={'Sample Page'}
 						numAttempted={numAttempted}
 						numCorrect={numCorrect}
 						total={questionCount}

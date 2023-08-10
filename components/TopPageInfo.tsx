@@ -10,7 +10,7 @@ const TopPageInfo: React.VFC<Props> = ({ pageTitle, numAttempted, numCorrect, to
 	return (
 		<div css={styles} {...rest}>
 			<span>
-				Sample Chapter / <span className="page-title">{pageTitle}</span>
+				Central Ideas in American Government / <span className="page-title">{pageTitle}</span>
 			</span>
 			<PageProgress
 				numAttempted={numAttempted}

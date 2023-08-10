@@ -8,11 +8,12 @@ export const deckStyles = css`
 
 	.prompt-and-pivotar {
 		position: relative;
-		display: grid;
+		width: 100%;
+		display: flex;
 		padding: 1rem 1.5rem;
-		grid-template-columns: 1fr auto;
-		align-items: flex-start;
 		column-gap: 1.5rem;
+		align-items: flex-start;
+		justify-content: space-between;
 		font: inherit;
 		border: none;
 		background: none;

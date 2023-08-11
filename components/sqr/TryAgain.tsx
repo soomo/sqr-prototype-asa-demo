@@ -43,8 +43,8 @@ const TryAgain: React.VFC<Props> = ({
 		<div css={styles} {...rest}>
 			<span>
 				{correct
-					? 'Great work! If you want to make sure you understand this concept, you can use the Retest button to try again with a similar question.'
-					: 'The Try Again button will test your knowledge with a similar multiple-choice question.'}
+					? 'You got it! Use the Retest button if you want to make sure you still understand this information. Note that you will need to keep going until you answer correctly to keep any points you’ve earned.'
+					: 'Click the Try Again button to check your understanding with another version of this question.'}
 			</span>
 			<button
 				data-answer-correct={correct}

@@ -2,223 +2,271 @@ import type { Page, PageElement } from '../types';
 
 const elements: PageElement[] = [
 	{
-		familyId: 'question-deck-in',
+		familyId: 'sociology-question-deck-in',
 		type: 'NG::Soomo::QuestionDeck',
 		direction: 'in'
 	},
 	{
-		familyId: 'qd-pool-1',
+		familyId: 'sociology-qd-pool-1',
 		type: 'NG::Soomo::MC::QuestionPool',
 		questions: [
 			{
-				familyId: 'qd-pool-1-mcq-1',
+				familyId: 'sociology-qd-pool-1-mcq-1',
 				type: 'NG::Soomo::MC::Question',
-				body: 'The Full Faith and Credit Clause was intended for which purpose?',
+				body: 'What is the sociological imagination?',
 				choices: [
 					{
-						familyId: 'qd-pool-1-mcq-1-choice-1',
-						body: 'ensuring that states respect the laws of other states',
+						familyId: 'sociology-qd-pool-1-mcq-1-choice-1',
+						body: 'recognizing how society influences and impacts people',
 						correct: true,
 						rejoinder:
-							'The Full Faith and Credit Clause was intended to ensure that states recognize and honor the laws, public records, and judicial decisions of other states.'
+							'The sociological imagination is the ability to shift perspectives, seeing yourself and others within the context of greater social forces.'
 					},
 					{
-						familyId: 'qd-pool-1-mcq-1-choice-2',
-						body: 'delegating to Congress the power to regulate interstate commerce',
+						familyId: 'sociology-qd-pool-1-mcq-1-choice-2',
+						body: 'designing new worlds with their own rules and structures',
 						rejoinder:
-							'The Commerce Clause, not the Full Faith and Credit Clause, gives Congress the power to regulate interstate commerce.'
+							'While it does take imagination to design a new world, the sociological imagination is about the world we live in, not new worlds we create. '
 					},
 					{
-						familyId: 'qd-pool-1-mcq-1-choice-3',
-						body: 'giving Congress the power to impeach the president',
+						familyId: 'sociology-qd-pool-1-mcq-1-choice-3',
+						body: 'finding innovative solutions to society’s problems',
 						rejoinder:
-							'Article II, section 4, not the Full Faith and Credit Clause, establishes Congress’s power to impeach the president.'
-					},
-					{
-						familyId: 'qd-pool-1-mcq-1-choice-4',
-						body: 'specifying the supremacy of national law over state law',
-						rejoinder:
-							'The Supremacy Clause, not the Full Faith and Credit Clause, establishes the supremacy of national law over state law.'
+							'While the sociological imagination could help someone identify solutions to social problems, the sociological imagination focuses on the world as it is, not how it could be. '
 					}
 				]
 			},
 			{
-				familyId: 'qd-pool-1-mcq-2',
+				familyId: 'sociology-qd-pool-1-mcq-2',
 				type: 'NG::Soomo::MC::Question',
-				body: 'What is the purpose of the Full Faith and Credit Clause?',
+				body: 'How can someone demonstrate a sociological imagination?',
 				choices: [
 					{
-						familyId: 'qd-pool-1-mcq-2-choice-1',
-						body: "to guarantee that states recognize each other's court rulings",
+						familyId: 'sociology-qd-pool-1-mcq-2-choice-1',
+						body: 'by explaining how social forces influence social reality',
 						correct: true,
 						rejoinder:
-							'The Full Faith and Credit Clause was intended to ensure that states recognize and honor the laws, public records, and judicial decisions of other states.'
+							'The sociological imagination is the ability to shift perspectives, seeing yourself and others within the context of greater social forces.'
 					},
 					{
-						familyId: 'qd-pool-1-mcq-2-choice-2',
-						body: 'to grant the President the authority to issue executive orders',
+						familyId: 'sociology-qd-pool-1-mcq-2-choice-2',
+						body: 'by watching how people interact with each other',
 						rejoinder:
-							'The Executive Power Clause, not the Full Faith and Credit Clause, grants presidents leeway in exercising executive authority over the national government.'
+							'While observing interactions is part of studying sociology, simply seeing what other people do is not demonstrating a sociological imagination.'
 					},
 					{
-						familyId: 'qd-pool-1-mcq-2-choice-3',
-						body: 'to empower the national government to regulate trade between the states',
+						familyId: 'sociology-qd-pool-1-mcq-2-choice-3',
+						body: 'by reading books about social forces written by sociologists',
 						rejoinder:
-							'The Commerce Clause, not the Full Faith and Credit Clause, establishes the national government’s power to regulate business and trade.'
-					},
-					{
-						familyId: 'qd-pool-1-mcq-2-choice-4',
-						body: 'to enable Congress to make laws that are essential for carrying out its other powers',
-						rejoinder:
-							'The Necessary and Proper Clause, not the Full Faith and Credit Clause, allows Congress to do whatever is “necessary and proper” to carry out its powers.'
+							'While reading books can help you develop a sociological imagination, demonstrating a sociological imagination means that you do something with the information that you’ve learned.'
 					}
 				]
 			},
 			{
-				familyId: 'qd-pool-1-mcq-3',
+				familyId: 'sociology-qd-pool-1-mcq-3',
 				type: 'NG::Soomo::MC::Question',
-				body: 'What does the Full Faith and Credit Clause require?',
+				body: 'What does the sociological imagination help people see?',
 				choices: [
 					{
-						familyId: 'qd-pool-1-mcq-3-choice-1',
-						body: "that individual states accept each other's judicial proceedings.",
+						familyId: 'sociology-qd-pool-1-mcq-3-choice-1',
+						body: 'how society shapes the way people experience the world',
 						correct: true,
 						rejoinder:
-							'The Full Faith and Credit Clause was intended to ensure that states recognize and honor the laws, public records, and judicial decisions of other states.'
+							'The sociological imagination is the ability to shift perspectives, seeing yourself and others within the context of greater social forces.'
 					},
 					{
-						familyId: 'qd-pool-1-mcq-3-choice-2',
-						body: 'that only Congress has the authority to declare war against other nations.',
+						familyId: 'sociology-qd-pool-1-mcq-3-choice-2',
+						body: 'how many people and institutions are in each society',
 						rejoinder:
-							'The Declaration of War provision, not the Full Faith and Credit Clause, requires that only Congress has the authority to formally declare war against other nations.'
+							'While the sociological imagination does focus on people and institutions within society, it does not focus on how many there are.'
 					},
 					{
-						familyId: 'qd-pool-1-mcq-3-choice-3',
-						body: 'that the Constitution is recognized as the supreme law of the land.',
+						familyId: 'sociology-qd-pool-1-mcq-3-choice-3',
+						body: 'how the ideal society would function and develop',
 						rejoinder:
-							'The Supremacy Clause, not the Full Faith and Credit Clause, requires that the Constitution be seen as the supreme law of the land.'
-					},
-					{
-						familyId: 'qd-pool-1-mcq-3-choice-4',
-						body: 'that the President is responsible for enforcing laws of the United States.',
-						rejoinder:
-							'The Executive Power Clause, not the Full Faith and Credit Clause, requires the President to be responsible for enforcing laws of the United States.'
+							'While the sociological imagination could help someone identify solutions to social problems, the sociological imagination focuses on the world as it is, not how it could be.'
 					}
 				]
 			}
 		]
 	},
 	{
-		familyId: 'qd-pool-2',
+		familyId: 'sociology-qd-pool-2',
 		type: 'NG::Soomo::MC::QuestionPool',
 		questions: [
 			{
-				familyId: 'qd-pool-2-mcq-1',
+				familyId: 'sociology-qd-pool-2-mcq-1',
 				type: 'NG::Soomo::MC::Question',
-				body: 'What does Article VI of the Constitution state?',
+				body: 'How can using sociological imagination help us navigate the world?',
 				choices: [
 					{
-						familyId: 'qd-pool-2-mcq-1-choice-1',
-						body: 'that the Constitution is the highest set of laws in the country',
+						familyId: 'sociology-qd-pool-2-mcq-1-choice-1',
+						body: 'It helps us recognize similarities and differences in how people experience the world.',
 						correct: true,
 						rejoinder:
-							'Article VI states that the Constitution is considered the supreme law of the land.'
+							'In practicing the sociological imagination, we’re better able to relate to other people. The sociological imagination helps us recognize aspects of ourselves in other people while also helping us see that someone’s social reality can be different from our own. '
 					},
 					{
-						familyId: 'qd-pool-2-mcq-1-choice-2',
-						body: 'that the Declaration of Independence overrules the Constitution',
+						familyId: 'sociology-qd-pool-2-mcq-1-choice-2',
+						body: 'It provides directions for how we can handle any social interaction or conflict.',
 						rejoinder:
-							'Article VI of the Constitution gives overruling power to another entity, not the Declaration of Independence.'
+							'While the sociological imagination can help us navigate social interactions or conflicts, it does not provide directions for how to do so. '
 					},
 					{
-						familyId: 'qd-pool-2-mcq-1-choice-3',
-						body: 'that the Constitution gives complete rule to the states',
+						familyId: 'sociology-qd-pool-2-mcq-1-choice-3',
+						body: 'It emphasizes which interpretation of events and experiences is correct.',
 						rejoinder:
-							'Article VI of the Constitution gives complete rule to another entity, not individual states.'
-					},
-					{
-						familyId: 'qd-pool-2-mcq-1-choice-4',
-						body: 'that Congress has the power to change the Constitution',
-						rejoinder:
-							'Article VI of the Constitution gives power to another entity, not Congress. '
+							'While the sociological imagination can help us interpret events or experiences, it does not value one interpretation over any other. '
 					}
 				]
 			},
 			{
-				familyId: 'qd-pool-2-mcq-2',
+				familyId: 'sociology-qd-pool-2-mcq-2',
 				type: 'NG::Soomo::MC::Question',
-				body: 'What is the purpose of Article VI of the U.S. Constitution?',
+				body: 'How can using sociological imagination help us better relate to other people?',
 				choices: [
 					{
-						familyId: 'qd-pool-2-mcq-2-choice-1',
-						body: 'to establish the supremacy of the Constitution over all other laws and agreements',
+						familyId: 'sociology-qd-pool-2-mcq-2-choice-1',
+						body: 'by helping us develop empathy for how other people experience the world',
 						correct: true,
 						rejoinder:
-							'Article VI states that the Constitution is considered the supreme law of the land.'
+							'In practicing the sociological imagination, we’re better able to relate to other people. The sociological imagination helps us recognize aspects of ourselves in other people while also helping us see that someone’s social reality can be different from our own.'
 					},
 					{
-						familyId: 'qd-pool-2-mcq-2-choice-2',
-						body: 'to declare the separation of the American colonies from Great Britain',
+						familyId: 'sociology-qd-pool-2-mcq-2-choice-2',
+						body: 'by emphasizing the ways we are the same and ignoring our differences',
 						rejoinder:
-							'The purpose of the Declaration of Independence, not Article VI of the Constitution, is to declare the separation of the American colonies from Great Britain.'
+							'While practicing sociological imagination can help us recognize aspects of ourselves in other people, it also helps us understand the ways in which we experience the world differently.'
 					},
 					{
-						familyId: 'qd-pool-2-mcq-2-choice-3',
-						body: "to govern and regulate activities within each individual state's borders",
+						familyId: 'sociology-qd-pool-2-mcq-2-choice-3',
+						body: 'by providing a script that allows us to avoid conflicts and disagreements',
 						rejoinder:
-							"The purpose of the state laws, not Article VI of the Constitution, is to govern and regulate activities within each individual state's borders."
-					},
-					{
-						familyId: 'qd-pool-2-mcq-2-choice-4',
-						body: 'to interpret the laws to resolve legal disputes and ensure justice',
-						rejoinder:
-							'The purpose of Judicial Review, not Article VI of the Constitution, is to interpret the laws to resolve legal disputes and ensure justice.'
+							'While practicing sociological imagination can help us navigate conflicts and disagreements, it is not possible to avoid all conflicts and disagreements.'
 					}
 				]
 			},
 			{
-				familyId: 'qd-pool-2-mcq-3',
+				familyId: 'sociology-qd-pool-2-mcq-3',
 				type: 'NG::Soomo::MC::Question',
-				body: 'What is the Supremacy Clause?',
+				body: 'How can using sociological imagination benefit our relationships with other people?',
 				choices: [
 					{
-						familyId: 'qd-pool-2-mcq-3-choice-1',
-						body: 'a provision that declares the Constitution as the highest legal authority in the country',
+						familyId: 'sociology-qd-pool-2-mcq-3-choice-1',
+						body: 'by promoting a better understanding of each person’s social reality',
 						correct: true,
 						rejoinder:
-							'The Supremacy Clause, found in Article VI, states that the Constitution is considered the supreme law of the land.'
+							'In practicing the sociological imagination, we’re better able to relate to other people. The sociological imagination helps us recognize aspects of ourselves in other people while also helping us see that someone’s social reality can be different from our own.'
 					},
 					{
-						familyId: 'qd-pool-2-mcq-3-choice-2',
-						body: 'the document that proclaims the freedom and self-governance of the thirteen American territories',
+						familyId: 'sociology-qd-pool-2-mcq-3-choice-2',
+						body: 'by reinforcing the rules for how to interact with other people',
 						rejoinder:
-							'The Declaration of Independence, not the Supremacy Clause, proclaims the freedom and self-governance of the thirteen American territories.'
+							'While the sociological imagination can help us navigate social interactions, it does not provide rules for how to do so. '
 					},
 					{
-						familyId: 'qd-pool-2-mcq-3-choice-3',
-						body: 'the clause that empowers Congress to regulate business activities among the states',
+						familyId: 'sociology-qd-pool-2-mcq-3-choice-3',
+						body: 'by creating shared understanding of how every person should act and behave',
 						rejoinder:
-							'The Commerce Clause, not the Supremacy Clause, empowers Congress to regulate business activities among the states.'
-					},
-					{
-						familyId: 'qd-pool-2-mcq-3-choice-4',
-						body: 'the article that specifies the grounds and process for removing the President from office',
-						rejoinder:
-							'The Reasons for Impeachment provision, not the Supremacy Clause, specifies the grounds and process for removing the President from office.'
+							'While the sociological imagination can help us understand our actions and behaviors along with those of other people, it does not indicate that all actions and behaviors should be the same.'
 					}
 				]
 			}
 		]
 	},
 	{
-		familyId: 'question-deck-out',
+		familyId: 'sociology-question-deck-out',
 		type: 'NG::Soomo::QuestionDeck',
 		direction: 'out'
+	},
+	{
+		familyId: 'sociology-standalone-qd',
+		type: 'NG::Soomo::MC::QuestionPool',
+		questions: [
+			{
+				familyId: 'sociology-standalone-qd-mcq-1',
+				type: 'NG::Soomo::MC::Question',
+				body: 'What is the difference between macrosociology and microsociology?',
+				choices: [
+					{
+						familyId: 'sociology-standalone-qd-mcq-1-choice-1',
+						body: 'Macrosociology studies society on a larger-scale, and microsociology studies smaller interactions.',
+						correct: true,
+						rejoinder:
+							'The difference between macrosociology from microsociology is scale. Microsociology focuses on a smaller scale than macrosociology.'
+					},
+					{
+						familyId: 'sociology-standalone-qd-mcq-1-choice-2',
+						body: 'Macrosociology studies the history of society, and microsociology studies the future. ',
+						rejoinder:
+							'The time period being studied is not what differentiates macrosociology from microsociology.'
+					},
+					{
+						familyId: 'sociology-standalone-qd-mcq-1-choice-3',
+						body: 'Macrosociology studies how the economy affects society, and microsociology studies the effect of science.',
+						rejoinder:
+							'While studying how the economy affects society is one of many possible topics within macrosociology, the effect of science on society does not fall within the focus of microsociology.'
+					}
+				]
+			},
+			{
+				familyId: 'sociology-standalone-qd-mcq-2',
+				type: 'NG::Soomo::MC::Question',
+				body: 'How are macrosociology and microsociology different?',
+				choices: [
+					{
+						familyId: 'sociology-standalone-qd-mcq-2-choice-1',
+						body: 'Macrosociology focuses on issues of a larger scale than microsociology does.',
+						correct: true,
+						rejoinder:
+							'The difference between macrosociology from microsociology is scale. Macrosociology focuses on a larger scale than microsociology.'
+					},
+					{
+						familyId: 'sociology-standalone-qd-mcq-2-choice-2',
+						body: 'Macrosociology focuses on longer-term issues than microsociology does.',
+						rejoinder:
+							'The time period being studied is not what differentiates macrosociology from microsociology.'
+					},
+					{
+						familyId: 'sociology-standalone-qd-mcq-2-choice-3',
+						body: 'Macrosociology focuses on topics like COVID-19, while microsociology focuses on families.',
+						rejoinder:
+							'The approach to the topic, not the topic itself, is what differentiates macrosociology from microsociology.'
+					}
+				]
+			},
+			{
+				familyId: 'sociology-standalone-qd-mcq-3',
+				type: 'NG::Soomo::MC::Question',
+				body: 'How does the focus of microsociology differ from the focus of macrosociology?',
+				choices: [
+					{
+						familyId: 'sociology-standalone-qd-mcq-3-choice-1',
+						body: 'Microsociology focuses on issues of a smaller scale than macrosociology does.',
+						correct: true,
+						rejoinder:
+							'The difference between macrosociology from microsociology is scale. Microsociology focuses on a smaller scale than macrosociology.'
+					},
+					{
+						familyId: 'sociology-standalone-qd-mcq-3-choice-2',
+						body: 'Microsociology focuses on more scientific issues than macrosociology does.',
+						rejoinder:
+							'The type of issue is not what differentiates macrosociology from microsociology. Both approaches to sociology can examine scientific issues.'
+					},
+					{
+						familyId: 'sociology-standalone-qd-mcq-3-choice-3',
+						body: 'Microsociology focuses on people, while macrosociology focuses on events.',
+						rejoinder:
+							'The type of issue is not what differentiates macrosociology from microsociology. Both approaches to sociology can examine people and events.'
+					}
+				]
+			}
+		]
 	}
 ];
 
 const page: Page = {
-	familyId: 'ciag-page',
+	familyId: 'sociology-sociology-page',
 	elements
 };
 

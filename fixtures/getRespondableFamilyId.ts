@@ -1,8 +1,9 @@
 import ciagPage from './ciagPage';
+import sociologyPage from './sociologyPage';
 
 import type { FamilyId, MCQuestionPool } from '../types';
 
-const allQuestionPools = ciagPage.elements.filter(
+const allQuestionPools = [...ciagPage.elements, ...sociologyPage.elements].filter(
 	(el) => el.type === 'NG::Soomo::MC::QuestionPool'
 ) as MCQuestionPool[];
 

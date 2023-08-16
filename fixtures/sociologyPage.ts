@@ -2,6 +2,25 @@ import type { Page, PageElement } from '../types';
 
 const elements: PageElement[] = [
 	{
+		familyId: 'sociology-text-1',
+		type: 'NG::Soomo::Text',
+		body: `
+			<h1>Imagining Questions</h1>
+			<p>Sociology can change the way you see the world. In fact, it’s a discipline dedicated to taking the familiar—the social world we live in—and trying to understand it by looking at it in new ways. In this course, you’ll ask questions about social groups, identity, culture, and why our society is structured the way it is. You’ll also develop and practice skills like critical thinking and data literacy. These skills and this kind of thinking can help us better understand and navigate the social spaces we occupy.</p>
+			<h2>The Sociological Imagination</h2>
+			<p>The key to building an understanding of the social world is a way of thinking called the sociological imagination. It’s the ability to shift perspectives, seeing yourself and others within the context of greater social forces.</p>
+			<p>The concept comes from sociologist C. Wright Mills. In his 1959 book <em>The Sociological Imagination</em>, Mills argued that students and sociologists should approach the task of understanding the world around them by seeing the individual always within the context of social forces. He called on sociologists to be mindful of “... the interplay of man and society, of biography and history, of self and world.” The sociological imagination requires us to step outside of ourselves and consider how our actions shape the society around us—and how that society shapes us in return.</p>
+			`
+	},
+	// image figure 1 here
+	{
+		familyId: 'sociology-text-2',
+		type: 'NG::Soomo::Text',
+		body: `
+			<p>It’s through this way of thinking that we can become conscious of things that previously escaped our sight. We can look with fresh eyes at routine actions and beliefs. And we can also recognize aspects of ourselves and our own behavior in the actions and beliefs of people who seem very different. In practicing the sociological imagination, we’re better able to relate to people from different backgrounds and social worlds, and we can begin to see the ways in which our own social worlds are unique and peculiar. In other words, this way of thinking can open our eyes to the social reality experienced by other people. In doing that, it can help us better understand our own.</p>
+		`
+	},
+	{
 		familyId: 'sociology-question-deck-in',
 		type: 'NG::Soomo::QuestionDeck',
 		direction: 'in'
@@ -180,6 +199,30 @@ const elements: PageElement[] = [
 		direction: 'out'
 	},
 	{
+		familyId: 'sociology-text-3',
+		type: 'NG::Soomo::Text',
+		body: `
+			<h2>Asking Questions</h2>
+			<p>The sociological imagination prepares you to ask many different questions about the social world. You might ask why people in your class act differently online and in person, or what leads fans to dress in similar ways when they all go to the same huge concert, or why LEGO sets marketed to girls tend to emphasize friendship.</p>
+			<h3>Micro and Macro</h3>
+			<p>Some sociological questions are smaller-scale—for example, the first question just focuses on the students in your class. Other questions are broader, examining larger populations, systems, or structures of society. Studying how toys are marketed for certain genders and examining the behavior of large groups during events are both examples of these larger-scale questions.</p>
+			<p>More tightly focused research topics are part of microsociology, the study of relationships and interactions among specific individuals and small groups. Studying microsociology might mean looking at:</p>
+			<ul>
+				<li>how graduates from your college have fared in the workforce</li>
+				<li>how COVID-19 has affected healthcare workers at a local hospital</li>
+				<li>whether eating dinner together affects overall levels of conflict in a specific family</li>
+			</ul>
+			<p>Macrosociology, on the other hand, examines broad social structures, institutions, and problems. It’s large-scale sociology. Studying macrosociology might mean looking at:</p>
+			<ul>
+				<li>how well U.S. college graduates fare in the workforce</li>
+				<li>how COVID-19 has affected healthcare workers nationally</li>
+				<li>whether families around the country spend more time together now than they did five years ago</li>
+			</ul>
+			<p>What distinguishes macrosociology from microsociology? The answer is scale. If you’re “zoomed in” on a particular issue and observing individual people, you’re most likely practicing microsociology. If you’re instead observing large groups of people, then you’re practicing macrosociology. In this course, we’ll examine both the micro and the macro—the small and the large, the particular and the general. Together, they offer a more complete picture of society.</p>
+		`
+	},
+	// image figure 2 here
+	{
 		familyId: 'sociology-standalone-qd',
 		type: 'NG::Soomo::MC::QuestionPool',
 		questions: [
@@ -262,6 +305,27 @@ const elements: PageElement[] = [
 				]
 			}
 		]
+	},
+	{
+		familyId: 'sociology-text-4',
+		type: 'NG::Soomo::Text',
+		body: '<h2>Looking for Answers</h2>'
+	},
+	// image figure 3 here
+	{
+		familyId: 'sociology-text-5',
+		type: 'NG::Soomo::Text',
+		body: `
+			<p>Like other social scientists, sociologists look for answers by collecting data, analyzing or interpreting it, and then drawing conclusions. Data can take many different forms and be analyzed in many different ways, depending on the researcher and the topic, and we’ll dig into that more in the next chapter. But regardless of the form the data and analysis take, the researcher’s goal is to offer an explanation for some kind of sociological phenomenon. Explanations based on systematically gathered evidence are called <a class="showtip indexable" title="Explanations or interpretations based on systematically gathered evidence.">theories</a>.</p>
+			<p>The way we use the word <em>theory</em> in casual conversation can confuse its meaning. A sociological theory isn’t simply a guess (or even an educated guess), because it’s based on an analysis of empirical evidence. You’ll encounter many theories in this course, from explanations of gender inequality in the workforce to explanations of why people behave differently in crowds.</p>
+		`
+	},
+	{
+		familyId: 'sociology-text-6',
+		type: 'NG::Soomo::Text',
+		body: `
+			<p>Many of the sociological theories we explore will fit within a larger theoretical framework or perspective. We’ll introduce three main theoretical perspectives on the next two pages.</p>
+		`
 	}
 ];
 

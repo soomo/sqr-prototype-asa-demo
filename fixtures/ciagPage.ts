@@ -218,7 +218,12 @@ const elements: PageElement[] = [
 ];
 
 const page: Page = {
-	familyId: 'ciag-ciag-page',
+	textbookName: 'Central Ideas in American Government',
+	chapterName: '',
+	chapterNumber: 1,
+	pageName: '',
+	pageNumber: 1,
+	familyId: 'ciag-page',
 	elements
 };
 

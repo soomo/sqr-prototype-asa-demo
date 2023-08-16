@@ -21,6 +21,11 @@ export interface Text extends NGFamily {
 }
 
 export interface Page extends NGFamily {
+	textbookName: string;
+	chapterName: string;
+	chapterNumber: number;
+	pageName: string;
+	pageNumber: number;
 	elements: PageElement[];
 }
 

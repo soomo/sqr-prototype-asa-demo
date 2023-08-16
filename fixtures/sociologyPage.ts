@@ -266,7 +266,12 @@ const elements: PageElement[] = [
 ];
 
 const page: Page = {
-	familyId: 'sociology-sociology-page',
+	textbookName: 'Sociology: You Are Here',
+	chapterName: 'Discovering Sociology',
+	chapterNumber: 1,
+	pageName: 'Imagining Questions',
+	pageNumber: 3,
+	familyId: 'sociology-page',
 	elements
 };
 

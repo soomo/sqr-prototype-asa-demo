@@ -2,15 +2,22 @@ import { css } from '@emotion/core';
 
 import PageProgress, { PageProgressProps } from './PageProgress';
 
+import type { Page } from '../types';
+
 interface Props extends PageProgressProps {
-	pageTitle: string;
+	page: Page;
 }
 
-const TopPageInfo: React.VFC<Props> = ({ pageTitle, numAttempted, numCorrect, total, ...rest }) => {
+const TopPageInfo: React.VFC<Props> = ({ page, numAttempted, numCorrect, total, ...rest }) => {
+	const { chapterName, chapterNumber, pageName, pageNumber } = page;
 	return (
 		<div css={styles} {...rest}>
 			<span>
-				Central Ideas in American Government / <span className="page-title">{pageTitle}</span>
+				<span className="chapter-number">{chapterNumber}</span>
+				{chapterName} /{' '}
+				<span className="page-title">
+					Page {chapterNumber}.{pageNumber} {pageName}
+				</span>
 			</span>
 			<PageProgress
 				numAttempted={numAttempted}
@@ -33,6 +40,13 @@ const styles = css`
 	row-gap: 0.25rem;
 	font-size: 14px;
 	color: #757575;
+
+	.chapter-number {
+		display: inline-block;
+		margin-right: 0.5rem;
+		padding-right: 0.5rem;
+		border-right: 1px solid #e6e6e6;
+	}
 
 	.page-title {
 		color: #000;

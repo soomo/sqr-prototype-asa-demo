@@ -1,15 +1,18 @@
 import { css } from '@emotion/core';
-import { useMediaBreakpoint } from '@soomo/lib/hooks';
 
 import { breakpoints } from '@soomo/lib/styles/themes';
 
-const TopBar: React.FC = ({ children }) => {
-	const isMobile = useMediaBreakpoint('max-width', 'sm');
+import type { Page } from '../types';
 
+interface Props {
+	page: Page;
+}
+
+const TopBar: React.FC<Props> = ({ page, children }) => {
 	return (
 		<header css={styles}>
 			<div className="header-content">
-				<h1>{isMobile ? 'SQR' : 'Single Question Reset'} Prototype</h1>
+				<h1>{page.textbookName}</h1>
 				{children}
 			</div>
 		</header>

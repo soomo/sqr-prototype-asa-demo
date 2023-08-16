@@ -2,6 +2,7 @@ import { createContext, useCallback, useMemo, useState } from 'react';
 
 import { css } from '@emotion/core';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 import themes, { ThemeProvider, breakpoints } from '@soomo/lib/styles/themes';
 import { useCustomEventListener } from '@soomo/lib/hooks';
@@ -88,7 +89,12 @@ const Layout: React.VFC<Props> = ({ page, backUrl, nextUrl }) => {
 	return (
 		<PageContext.Provider value={{ maxAttempts, isInstructorView }}>
 			<ThemeProvider theme={themes['universal_velvet']}>
-				<TopBar>
+				<Head>
+					<title>
+						{page.textbookName} - Page {page.chapterNumber}.{page.pageNumber} - {page.pageName}
+					</title>
+				</Head>
+				<TopBar page={page}>
 					<div css={knobsStyles}>
 						<button onClick={handleToggleView}>
 							Switch to {isInstructorView ? 'Student' : 'Instructor'} View
@@ -107,7 +113,7 @@ const Layout: React.VFC<Props> = ({ page, backUrl, nextUrl }) => {
 				</TopBar>
 				<main css={mainStyles}>
 					<TopPageInfo
-						pageTitle={'Sample Page'}
+						page={page}
 						numAttempted={numAttempted}
 						numCorrect={numCorrect}
 						total={questionCount}

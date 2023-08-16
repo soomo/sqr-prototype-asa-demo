@@ -49,6 +49,8 @@ const styles = css`
 		display: flex;
 		align-items: center;
 		column-gap: 4rem;
+		white-space: nowrap;
+		overflow: auto;
 
 		@media (max-width: ${breakpoints.small}) {
 			--mask-width: 1.5rem;

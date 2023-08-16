@@ -28,8 +28,10 @@ const InstructorViewPoolNavigation: React.VFC<Props> = ({
 			<div className="explanatory-text">
 				The item assigned to each student for their initial attempt is randomized, and students will
 				receive a different item from the pool if they reset. Visit our{' '}
-				<a href="https://instructorhelp.soomolearning.com/en/articles/8233562">Help Center</a> to
-				learn more.
+				<a href="https://instructorhelp.soomolearning.com/en/articles/8233562" target="_blank">
+					Help Center
+				</a>{' '}
+				to learn more.
 			</div>
 			<button aria-label="previous pool question" disabled={activeIndex === 0} onClick={onPrevious}>
 				<FaChevronLeft size={17} />

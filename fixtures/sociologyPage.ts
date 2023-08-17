@@ -12,7 +12,14 @@ const elements: PageElement[] = [
 			<p>The concept comes from sociologist C. Wright Mills. In his 1959 book <em>The Sociological Imagination</em>, Mills argued that students and sociologists should approach the task of understanding the world around them by seeing the individual always within the context of social forces. He called on sociologists to be mindful of “... the interplay of man and society, of biography and history, of self and world.” The sociological imagination requires us to step outside of ourselves and consider how our actions shape the society around us—and how that society shapes us in return.</p>
 			`
 	},
-	// image figure 1 here
+	{
+		familyId: 'sociology-image-1',
+		type: 'NG::Soomo::Figure',
+		payload: `<img src="https://s3.amazonaws.com/assets.soomopublishing.com/courses/Soomosociology/societyaroundus.jpg" alt="" class="webtext-figure-asset webtext-figure-asset-image">`,
+		caption:
+			'The sociological imagination requires us to step outside of ourselves and consider how our actions shape the society around us—and how that society shapes us in return.',
+		credits: 'Getty Images'
+	},
 	{
 		familyId: 'sociology-text-2',
 		type: 'NG::Soomo::Text',
@@ -221,7 +228,14 @@ const elements: PageElement[] = [
 			<p>What distinguishes macrosociology from microsociology? The answer is scale. If you’re “zoomed in” on a particular issue and observing individual people, you’re most likely practicing microsociology. If you’re instead observing large groups of people, then you’re practicing macrosociology. In this course, we’ll examine both the micro and the macro—the small and the large, the particular and the general. Together, they offer a more complete picture of society.</p>
 		`
 	},
-	// image figure 2 here
+	{
+		familyId: 'sociology-image-2',
+		type: 'NG::Soomo::Figure',
+		caption:
+			'Studying one family’s dinner traditions is an example of microsociology; studying the dinner traditions of a whole culture, on the other hand, is an example of macrosociology.',
+		credits: 'Adobe',
+		payload: `<img src="https://s3.amazonaws.com/assets.soomopublishing.com/courses/Soomosociology/familyatdinner.jpg" alt="" class="webtext-figure-asset webtext-figure-asset-image">`
+	},
 	{
 		familyId: 'sociology-standalone-qd',
 		type: 'NG::Soomo::MC::QuestionPool',
@@ -311,7 +325,15 @@ const elements: PageElement[] = [
 		type: 'NG::Soomo::Text',
 		body: '<h2>Looking for Answers</h2>'
 	},
-	// image figure 3 here
+	{
+		familyId: 'sociology-image-3',
+		type: 'NG::Soomo::Figure',
+		figurePosition: 'pull-right',
+		payload: `<img src="https://s3.amazonaws.com/assets.soomopublishing.com/courses/Soomosociology/excitedcrowd.jpg" alt="" class="webtext-figure-asset webtext-figure-asset-image">`,
+		caption:
+			'Some sociological theories offer explanations of social behaviors, such as the tendency to behave one way at a crowded concert and a different way walking down a street.',
+		credits: 'Nicholas Green'
+	},
 	{
 		familyId: 'sociology-text-5',
 		type: 'NG::Soomo::Text',

@@ -3,6 +3,7 @@ import { Fragment, useContext } from 'react';
 import dynamic from 'next/dynamic';
 
 import shuffle from '@soomo/lib/utils/shuffle';
+import { Figure } from '@soomo/lib/components/pageElements';
 
 import { FAKE_USER_ID } from '../fixtures/constants';
 import { getOrCreateQuizResponse } from '../fixtures/database';
@@ -86,6 +87,16 @@ const PageElements: React.VFC<Props> = ({ elements }) => {
 								online
 								element={{
 									body: el.body
+								}}
+							/>
+						);
+						break;
+					case 'NG::Soomo::Figure':
+						component = (
+							<Figure
+								figureOptions={{
+									...el,
+									figure_position: el.figurePosition
 								}}
 							/>
 						);

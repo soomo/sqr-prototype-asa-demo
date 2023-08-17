@@ -8,7 +8,7 @@ export interface NGFamily {
 	metadata?: { [key: string]: any };
 }
 
-export type PageElement = MCQuestion | MCQuestionPool | Text | QuestionDeck;
+export type PageElement = MCQuestion | MCQuestionPool | Text | QuestionDeck | ImageFigure;
 
 export interface QuestionDeck extends NGFamily {
 	type: 'NG::Soomo::QuestionDeck';
@@ -18,6 +18,14 @@ export interface QuestionDeck extends NGFamily {
 export interface Text extends NGFamily {
 	type: 'NG::Soomo::Text';
 	body: HTMLString;
+}
+
+export interface ImageFigure extends NGFamily {
+	type: 'NG::Soomo::Figure';
+	figurePosition?: 'pull-right';
+	payload: HTMLString;
+	caption: string;
+	credits: string;
 }
 
 export interface Page extends NGFamily {

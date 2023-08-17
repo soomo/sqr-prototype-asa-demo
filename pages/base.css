@@ -19,3 +19,8 @@ body {
 	white-space: nowrap;
 	width: 1px;
 }
+
+/* hack to replicate Core */
+.webtext-figure {
+	margin-bottom: 40px !important;
+}

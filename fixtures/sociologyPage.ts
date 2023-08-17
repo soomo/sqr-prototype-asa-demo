@@ -52,13 +52,13 @@ const elements: PageElement[] = [
 						familyId: 'sociology-qd-pool-1-mcq-1-choice-2',
 						body: 'designing new worlds with their own rules and structures',
 						rejoinder:
-							'While it does take imagination to design a new world, the sociological imagination is about the world we live in, not new worlds we create. '
+							'While it does take imagination to design a new world, the sociological imagination is about the world we live in, not new worlds we create.'
 					},
 					{
 						familyId: 'sociology-qd-pool-1-mcq-1-choice-3',
 						body: 'finding innovative solutions to society’s problems',
 						rejoinder:
-							'While the sociological imagination could help someone identify solutions to social problems, the sociological imagination focuses on the world as it is, not how it could be. '
+							'While the sociological imagination could help someone identify solutions to social problems, the sociological imagination focuses on the world as it is, not how it could be.'
 					}
 				]
 			},
@@ -130,19 +130,19 @@ const elements: PageElement[] = [
 						body: 'It helps us recognize similarities and differences in how people experience the world.',
 						correct: true,
 						rejoinder:
-							'In practicing the sociological imagination, we’re better able to relate to other people. The sociological imagination helps us recognize aspects of ourselves in other people while also helping us see that someone’s social reality can be different from our own. '
+							'In practicing the sociological imagination, we’re better able to relate to other people. The sociological imagination helps us recognize aspects of ourselves in other people while also helping us see that someone’s social reality can be different from our own.'
 					},
 					{
 						familyId: 'sociology-qd-pool-2-mcq-1-choice-2',
 						body: 'It provides directions for how we can handle any social interaction or conflict.',
 						rejoinder:
-							'While the sociological imagination can help us navigate social interactions or conflicts, it does not provide directions for how to do so. '
+							'While the sociological imagination can help us navigate social interactions or conflicts, it does not provide directions for how to do so.'
 					},
 					{
 						familyId: 'sociology-qd-pool-2-mcq-1-choice-3',
 						body: 'It emphasizes which interpretation of events and experiences is correct.',
 						rejoinder:
-							'While the sociological imagination can help us interpret events or experiences, it does not value one interpretation over any other. '
+							'While the sociological imagination can help us interpret events or experiences, it does not value one interpretation over any other.'
 					}
 				]
 			},
@@ -188,7 +188,7 @@ const elements: PageElement[] = [
 						familyId: 'sociology-qd-pool-2-mcq-3-choice-2',
 						body: 'by reinforcing the rules for how to interact with other people',
 						rejoinder:
-							'While the sociological imagination can help us navigate social interactions, it does not provide rules for how to do so. '
+							'While the sociological imagination can help us navigate social interactions, it does not provide rules for how to do so.'
 					},
 					{
 						familyId: 'sociology-qd-pool-2-mcq-3-choice-3',
@@ -254,7 +254,7 @@ const elements: PageElement[] = [
 					},
 					{
 						familyId: 'sociology-standalone-qd-mcq-1-choice-2',
-						body: 'Macrosociology studies the history of society, and microsociology studies the future. ',
+						body: 'Macrosociology studies the history of society, and microsociology studies the future.',
 						rejoinder:
 							'The time period being studied is not what differentiates macrosociology from microsociology.'
 					},

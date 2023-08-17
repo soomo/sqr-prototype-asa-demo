@@ -247,7 +247,7 @@ const elements: PageElement[] = [
 				choices: [
 					{
 						familyId: 'sociology-standalone-qd-mcq-1-choice-1',
-						body: 'Macrosociology studies society on a larger-scale, and microsociology studies smaller interactions.',
+						body: 'Macrosociology studies society on a larger scale, and microsociology studies smaller interactions.',
 						correct: true,
 						rejoinder:
 							'The difference between macrosociology from microsociology is scale. Microsociology focuses on a smaller scale than macrosociology.'

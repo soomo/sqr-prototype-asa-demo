@@ -39,6 +39,7 @@ const styles = css`
 	grid-template-rows: auto auto;
 	row-gap: 0.25rem;
 	font-size: 14px;
+	line-height: 20px;
 	color: #757575;
 
 	.chapter-number {

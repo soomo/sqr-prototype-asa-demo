@@ -325,15 +325,15 @@ const elements: PageElement[] = [
 		type: 'NG::Soomo::Text',
 		body: '<h2>Looking for Answers</h2>'
 	},
-	{
-		familyId: 'sociology-image-3',
-		type: 'NG::Soomo::Figure',
-		figurePosition: 'pull-right',
-		payload: `<img src="https://s3.amazonaws.com/assets.soomopublishing.com/courses/Soomosociology/excitedcrowd.jpg" alt="" class="webtext-figure-asset webtext-figure-asset-image">`,
-		caption:
-			'Some sociological theories offer explanations of social behaviors, such as the tendency to behave one way at a crowded concert and a different way walking down a street.',
-		credits: 'Nicholas Green'
-	},
+	// {
+	// 	familyId: 'sociology-image-3',
+	// 	type: 'NG::Soomo::Figure',
+	// 	figurePosition: 'pull-right',
+	// 	payload: `<img src="https://s3.amazonaws.com/assets.soomopublishing.com/courses/Soomosociology/excitedcrowd.jpg" alt="" class="webtext-figure-asset webtext-figure-asset-image">`,
+	// 	caption:
+	// 		'Some sociological theories offer explanations of social behaviors, such as the tendency to behave one way at a crowded concert and a different way walking down a street.',
+	// 	credits: 'Nicholas Green'
+	// },
 	{
 		familyId: 'sociology-text-5',
 		type: 'NG::Soomo::Text',

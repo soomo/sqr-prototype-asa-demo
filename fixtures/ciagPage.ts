@@ -5,6 +5,7 @@ const elements: PageElement[] = [
 		familyId: 'ciag-text-1',
 		type: 'NG::Soomo::Text',
 		body: `
+			<h1>The Constitution Leaves Room for Interpretation</h1>
 			<p>The Framers used vague language to induce compromise over legislative, executive, and judicial power. They also worked to find common ground concerning national and state power. The result of their efforts is embodied in Articles IV and VI of the Constitution. If we read these sections together, it may appear to be less compromise than contradiction. The Full Faith and Credit Clause of Article IV requires that states recognize and respect the laws of other states in the Union:</p>
 			<blockquote>
 				<p>Full faith and credit shall be given in each state to the public acts, records, and judicial proceedings of every other state. And the Congress may by general laws prescribe the manner in which such acts, records, and proceedings shall be proved, and the effect <span class="footnote-ref-tail">thereof.<a class="footnote-ref" name="fn-538a1c4a-bb67-11ec-aabe-fef25800cc54" href="#538a1c4a-bb67-11ec-aabe-fef25800cc54">16</a></span></p>

@@ -1,4 +1,4 @@
-import { Fragment, useContext } from 'react';
+import { Fragment, useCallback, useContext } from 'react';
 
 import dynamic from 'next/dynamic';
 
@@ -28,6 +28,16 @@ interface Props {
  */
 const PageElements: React.VFC<Props> = ({ elements }) => {
 	const { isInstructorView } = useContext(PageContext);
+
+	const handleCitationClicked = useCallback(
+		(_clicked: HTMLAnchorElement, footnote: HTMLAnchorElement) => {
+			footnote.scrollIntoView({
+				behavior: 'smooth'
+			});
+		},
+		[]
+	);
+
 	let inQuestionDeck = false;
 	let deckedQuestionPools: MCQuestionPool[] = [];
 	return (
@@ -88,6 +98,7 @@ const PageElements: React.VFC<Props> = ({ elements }) => {
 								element={{
 									body: el.body
 								}}
+								onCitationClicked={handleCitationClicked}
 							/>
 						);
 						break;

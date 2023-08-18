@@ -24,3 +24,15 @@ body {
 .webtext-figure {
 	margin-bottom: 40px !important;
 }
+
+:root {
+	--top-bar-height: 52px;
+}
+
+.footnote-anchor {
+	cursor: pointer;
+}
+
+.footnote-ref {
+	scroll-margin-top: calc(var(--top-bar-height) + 150px);
+}

@@ -24,7 +24,7 @@ const styles = css`
 	position: sticky;
 	top: 0;
 	z-index: 10000;
-	height: 52px;
+	height: var(--top-bar-height);
 	display: flex;
 	align-items: center;
 	padding-left: 143px;

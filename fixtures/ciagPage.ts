@@ -2,6 +2,21 @@ import type { Page, PageElement } from '../types';
 
 const elements: PageElement[] = [
 	{
+		familyId: 'ciag-text-1',
+		type: 'NG::Soomo::Text',
+		body: `
+			<p>The Framers used vague language to induce compromise over legislative, executive, and judicial power. They also worked to find common ground concerning national and state power. The result of their efforts is embodied in Articles IV and VI of the Constitution. If we read these sections together, it may appear to be less compromise than contradiction. The Full Faith and Credit Clause of Article IV requires that states recognize and respect the laws of other states in the Union:</p>
+			<blockquote>
+				<p>Full faith and credit shall be given in each state to the public acts, records, and judicial proceedings of every other state. And the Congress may by general laws prescribe the manner in which such acts, records, and proceedings shall be proved, and the effect <span class="footnote-ref-tail">thereof.<a class="footnote-ref" name="fn-538a1c4a-bb67-11ec-aabe-fef25800cc54" href="#538a1c4a-bb67-11ec-aabe-fef25800cc54">16</a></span></p>
+			</blockquote>
+			<p>Your driver’s license represents a good example of the contemporary relevance of this clause of the Constitution. Other states recognize the legitimacy of your license. As long as you have a valid license from any state in the U.S., you are free to drive cars anywhere in the country. The national debate over medical marijuana also demonstrates the relevance of the <a class="showtip indexable" title="Common term for the provision in Article IV, section 1, of the U.S. Constitution that requires each state to recognize and honor the laws, public records, and judicial decisions of any other state.">Full Faith and Credit Clause</a>. Are states required by the Constitution to allow the possession of marijuana by individuals holding a legally valid prescription from another state?</p>
+			<p>Article IV was intended to protect the power of the states to make laws that are seen as legitimate across the nation. By contrast, Article VI establishes the supremacy of the Constitution and the laws and treaties of the national government. This is known as the <a class="showtip indexable" title="Common term for the provision in Article VI of the U.S. Constitution establishing that national law overrides state law in cases where the two conflict.">Supremacy Clause</a>:</p>
+			<blockquote>
+				<p>This Constitution, and the Laws of the United States which shall be made in Pursuance thereof; and all Treaties made, or which shall be made, under the Authority of the United States, shall be the supreme Law of the Land; and the Judges in every State shall be bound thereby, any Thing in the Constitution or Laws of any State to the contrary <span class="footnote-ref-tail">notwithstanding.<a class="footnote-ref" name="fn-538a205a-bb67-11ec-aabe-fef25800cc54" href="#538a205a-bb67-11ec-aabe-fef25800cc54">17</a></span></p>
+			</blockquote>
+		`
+	},
+	{
 		familyId: 'ciag-question-deck-in',
 		type: 'NG::Soomo::QuestionDeck',
 		direction: 'in'
@@ -214,15 +229,30 @@ const elements: PageElement[] = [
 		familyId: 'ciag-question-deck-out',
 		type: 'NG::Soomo::QuestionDeck',
 		direction: 'out'
+	},
+	{
+		familyId: 'ciag-text-2',
+		type: 'NG::Soomo::Text',
+		body: '<p>From this section, you should have a better understanding of how the vague language in the Constitution was used to create compromise, and how this balances the difficult amending process.</p>'
+	},
+	{
+		familyId: 'ciag-text-3',
+		type: 'NG::Soomo::Text',
+		body: `
+			<div class="footnotes">
+				<p><a class="footnote-anchor" name="538a1c4a-bb67-11ec-aabe-fef25800cc54" href="#fn-538a1c4a-bb67-11ec-aabe-fef25800cc54">16</a> U.S. Const. art. IV.</p>
+				<p><a class="footnote-anchor" name="538a205a-bb67-11ec-aabe-fef25800cc54" href="#fn-538a205a-bb67-11ec-aabe-fef25800cc54">17</a> U.S. Const. art. VI.</p>
+			</div>
+		`
 	}
 ];
 
 const page: Page = {
 	textbookName: 'Central Ideas in American Government',
-	chapterName: '',
+	chapterName: 'The Founding and the Constitution',
 	chapterNumber: 1,
-	pageName: '',
-	pageNumber: 1,
+	pageName: 'The Constitution Leaves Room for Interpretation',
+	pageNumber: 18,
 	familyId: 'ciag-page',
 	elements
 };

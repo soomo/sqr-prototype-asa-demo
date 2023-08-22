@@ -36,3 +36,7 @@ body {
 .footnote-ref {
 	scroll-margin-top: calc(var(--top-bar-height) + 150px);
 }
+
+blockquote {
+	font-style: normal !important;
+}

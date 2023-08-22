@@ -6,7 +6,7 @@ module.exports = withTM({
 		return [
 			{
 				source: '/',
-				destination: '/sociology',
+				destination: '/ciag',
 				permanent: false
 			}
 		];
